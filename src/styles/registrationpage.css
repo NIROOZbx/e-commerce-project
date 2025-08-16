@@ -1,0 +1,12 @@
+
+.container2{
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+}
+.btn{
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.first-input:focus{
+    border-color: rgb(4, 145, 4);
+    outline: none;
+}

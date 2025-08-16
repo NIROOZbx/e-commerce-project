@@ -1,0 +1,4 @@
+.first-input:focus{
+    border-color: rgb(4, 145, 4);
+    outline: none;
+}
