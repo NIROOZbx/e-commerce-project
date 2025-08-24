@@ -3,6 +3,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthenticationContext";
 import { registerData } from "../../services/authService";
 import {Eye,EyeOff,User,Mail} from 'lucide-react'
+import { toast } from 'react-toastify';
 
 //reducer function for getting data from user input
 function reducer(state, action) {
@@ -61,7 +62,7 @@ function RegisterComponent() {
   // Reset error states before checking again
 
   if (!value.name.trim()) {
-    alert("Please enter your name");
+    toast.warning("Please enter your name");
     return;
   }
 
@@ -97,6 +98,7 @@ function RegisterComponent() {
 
           <span className="text-center px-2 tracking-tighter text-balance font-bold uppercase text-2xl">Register your Account</span>
           <span className=" text-center px-2 tracking-tighter text-balance">'Buying your favourite jersey online made simple'</span>
+
           
            {/* username input field */}
           <div className="relative"> {/* Div for the first input section */}

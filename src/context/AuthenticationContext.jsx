@@ -1,18 +1,51 @@
 import { createContext, useEffect, useState } from "react";
 import { loginData,registerData } from "../services/authService";
+import axios from "axios";
 
 export const AuthContext=createContext(null)
 
  export function UserAuthentication({children}) {
     
-    const [userID,setUserID]=useState(null)
+    const [currentUserData,setCurrentUserData]=useState(null)
+
+
+    const [products,setProducts]=useState([])
+
+    
+
+
+
+    useEffect(()=>{
+        async function getProducts() {
+        try{ 
+            let {data:res}=await axios.get("http://localhost:5000/products")
+            setProducts(res)
+        }catch(e){
+            console.log("Error ocuured")
+        }
+    }
+        getProducts()
+    },[])
+
     useEffect(()=>{
         const userIdData=localStorage.getItem('userId')
+
         if(userIdData){
-            setUserID(JSON.parse(userIdData))
+            async function fetchUserData(){ 
+                try{
+            const {data:res}= await axios.get(`http://localhost:5000/users/${JSON.parse(userIdData)}`)
+            setCurrentUserData(res)
+        
+         }catch(e){
+            console.log("Fetching error")
         }
-    })
-    console.log(userID)
+    }
+        fetchUserData()
+     }
+    },[])
+  
+
+
     function handleRegister(userRegistrationData){
         return registerData(userRegistrationData)
          
@@ -22,8 +55,10 @@ export const AuthContext=createContext(null)
         return loginData(userLoginData)
          
     }
+
+ 
 return(
-    <AuthContext.Provider value={{handleRegister,handleLogin,setUserID,userID}}>
+    <AuthContext.Provider value={{handleRegister,handleLogin,setCurrentUserData,currentUserData,products}}>
         {children}
     </AuthContext.Provider>
 

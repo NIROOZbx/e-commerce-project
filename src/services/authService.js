@@ -7,7 +7,8 @@ export async function registerData(registerCredentials) {
         email:registerCredentials.email,
         password:registerCredentials.password,
         cart:[],
-        wishlist:[]
+        wishlist:[],
+        orders:[]
     }
 
     const {data:users}=await axios.get("http://localhost:5000/users")

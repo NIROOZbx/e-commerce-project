@@ -1,0 +1,11 @@
+.image-section{
+box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+}
+.span-container span:hover{
+    background-color: rgb(233, 233, 233);
+   
+}
+.span-container span{
+ border-radius: 5px;
+
+}

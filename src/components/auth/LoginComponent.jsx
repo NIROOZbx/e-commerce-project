@@ -30,7 +30,7 @@ const initialValue = {
 function LoginComponent(){
       const [value, dispatch] = useReducer(reducer, initialValue)
       const navigate=useNavigate()
-      const {handleLogin}=useContext(AuthContext)
+      const {handleLogin,setCurrentUserData}=useContext(AuthContext)
       const [showPassword,setShowPassword]=useState(false)
       const [invalidData,setInvalidData]=useState(false)
 
@@ -51,6 +51,7 @@ function LoginComponent(){
         if(userInDatabase){ 
         localStorage.setItem('userId',JSON.stringify(userInDatabase.id))
          navigate('/')
+        setCurrentUserData(userInDatabase)
 
         handleLogin(value)
         }else{
