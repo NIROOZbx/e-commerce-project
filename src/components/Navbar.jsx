@@ -13,7 +13,7 @@ function Navbar(){
     // const [cart,setCartCount]=useState(0)
     // const [wishlist,setWishlisttCount]=useState(0)
     const{cart,setCart}=useContext(CartContext)
-    const {currentUserData,setCurrentUserData,products}=useContext(AuthContext)
+    const {currentUserData,setCurrentUserData,handleForceLogout}=useContext(AuthContext)
     const{setWishListed}=useContext(WishContext)
     const [showDetails,setShowDetails]=useState(false)
     const{wishListed}=useContext(WishContext)
@@ -23,16 +23,25 @@ function Navbar(){
     const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
-
+   
+useEffect(()=>{
+    if(currentUserData&&currentUserData.isAuthenticated===false){ 
+        handleForceLogout()
+    }
+},[currentUserData,handleForceLogout])
 
     function removeCurrentUser(){
+         if(window.confirm("Do you want to logout")){ 
           localStorage.removeItem("userId");
           setCurrentUserData(null)
           setCart([])    
           setWishListed([])
-          navigate('/')
+          navigate('/login')
+          }
+          
     }
-  
+
+
     function changeSearchBar(){ 
         setSearchBar(true)
     }
@@ -53,7 +62,7 @@ function Navbar(){
             searchClick()
         }
     }
-  
+
     return (
         <> 
         <div className='fixed top-0 left-0 w-full bg-white mt-4 z-99'>

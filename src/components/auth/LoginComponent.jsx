@@ -30,9 +30,13 @@ const initialValue = {
 function LoginComponent(){
       const [value, dispatch] = useReducer(reducer, initialValue)
       const navigate=useNavigate()
-      const {handleLogin,setCurrentUserData}=useContext(AuthContext)
+      const {handleLogin,setCurrentUserData,currentUserData}=useContext(AuthContext)
       const [showPassword,setShowPassword]=useState(false)
       const [invalidData,setInvalidData]=useState(false)
+      const [auth,setAuth]=useState(false)
+
+      
+      
 
         function showPass(){
     setShowPassword(!showPassword)
@@ -44,18 +48,22 @@ function LoginComponent(){
 
         if(!value.email.trim()){ 
 
-         
-
        }else{
-        const {userInDatabase}= await loginData(value)
+        const {userInDatabase,adminInDb}= await loginData(value)
+        if(adminInDb){
+          return navigate('/admin',{replace:true})
+        }
         if(userInDatabase){ 
+          if(userInDatabase.isAuthenticated){
         localStorage.setItem('userId',JSON.stringify(userInDatabase.id))
          navigate('/')
         setCurrentUserData(userInDatabase)
-
         handleLogin(value)
+         }else{
+            setAuth(true)
+         }
         }else{
-          setInvalidData(true)
+            setInvalidData(true)
         }
         
 
@@ -97,6 +105,8 @@ function LoginComponent(){
         
         </div>
         <p className="text-center font-semibold text-[#f5190a]" style={invalidData?{display:"block"}:{display:"none"}}>Invalid credentials !</p>
+
+        <p className="text-center font-semibold text-[#f5190a]" style={auth?{display:"block"}:{display:"none"}}>You have been blocked by admin</p>
 
         <button className="rounded-xl px-2 py-2 cursor-pointer  font-bold bg-black text-[#F9FEFF] btn">LOGIN</button>
 

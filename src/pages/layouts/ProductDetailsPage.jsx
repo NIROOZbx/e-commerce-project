@@ -17,10 +17,8 @@ function ProductDetailsPage(){
     const {wishlistedProduct,wishListed}=useContext(WishContext)
     const navigate=useNavigate()
     
-    console.log(prod)
-    
     useEffect(()=>{ 
-        const productData=products.find((product)=>product.id===parseInt(id))
+        const productData=products.find((product)=>product.id===id)
         if (productData) {
             setProd(productData)
         }
@@ -35,8 +33,9 @@ function ProductDetailsPage(){
 
 function addToCart(){
     if(currentUserData) { 
+        if(porduct.quantity>0){ 
         setCart([prod,...cart])
-        addToCartInDatabase(prod)
+        addToCartInDatabase(prod)}
         }else{
             toast.warning("Must login")
             navigate('/login')
@@ -55,8 +54,8 @@ function addToCart(){
         </div>
 
         <div className="flex flex-col gap-8 mt-15">
-            <p className="text-4xl font-bold">{prod.name}</p>
-            <p className="text-xl font-semibold">{prod.description}</p>
+            <p className="text-3xl font-bold">{prod.name}</p>
+            <p className="text-lg">{prod.description}</p>
             <p className="text-xl font-bold">{prod.currency} &nbsp; {prod.price.toFixed(2)}</p>
             <div className="flex gap-5 mr-4 span-container"> 
             <span className="border-2 border-solid px-3 py-2">S</span>
@@ -64,11 +63,11 @@ function addToCart(){
             <span className="border-2 border-solid px-3 py-2">L</span>
             <span className="border-2 border-solid px-3 py-2">XL</span>
             </div>
-            <p className="text-green-500 font-bold">IN STOCK</p>
+            <p className={prod.quantity>0?"text-green-500 font-bold":"text-red-500 font-bold"}>{prod.quantity>0?"IN STOCK":"OUT OF STOCK"}</p>
             <div className="flex gap-10 mt-3">
 
-            <button style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}} onClick={addToCart} className="bg-black text-white rounded-3xl hover:cursor-pointer py-2 w-1/2 font-bold">{isInCart?"GO TO CART":"ADD TO CART"}</button>
-            <button style={isInWishlist?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}  onClick={()=>{ wishlistedProduct(products) 
+            <button style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}} onClick={addToCart} className="bg-black text-white rounded-3xl hover:cursor-pointer py-2 w-1/2 font-bold">{prod.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
+            <button style={prod.quantity>0?isInWishlist?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}:{display:"none"}}  onClick={()=>{ wishlistedProduct(products) 
                 if(isInWishlist){
                     navigate('/wishlist')
                 }

@@ -10,10 +10,12 @@ import Footer from "../../components/Footer"
 function ProductsPage(){
     
     
+  console.log("ProductsPage rendering");
 
     return(  
         <> 
         <Navbar/>
+
         <Suspense fallback={
           <div className="flex justify-center items-center h-screen">
             <Lottie animationData={trailLoading} loop={true} />

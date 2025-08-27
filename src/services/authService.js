@@ -6,9 +6,10 @@ export async function registerData(registerCredentials) {
         name:registerCredentials.name,
         email:registerCredentials.email,
         password:registerCredentials.password,
+        isAuthenticated:true,
         cart:[],
         wishlist:[],
-        orders:[]
+        order:[]
     }
 
     const {data:users}=await axios.get("http://localhost:5000/users")
@@ -18,8 +19,7 @@ export async function registerData(registerCredentials) {
    if(userExists||emailExists){ 
 
    }else{
-    const res=await axios.post("http://localhost:5000/users",regData)
-     const actualData= res.data;
+    await axios.post("http://localhost:5000/users",regData)
       }
      return {userExists,emailExists}
     }catch(e){
@@ -29,10 +29,20 @@ export async function registerData(registerCredentials) {
 
 export async function loginData(loginCredentials) {
 
-    const {data:res}=await axios.get("http://localhost:5000/users")
+    if(loginCredentials.email==="admin@gmail.com" && loginCredentials.password==="admin@123"){
+        const {data:res}=await axios.get("http://localhost:5000/admin")
+        const adminInDb=res.find((admin)=>admin.email===loginCredentials.email && admin.password === loginCredentials.password)
+        console.log(adminInDb)
+        return {adminInDb}
+    }else{
+     const {data:res}=await axios.get("http://localhost:5000/users")
     
     const userInDatabase=res.find((user)=>user.email===loginCredentials.email && user.password === loginCredentials.password)
 
     return {userInDatabase}
+
+    }
+
+    
     
 }

@@ -1,20 +1,23 @@
 import { createContext, useEffect, useState } from "react";
 import { loginData,registerData } from "../services/authService";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext=createContext(null)
+
+
 
  export function UserAuthentication({children}) {
     
     const [currentUserData,setCurrentUserData]=useState(null)
 
-
+  const navigate=useNavigate()
     const [products,setProducts]=useState([])
 
     
-
-
-
+    console.log(currentUserData?.isAuthenticated);
+    
+    
     useEffect(()=>{
         async function getProducts() {
         try{ 
@@ -27,6 +30,8 @@ export const AuthContext=createContext(null)
         getProducts()
     },[])
 
+    
+
     useEffect(()=>{
         const userIdData=localStorage.getItem('userId')
 
@@ -38,13 +43,19 @@ export const AuthContext=createContext(null)
         
          }catch(e){
             console.log("Fetching error")
+            handleForceLogout()
         }
     }
         fetchUserData()
      }
     },[])
   
-
+    function handleForceLogout(){ 
+            localStorage.removeItem("userId")
+            setCurrentUserData(null)
+            navigate('/');
+       
+    }
 
     function handleRegister(userRegistrationData){
         return registerData(userRegistrationData)
@@ -56,9 +67,10 @@ export const AuthContext=createContext(null)
          
     }
 
+
  
 return(
-    <AuthContext.Provider value={{handleRegister,handleLogin,setCurrentUserData,currentUserData,products}}>
+    <AuthContext.Provider value={{handleRegister,handleLogin,setCurrentUserData,currentUserData,products,setProducts,handleForceLogout}}>
         {children}
     </AuthContext.Provider>
 

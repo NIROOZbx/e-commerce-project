@@ -29,23 +29,31 @@ function OrdersPage(){
                  <p className="font-bold">Date: {items.date}</p>
                  <p className="font-bold">Total :{items.products[0].currency}{items.price}</p>
                  </div>
-                 <div className=" rounded-xl "> 
+                 <hr />
+                 <div className=" rounded-xl mt-4"> 
                  {items.products.map((product)=> {
                     return (
                         <div key={product.id} className="flex gap-7"> 
-                        <img  className="w-30 h-40 main-cont rounded-xl" src={product.image} alt="" />
+                        <div className="flex items-center"> 
+                        <img  className="w-30 h-37 main-cont rounded-xl" src={product.image} alt="" />
+                        </div>
                         <div className="flex flex-col gap-2"> 
                         <p className="font-semibold">{product.name}</p>
                         <p className="text-xs"><span className="font-bold">Quantity</span> : {product.quantity}</p>
-                        <p className="text-xs"><span className="font-bold">Status</span>: <span className={items.status==="Cancelled"?"text-red-500 rounded-4xl px-3 py-1 border-1":"text-green-500 rounded-4xl px-3 py-1 border-1"} >{items.status}</span></p>
+                        <p className="text-xs mt-2"><span className="font-bold">Status</span>: <span className={items.status==="Cancelled"?"text-red-500 rounded-4xl px-3 py-1 border-1":"text-green-500 rounded-4xl px-3 py-1 border-1"} >{items.status}</span></p>
                         <p className="text-xs mt-2"><span className="font-bold">Delivery</span> : <span className={items.status==="Cancelled"?"text-red-500 rounded-4xl px-3 py-1 border-1":"text-green-500 rounded-4xl px-3 py-1 border-1"}>{items.delivery}</span></p>
-                        <p className="text-xs mt-2"><span className="font-bold">Deliver to</span> :{items.address.name} ,+91-{items.address.number} , {items.address.State} , 
+                        <p className="text-xs mt-2"><span className="font-bold capitalize">Deliver to</span> :{items.address.name} ,+91-{items.address.number} , {items.address.State} , 
                           {items.address.city}  , {items.address.address}</p>
                         <p className="text-xs mt-2"><span className="font-bold">Payment mode</span> : {items.payment}</p>
                         <div className="mt-3">
                         <button className={items.status==="Cancelled"?"flex items-center gap-2 bg-red-500 text-white px-7 py-1 rounded-lg hover:bg-red-600 font-semibold hidden":
                             "flex items-center gap-2 bg-red-500 text-white px-7 py-1 rounded-lg hover:bg-red-600 font-semibold"
-                        } onClick={()=>cancelOrder(items.id)} >
+                        } onClick={()=>  
+                             { 
+                        if (window.confirm("Do you want to cancel your order")){ 
+                        cancelOrder(items.id)
+                    }}
+                    }    >
                         <Trash2 color="#ffffff" strokeWidth={1.75} size={18} />
                             Cancel
                             </button>

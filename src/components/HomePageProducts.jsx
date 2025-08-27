@@ -1,6 +1,6 @@
 import { AuthContext } from "../context/AuthenticationContext"
 import { Heart } from "lucide-react"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { CartContext } from "../context/CartContext"
 import { useNavigate } from "react-router-dom"
 import { WishContext } from "../context/WishContext"
@@ -14,11 +14,11 @@ function HomePageProducts(){
     const {setCart,cart,addToCartInDatabase}=useContext(CartContext)
     const {wishlistedProduct,wishListed}=useContext(WishContext)
     const navigate=useNavigate()
-    // const sortProducts=products.sort((a,b)=>a.price-b.price)
 
     function addToCart(product){
         setCart([product,...cart])
     }
+
 
     return( 
       <>
@@ -62,8 +62,8 @@ function HomePageProducts(){
                 }
               
               }} 
-              className='bg-black text-white rounded-3xl px-16 py-2 hover:cursor-pointer mt-5 ml-0' 
-              style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{isInCart?"GO TO CART":" ADD TO CART"}</button>
+              className='bg-black  text-white text-md  rounded-3xl px-16 py-2 hover:cursor-pointer mt-5 ml-0' 
+              style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{products.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
             <span onClick={()=>{wishlistedProduct(products) 
               if(!isInWishlist){
                 toast.success("Successfully added product to wishlist")
@@ -73,7 +73,7 @@ function HomePageProducts(){
                     navigate('/wishlist')
                 }}
               
-            } className='mt-7 hover:cursor-pointer'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
+            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} className='mt-7 hover:cursor-pointer'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
             </div>
                </div> {/* the card component div end   */}
 

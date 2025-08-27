@@ -7,7 +7,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}", // Make sure this path is correct for your project
   ],
   theme: {
-    extend: {},
+    extend: { animation: {
+      fadeIn: "fadeIn 1s ease-in-out forwards",
+    },
+    keyframes: {
+      fadeIn: {
+        "0%": { opacity: 0 },
+        "100%": { opacity: 1 },
+      },
+    },},
   },
   // Add daisyUI here
   plugins: [require("daisyui")],

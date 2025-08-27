@@ -15,7 +15,6 @@ import { ToastContainer } from "react-toastify";
 import PublicRoute from "./components/PublicRoute";
 import ErrorPage from "./pages/ErrorPage";
 import OrderProducts from "./context/OrderContext";
-import { useEffect } from "react";
 import SearchData from "./context/SearchContext";
 import CheckOutPage from "./pages/CheckOutPage";
 import OrdersPage from "./pages/OrdersPage";
@@ -23,16 +22,15 @@ import OrderSuccessPage from "./pages/OrderSucessPage";
 import ContactPage from "./pages/ContactPage";
 import SupportPage from "./pages/AboutPage";
 import AboutPage from "./pages/AboutPage";
+import Dashboard from "./Admin-Section/pages/Dashboard";
+import AdminLayout from "./Admin-Section/pages/Layouts/AdminLayout";
+import UserManagementPage from "./Admin-Section/pages/UserManagementPage";
+import AllOrdersPage from "./Admin-Section/pages/AllOrdersPage";
+import ProductManagementPage from "./Admin-Section/pages/ProductMangementPage";
+
 
 function App() {
-  const location = useLocation();
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth", // Optional: for smooth scrolling
-    });
-  }, [location.pathname]);
+ 
 
   return (
     
@@ -45,7 +43,7 @@ function App() {
       <OrderProducts>
 
       <SearchData> 
-      
+
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Routes>
@@ -64,7 +62,7 @@ function App() {
 
       <Route path="/products/:id" element={<ProductDetailsPage />} />
 
-      <Route path="/cart" element={<ProtectedRoute>  <CartPage />  </ProtectedRoute>} />
+      <Route path="/cart" element={<ProtectedRoute>   <CartPage />  </ProtectedRoute>} />
 
       <Route path="/wishlist" element={ <ProtectedRoute> <WishListPage /> </ProtectedRoute> }/>
 
@@ -75,6 +73,18 @@ function App() {
       <Route path="/order" element={<OrdersPage/>}/>
 
       <Route path="/ordersuccess" element={<OrderSuccessPage/>}/>
+      
+      <Route path="/admin" element={  <ProtectedRoute> <AdminLayout/> </ProtectedRoute>}> 
+
+      <Route index element={<Dashboard/>}/>
+
+      <Route path="users" element={<UserManagementPage/>}/>
+
+      <Route path="ordermanagement" element={<AllOrdersPage/>}/>
+
+      <Route path="productmanagement" element={<ProductManagementPage/>}/>
+
+      </Route>
 
       </Routes>
 

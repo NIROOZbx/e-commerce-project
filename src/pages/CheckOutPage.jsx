@@ -82,11 +82,47 @@ function CheckOutPage(){
         if(payment==="cod"){
             navigate('/ordersuccess',{replace:true})
         }
+        if(payment==="online"){
+            navigate('/ordersuccess',{replace:true})
+        }
          }catch(e){
             console.log("Checkout fetching error")
          }
 
     }
+
+    // const handlePay = () => {
+    //     if (payment === "cod") {
+    //         placeOrder(); 
+    //     }
+
+    //     if (payment === "online") {
+           
+    //         const options = {
+    //             key: "rzp_test_edrzdb8Gbx5U5M", 
+    //             amount: total * 100, 
+    //             currency: "INR", 
+    //             name: "JERSEY HUB",
+    //             description: "Payment for your order",
+               
+    //             handler: async function (response) {
+    //                 toast.success(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
+    //                 // Now that payment is successful, create the order in the database.
+    //                 await placeOrder();
+    //             },
+    //             prefill: {
+    //                 name: currentUserData.name,
+    //                 email: currentUserData.email,
+    //                 contact: currentUserAddress.number
+    //             },
+    //             theme: {
+    //                 color: "#343a40",
+    //             },
+    //         };
+    //         const rzp = new window.Razorpay(options);
+    //         rzp.open();
+    //     }
+    // };
 
     return( 
      <>
@@ -132,7 +168,7 @@ function CheckOutPage(){
                     <p>Cash on delivery</p>
                     </div>
                     <div className="flex gap-2">
-                    <input  onChange={handlePay} type="radio" name="choice" value="online" />
+                    <input onChange={handlePay} type="radio" name="choice" value="online" />
                     <p>Pay online</p>
 
                      </div>
