@@ -1,5 +1,6 @@
 import RegisterComponent from "../../components/auth/RegisterComponent"
 import '/src/styles/registrationpage.css'
+import loginPageImage from '../../assets/registerpage.webp';
 
 function RegistrationPage(){ 
 
@@ -13,7 +14,7 @@ function RegistrationPage(){
                 </div>
                      
                       <div className="flex items-center justify-center w-1/2 relative ">
-                        <img className="w-full h-full object-cover rounded-xl absolute" src="src/assets/registerpage.webp" alt="" />
+                        <img className="w-full h-full object-cover rounded-xl absolute" src={loginPageImage} alt="" />
                       </div>
               </div>
          </div>

@@ -1,6 +1,7 @@
 import LoginComponent from "../../components/auth/LoginComponent"; 
 import { NavLink } from "react-router-dom";
 import '/src/styles/loginpage.css'
+import loginPageImage from '../../assets/registerpage.webp';
 
 function LoginPage(){
 
@@ -14,7 +15,7 @@ return(
                 </div>
                      
                       <div className="flex items-center justify-center w-1/2 relative ">
-                        <img className="w-full h-full object-cover rounded-xl absolute" src="src/assets/registerpage.webp" alt="" />
+                        <img className="w-full h-full object-cover rounded-xl absolute" src={loginPageImage} alt="" />
                       </div>
               </div>
          </div>
