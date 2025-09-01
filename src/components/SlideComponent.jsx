@@ -5,7 +5,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 function SlideComponent(){
 
-   const arr=['/src/assets/fcbb.jpg','src/assets/liverpool.png','src/assets/MANCITY.png','src/assets/real.png']
+   const arr=['src/assets/fcbb.jpg','src/assets/liverpool.png','src/assets/MANCITY.png','src/assets/real.png']
      const [currentIndex, setCurrentIndex] = useState(0);
 
        useEffect(() => {
