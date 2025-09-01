@@ -38,8 +38,11 @@ function WishListPage(){
                 <>       
             <div  className='rounded-xl mt-5 p-5 card' key={products.id}>  {/* the card component div  */}
                        
-             <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4]'> {/* the image div  */}
+             <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4] relative'> {/* the image div  */}
             <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${products.image}`} key={products.id}/> 
+                <span  className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer'>{<Trash onClick={()=>{
+                removeFromWishlist(products.id)
+            }}/>}</span>
             </div> {/* the image div end */}
            <div>  {/* the details div */}
             <p className='font-semibold mt-5'>{products.name}</p>
@@ -50,6 +53,7 @@ function WishListPage(){
             <button style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}} onClick={()=> {
                 if(currentUserData){
                 addToCartInDatabase(products)
+                navigate('/cart')
                 }else{
                     alert("Must login")
                     navigate('/login')
@@ -63,9 +67,7 @@ function WishListPage(){
         sm:text-sm sm:px-3 /* Desktop: normal size */
         hover:cursor-pointer
         block card'>{isInCart?"GO TO CART":"ADD TO CART"}</button>
-            <span  className='hover:cursor-pointer flex-shrink-0'>{<Trash onClick={()=>{
-                removeFromWishlist(products.id)
-            }}/>}</span>
+            
             </div>
                </div> {/* the card component div end   */}
 

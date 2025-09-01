@@ -16,7 +16,7 @@ export const AuthContext=createContext(null)
     const [products,setProducts]=useState([])
 
     
-    console.log(currentUserData?.isAuthenticated);
+    
     
     
     useEffect(()=>{

@@ -209,7 +209,7 @@ useEffect(() => {
                         {allData.map((product) => (
                             <tr key={product.id} className="hover:bg-gray-50">
                                 <td className="p-4 flex items-center">
-                                    <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-md mr-4" />
+                                    <img src={`https://ecommerce-api-3bc3.onrender.com${product.image}`} alt={product.name} className="w-16 h-16 object-cover rounded-md mr-4" />
                                     <div>
                                         <p className="font-semibold text-gray-900">{product.name}</p>
                                         <p className="text-xs text-gray-500">ID: {product.id}</p>

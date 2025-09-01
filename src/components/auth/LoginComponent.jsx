@@ -30,7 +30,7 @@ const initialValue = {
 function LoginComponent(){
       const [value, dispatch] = useReducer(reducer, initialValue)
       const navigate=useNavigate()
-      const {handleLogin,setCurrentUserData,currentUserData}=useContext(AuthContext)
+      const {handleLogin,setCurrentUserData,currentUserData,setAdminData}=useContext(AuthContext)
       const [showPassword,setShowPassword]=useState(false)
       const [invalidData,setInvalidData]=useState(false)
       const [auth,setAuth]=useState(false)
@@ -51,7 +51,8 @@ function LoginComponent(){
        }else{
         const {userInDatabase,adminInDb}= await loginData(value)
         if(adminInDb){
-          return navigate('/admin',{replace:true})
+          setCurrentUserData(adminInDb)
+        return navigate('/admin',{replace:true})
         }
         if(userInDatabase){ 
           if(userInDatabase.isAuthenticated){
@@ -69,6 +70,7 @@ function LoginComponent(){
 
       }
     }
+
 
     return ( 
         <> 

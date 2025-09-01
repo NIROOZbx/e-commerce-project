@@ -40,19 +40,21 @@ function HomePageProducts(){
                        
              <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4] relative'> {/* the image div  */}
             <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${products.image}`} key={products.id}/> 
-            <span onClick={()=>{wishlistedProduct(products) 
-              if(!isInWishlist && currentUserData){
-                toast.success("Successfully added product to wishlist")
-              }else{
-                navigate('/login')
-                toast.error('Must login')
-              }
-              if(isInWishlist){
-
-                    navigate('/wishlist')
-                }}
+            <span onClick={(e)=>{
+              e.stopPropagation()
+              wishlistedProduct(products) 
+              if (!isInWishlist && currentUserData) {
+        toast.success("Successfully added product to wishlist");
+    } else if (!currentUserData) { // Added this condition for clarity
+        navigate('/login');
+        toast.error('Must login');
+    }
+    if (isInWishlist) {
+        navigate('/wishlist');
+    }
+  }
               
-            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} c className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer '>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
+            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer '>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
             </div> {/* the image div end */}
            <div>  {/* the details div */}
             <p className='font-semibold mt-5'>{products.name}</p>
@@ -84,6 +86,7 @@ function HomePageProducts(){
         sm:text-sm sm:px-3 /* Desktop: normal size */
         hover:cursor-pointer
         block"
+        disabled={products.quantity <= 0}
               style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{products.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
             
             </div>

@@ -177,7 +177,9 @@ useEffect(() => {
         xs:text-xs xs:px-2 /* A bit larger */
         sm:text-sm sm:px-3 /* Desktop: normal size */
         hover:cursor-pointer
-        block" style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{product.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
+        block" 
+        disabled={product.quantity <= 0}
+        style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{product.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
             {/* <span style={product.quantity>0?{display:"inline-block"}:{display:"none"}}  onClick={()=>{wishlistedProduct(product) 
             if(!isInWishlist && currentUserData){
                 toast.success("Successfully added product to wishlist")

@@ -4,6 +4,7 @@ import axios from "axios";
 import { OrderContext } from "../../context/OrderContext";
 import { CheckCircle, Clock, Search, ShoppingCart, Truck, XCircle } from "lucide-react";
 import '/src/styles/allorder.css'
+import api from "../../api/api";
 
 function AllOrdersPage() {
   const [allUser, setAllUser] = useState([]);
@@ -150,7 +151,7 @@ console.log(orders);
                         {orders.map((orderItem, index) => (
                             <tr key={`${orderItem.orderId}-${orderItem.id}-${index}`} className="hover:bg-gray-50">
                                 <td className="p-5 flex items-center">
-                                    <img src={orderItem.image} alt={orderItem.name} className="w-12 h-12 object-cover rounded-md mr-4" />
+                                    <img src={`https://ecommerce-api-3bc3.onrender.com${orderItem.image}`} alt={orderItem.name} className="w-12 h-12 object-cover rounded-md mr-4" />
                                     <div>
                                         <p className="font-semibold text-gray-900">{orderItem.name}</p>
                                         <p className="text-xs text-gray-500">Product ID: {orderItem.id}</p>
