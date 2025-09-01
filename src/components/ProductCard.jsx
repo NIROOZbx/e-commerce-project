@@ -119,7 +119,7 @@ useEffect(() => {
             <div  className='rounded-xl mt-5 p-5 card' key={product.id}>  {/* the card component div  */}
               
              <div onClick={()=> navigate(`/products/${product.id}`)} className=' aspect-[3/4]'> {/* the image div  */}
-            <img className='rounded-xl w-full h-full object-cover' src={product.image}/> 
+            <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${product.image}`}/> 
             </div> {/* the image div end */}
            <div>  {/* the details div */}
             <p className='font-semibold mt-5'>{product.name}</p>
