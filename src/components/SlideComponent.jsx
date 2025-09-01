@@ -1,11 +1,15 @@
 import { useContext, useEffect, useState } from "react"
 import '/src/styles/slidecomp.css'
 import { AuthContext } from "../context/AuthenticationContext"
+import fcbImage from '../assets/fcbb.jpg';
+import liverpoolImage from '../assets/liverpool.png';
+import mancityImage from '../assets/MANCITY.png';
+import realImage from '../assets/real.png';
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 function SlideComponent(){
 
-   const arr=['src/assets/fcbb.jpg','src/assets/liverpool.png','src/assets/MANCITY.png','src/assets/real.png']
+const arr = [fcbImage, liverpoolImage, mancityImage, realImage];
      const [currentIndex, setCurrentIndex] = useState(0);
 
        useEffect(() => {
