@@ -1,5 +1,6 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function ContactPage() {
   return (
@@ -50,6 +51,7 @@ function ContactPage() {
         </form>
       </div>
     </div>
+    <Footer/>
     </>
   );
 }

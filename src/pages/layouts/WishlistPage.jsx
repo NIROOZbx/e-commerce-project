@@ -30,7 +30,7 @@ function WishListPage(){
       <p className="text-gray-500 mb-6">Looks like you haven’t added anything yet.</p>
       </div>
         ):( 
-        <div className="grid grid-cols-4 gap-15 p-10"> {/* main grid container */}
+       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-6 px-11"> {/* main grid container */}
         {wishListed.map((products)=>{ 
              const isInCart=cart.some((item)=>item.id===products.id)
             return (
@@ -44,7 +44,7 @@ function WishListPage(){
             <p className='font-semibold mt-5'>{products.name}</p>
             <p className='mt-3'><b>{products.currency} {products.price.toFixed(2)}</b></p>
             </div> {/* the details div  end*/}
-              <div className="flex flex-row gap-5"> 
+              <div className="flex flex-row items-center gap-2 mt-5 w-full py-3"> 
     
             <button style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}} onClick={()=> {
                 if(currentUserData){
@@ -53,8 +53,16 @@ function WishListPage(){
                     alert("Must login")
                     navigate('/login')
                 } }} 
-            className='bg-black text-white rounded-3xl px-16 py-2 hover:cursor-pointer mt-5 ml-0 text-xs font-semibold'>{isInCart?"GO TO CART":"ADD TO CART"}</button>
-            <span  className='mt-6 hover:cursor-pointer'>{<Trash onClick={()=>{
+            className='"btn 
+        bg-black text-white text-center font-semibold 
+        whitespace-nowrap rounded-3xl py-2 px-3
+        w-full /* Full width button */
+        text-[10px] px-1 /* Mobile: tiny text to fit */
+        xs:text-xs xs:px-2 /* A bit larger */
+        sm:text-sm sm:px-3 /* Desktop: normal size */
+        hover:cursor-pointer
+        block card'>{isInCart?"GO TO CART":"ADD TO CART"}</button>
+            <span  className='hover:cursor-pointer flex-shrink-0'>{<Trash onClick={()=>{
                 removeFromWishlist(products.id)
             }}/>}</span>
             </div>

@@ -47,36 +47,88 @@ function addToCart(){
 
     return(
     <> 
-    <Navbar/>
-    <div className="h-screen w-full grid grid-cols-2 mt-13">
-        <div className="h-screen w-full flex justify-center items-center py-15 px-25 ">
-        <img className=" w-full h-full object-cover rounded-2xl image-section" src={prod.image} alt="" />
-        </div>
+    <Navbar />
+<div className="min-h-screen w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-12 py-10 mt-20 ">
+  {/* Left Section - Image */}
+  <div className="flex justify-center items-center product rounded-2xl">
+    <img
+      className="w-full max-w-[500px] h-auto object-contain rounded-2xl"
+      src={prod.image}
+      alt={prod.name}
+    />
+  </div>
 
-        <div className="flex flex-col gap-8 mt-15">
-            <p className="text-3xl font-bold">{prod.name}</p>
-            <p className="text-lg">{prod.description}</p>
-            <p className="text-xl font-bold">{prod.currency} &nbsp; {prod.price.toFixed(2)}</p>
-            <div className="flex gap-5 mr-4 span-container"> 
-            <span className="border-2 border-solid px-3 py-2">S</span>
-            <span className="border-2 border-solid px-3 py-2">M</span>
-            <span className="border-2 border-solid px-3 py-2">L</span>
-            <span className="border-2 border-solid px-3 py-2">XL</span>
-            </div>
-            <p className={prod.quantity>0?"text-green-500 font-bold":"text-red-500 font-bold"}>{prod.quantity>0?"IN STOCK":"OUT OF STOCK"}</p>
-            <div className="flex gap-10 mt-3">
+  {/* Right Section - Product Details */}
+  <div className="flex flex-col gap-6 mt-5 md:mt-0">
+    <p className="text-2xl md:text-3xl font-bold">{prod.name}</p>
+    <p className="text-base md:text-lg">{prod.description}</p>
+    <p className="text-lg md:text-xl font-bold">
+      {prod.currency} {prod.price.toFixed(2)}
+    </p>
 
-            <button style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}} onClick={addToCart} className="bg-black text-white rounded-3xl hover:cursor-pointer py-2 w-1/2 font-bold">{prod.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
-            <button style={prod.quantity>0?isInWishlist?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}:{display:"none"}}  onClick={()=>{ wishlistedProduct(products) 
-                if(isInWishlist){
-                    navigate('/wishlist')
-                }
-            } } className="bg-black text-white rounded-3xl hover:cursor-pointer py-2 w-1/2 mr-10 font-bold">{isInWishlist?"GO TO WISH LIST":"ADD TO WISHLIST"}</button>
-            </div>
-
-        </div>
+    {/* Sizes */}
+    <div className="flex flex-wrap gap-3">
+      {["S", "M", "L", "XL"].map((size) => (
+        <span
+          key={size}
+          className="border-2 border-solid px-4 py-2 rounded-md cursor-pointer hover:bg-gray-100"
+        >
+          {size}
+        </span>
+      ))}
     </div>
-    <Footer/>
+
+    {/* Stock */}
+    <p
+      className={
+        prod.quantity > 0
+          ? "text-green-500 font-bold"
+          : "text-red-500 font-bold"
+      }
+    >
+      {prod.quantity > 0 ? "IN STOCK" : "OUT OF STOCK"}
+    </p>
+
+    {/* Buttons */}
+    <div className="flex flex-col sm:flex-row gap-4 mt-4">
+      <button
+        style={
+          isInCart
+            ? { backgroundColor: "white", color: "black" }
+            : { backgroundColor: "black", color: "white" }
+        }
+        onClick={addToCart}
+        className="bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2"
+      >
+        {prod.quantity > 0
+          ? isInCart
+            ? "GO TO CART"
+            : "ADD TO CART"
+          : "OUT OF STOCK"}
+      </button>
+
+      <button
+        style={
+          prod.quantity > 0
+            ? isInWishlist
+              ? { backgroundColor: "white", color: "black" }
+              : { backgroundColor: "black", color: "white" }
+            : { display: "none" }
+        }
+        onClick={() => {
+          wishlistedProduct(prod);
+          if (isInWishlist) {
+            navigate("/wishlist");
+          }
+        }}
+        className="bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2"
+      >
+        {isInWishlist ? "GO TO WISHLIST" : "ADD TO WISHLIST"}
+      </button>
+    </div>
+  </div>
+</div>
+<Footer />
     </>
 )
 

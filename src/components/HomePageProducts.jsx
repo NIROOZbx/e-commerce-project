@@ -23,13 +23,13 @@ function HomePageProducts(){
     return( 
       <>
       
-        <h1 className="text-center font-bold text-4xl">Newest Arrivals</h1>
+        <h1 className="text-center font-bold text-3xl">Newest Arrivals</h1>
        
         <br />
         <hr className="w-50 mx-auto"/>
         {/* ------------------------------------------------------------------------------------------ */}
         
-        <div className="grid grid-cols-4 gap-15 p-10"> {/* main grid container */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-6 px-11"> {/* main grid container */}
         {filteredProducts.map((products)=>{ 
            const isInCart=cart.some((item)=>item.id===products.id)
            const isInWishlist=wishListed.some((item)=>item.id===products.id)
@@ -45,7 +45,7 @@ function HomePageProducts(){
             <p className='font-semibold mt-5'>{products.name}</p>
             <p className='mt-3'><b>{products.currency} {products.price.toFixed(2)}</b></p>
             </div> {/* the details div  end*/}
-              <div className="flex flex-row gap-5"> 
+              <div className="flex flex-row items-center gap-2 mt-5 w-full py-3">
             <button onClick={()=>{ 
               if(!isInCart){ 
               toast.success("Successfully added product to cart")
@@ -62,7 +62,15 @@ function HomePageProducts(){
                 }
               
               }} 
-              className='bg-black  text-white text-md  rounded-3xl px-16 py-2 hover:cursor-pointer mt-5 ml-0' 
+             className="btn 
+        bg-black text-white text-center font-semibold 
+        whitespace-nowrap rounded-3xl py-2 px-3
+        w-full /* Full width button */
+        text-[10px] px-1 /* Mobile: tiny text to fit */
+        xs:text-xs xs:px-2 /* A bit larger */
+        sm:text-sm sm:px-3 /* Desktop: normal size */
+        hover:cursor-pointer
+        block"
               style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{products.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
             <span onClick={()=>{wishlistedProduct(products) 
               if(!isInWishlist){
@@ -73,7 +81,7 @@ function HomePageProducts(){
                     navigate('/wishlist')
                 }}
               
-            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} className='mt-7 hover:cursor-pointer'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
+            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} className='hover:cursor-pointer flex-shrink-0'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
             </div>
                </div> {/* the card component div end   */}
 

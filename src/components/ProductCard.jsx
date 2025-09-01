@@ -109,7 +109,7 @@ useEffect(() => {
 
         ): (
            
-        <div className="grid grid-cols-4 gap-15 px-10 mt-3"> {/* main grid container */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-6 px-11"> {/* main grid container */}
         {allData.map((product)=>{ 
             const isInCart=cart.some((item)=>item.id===product.id)
             const isInWishlist=wishListed.some((item)=>item.id===product.id)
@@ -125,7 +125,7 @@ useEffect(() => {
             <p className='font-semibold mt-5'>{product.name}</p>
             <p className='mt-3'><b>{product.currency} {product.price.toFixed(2)}</b></p>
             </div> {/* the details div  end*/}
-              <div className="flex flex-row gap-5"> 
+              <div className="flex flex-row items-center gap-2 mt-5 w-full py-3"> 
     
             <button onClick={()=> {
                if(!isInCart && product.quantity>0){ 
@@ -148,13 +148,21 @@ useEffect(() => {
                 
             }} 
                
-            className='bg-black text-white text-md rounded-3xl px-15 py-2 hover:cursor-pointer mt-5 ml-0' style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{product.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
+             className="btn 
+        bg-black text-white text-center font-semibold 
+        whitespace-nowrap rounded-3xl py-2 px-3
+        w-full /* Full width button */
+        text-[10px] px-1 /* Mobile: tiny text to fit */
+        xs:text-xs xs:px-2 /* A bit larger */
+        sm:text-sm sm:px-3 /* Desktop: normal size */
+        hover:cursor-pointer
+        block" style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{product.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
             <span style={product.quantity>0?{display:"inline-block"}:{display:"none"}}  onClick={()=>{wishlistedProduct(product) 
               if(isInWishlist){
                     navigate('/wishlist')
                 }}
               
-            }  className='mt-7 hover:cursor-pointer'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
+            } className='hover:cursor-pointer flex-shrink-0'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
             </div>
                </div> 
            

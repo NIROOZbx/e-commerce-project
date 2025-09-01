@@ -8,6 +8,7 @@ import { CartContext } from "../context/CartContext"
 import { useState } from "react"
 import { AuthContext } from "../context/AuthenticationContext"
 import axios from "axios"
+import { toast } from "react-toastify"
 
 
 
@@ -53,7 +54,7 @@ function CheckOutPage(){
   const paymentType=payment==="cod"?"cod":"online"
 
 
-    const handlePayment=async()=>{
+    const placeOrder=async()=>{
 
         const existingOrders =currentUserData.order
 
@@ -78,51 +79,52 @@ function CheckOutPage(){
             let {data:res}=await axios.patch(`http://localhost:5000/users/${currentUserData.id}`,{cart:[]})
             setCart(res.cart)      
             setOrderDetails(res.order)
-        }
-        if(payment==="cod"){
             navigate('/ordersuccess',{replace:true})
+            console.log("Ordering onlline");
+            
         }
-        if(payment==="online"){
-            navigate('/ordersuccess',{replace:true})
-        }
+      
          }catch(e){
             console.log("Checkout fetching error")
          }
 
     }
 
-    // const handlePay = () => {
-    //     if (payment === "cod") {
-    //         placeOrder(); 
-    //     }
+    const handlePayment = () => {
+        if (payment === "cod") {
+            placeOrder(); 
+            
+        }
 
-    //     if (payment === "online") {
+        if (payment === "online") {
            
-    //         const options = {
-    //             key: "rzp_test_edrzdb8Gbx5U5M", 
-    //             amount: total * 100, 
-    //             currency: "INR", 
-    //             name: "JERSEY HUB",
-    //             description: "Payment for your order",
+            const options = {
+                key: "rzp_test_edrzdb8Gbx5U5M", 
+                amount: total * 100, 
+                currency: "INR", 
+                name: "JERSEY HUB",
+                description: "Payment for your order",
                
-    //             handler: async function (response) {
-    //                 toast.success(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
-    //                 // Now that payment is successful, create the order in the database.
-    //                 await placeOrder();
-    //             },
-    //             prefill: {
-    //                 name: currentUserData.name,
-    //                 email: currentUserData.email,
-    //                 contact: currentUserAddress.number
-    //             },
-    //             theme: {
-    //                 color: "#343a40",
-    //             },
-    //         };
-    //         const rzp = new window.Razorpay(options);
-    //         rzp.open();
-    //     }
-    // };
+                handler: async function (response) {
+                    // Now that payment is successful, create the order in the database.
+                    await placeOrder();
+                     navigate('/ordersuccess',{replace:true})
+                },
+                prefill: {
+                    name: currentUserData.name,
+                    email: currentUserData.email,
+                    contact: currentUserAddress.number
+                },
+                theme: {
+                    color: "#343a40",
+                },
+            };
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+            
+        }
+      
+    }
 
     return( 
      <>

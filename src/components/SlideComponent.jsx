@@ -5,7 +5,6 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 function SlideComponent(){
 
-   const navigate=useNavigate()
    const arr=['/src/assets/fcbb.jpg','src/assets/liverpool.png','src/assets/MANCITY.png','src/assets/real.png']
      const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -19,22 +18,19 @@ function SlideComponent(){
 
     return (
             <>
-            <div className="w-full h-screen flex  flex-col items-center p-5 mt-14">
-                <div className="">
-                    <p className="font-bold text-2xl uppercase my-3">Our Most Selling Products</p> 
 
-                     <hr className="w-60 mx-auto"/>
-                </div>
-
+         <div className="w-full flex flex-col items-center py-8 md:p-5 md:pt-8 md:h-screen md:mt-14">
                 
-                {/* <div className="mt-7 mb-20 px-9 w-full flex-1 min-h-0 flex justify-center">  
-                    <img key={currentIndex} className=" rounded-3xl object-cover h-full w-full animate-fadeIn" src={arr[currentIndex]} alt="" />
+                {/* Section Header */}
+                <div>
+                    <p className="font-bold text-xl md:text-2xl uppercase my-3 text-center">Our Most Selling Products</p>
+                    <hr className="w-48 md:w-60 mx-auto" />
                 </div>
-            </div> */}
 
-             <div className="mt-7 mb-20 px-9 w-full flex-1 min-h-0 flex justify-center">
-                    {/* The sliding mechanism is now built inside your container. */}
-                    <div className="w-full h-full rounded-3xl overflow-hidden">
+          
+                <div className="mt-7 w-full px-10 flex justify-center md:flex md:justify-center sm:flex sm:justify-center md:min-h-0 md:mb-20 md:px-9">
+
+                    <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl cont">
                         {/* This inner container is the "film strip" that slides */}
                         <div
                             className="h-full flex slide-container"
@@ -50,9 +46,7 @@ function SlideComponent(){
                     </div>
                 </div>
             </div>
-
             
-        
         </>
     ) 
 

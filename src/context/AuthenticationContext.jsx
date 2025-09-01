@@ -53,7 +53,10 @@ export const AuthContext=createContext(null)
     function handleForceLogout(){ 
             localStorage.removeItem("userId")
             setCurrentUserData(null)
-            navigate('/');
+            setCart([])    
+            setWishListed([])
+            navigate('/login')
+            
        
     }
 
