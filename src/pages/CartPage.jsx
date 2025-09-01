@@ -65,7 +65,7 @@ function CartPage() {
       {cart.length===0?(  
       <div className="flex flex-col items-center justify-center py-20">
       <img 
-        src="/abandoned-cart.png" 
+        src="src/assets/abandoned-cart.png" 
         alt="Empty cart" 
         className="w-52 h-52 mb-6 opacity-80"
       />

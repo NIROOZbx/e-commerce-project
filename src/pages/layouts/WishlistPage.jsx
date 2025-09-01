@@ -25,7 +25,7 @@ function WishListPage(){
         <hr className="w-30 mx-auto mt-3"/>
         {wishListed.length==0? ( 
         <div className="flex flex-col items-center justify-center py-20">
-      <img  src="/wish-list.png" alt="Empty wishlist" className="w-52 h-52 mb-6 opacity-80"/>
+      <img  src="src/assets/wish-list.png" alt="Empty wishlist" className="w-52 h-52 mb-6 opacity-80"/>
       <h2 className="text-2xl font-semibold mb-2">Your wish list is empty</h2>
       <p className="text-gray-500 mb-6">Looks like you haven’t added anything yet.</p>
       </div>

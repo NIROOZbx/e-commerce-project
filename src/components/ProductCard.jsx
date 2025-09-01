@@ -102,7 +102,7 @@ useEffect(() => {
         </div>
         {allData.length==0?( 
         <div className="flex flex-col items-center justify-center py-20">
-       <img src="/no-results.png" alt="searxh not found" className="w-52 h-52 mb-6 opacity-80" />
+       <img src="src/assets/no-results.png" alt="searxh not found" className="w-52 h-52 mb-6 opacity-80" />
       <h2 className="text-2xl font-semibold mb-2">Product not found</h2>
       <p className="text-gray-500 mb-6">Search for other products</p>
       </div>
