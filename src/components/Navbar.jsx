@@ -222,6 +222,7 @@ useEffect(()=>{
                 if (currentUserData) {
                   navigate("/cart")
                 } else {
+                  navigate('/login')
                   toast.warning("Must login to view cart")
                 }
               }}
@@ -263,13 +264,13 @@ useEffect(()=>{
           )}
 
           {/* Login / Greeting */}
-          <span className="text-white capitalize hidden sm:block">
-            {currentUserData ? `Hi ${currentUserData.name}` : (
-              <Link className="underline underline-offset-4 text-violet-400" to="/login">
-                Login
-              </Link>
-            )}
-          </span>
+         <span className="text-white capitalize hidden sm:hidden md:block">
+  {currentUserData ? `Hi ${currentUserData.name}` : (
+    <Link className="underline underline-offset-4 text-violet-400" to="/login">
+      Login
+    </Link>
+  )}
+</span>
 
           {/* Hamburger (only on mobile) */}
           <button
@@ -297,6 +298,19 @@ useEffect(()=>{
             <NavLink to="/products" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 rounded-md text-white font-semibold hover:bg-gray-700 transition-colors">PRODUCTS</NavLink>
             <NavLink to="/contact" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 rounded-md text-white font-semibold hover:bg-gray-700 transition-colors">CONTACT</NavLink>
             <NavLink to="/about" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 rounded-md text-white font-semibold hover:bg-gray-700 transition-colors">ABOUT</NavLink>
+            <div className="mt-3 text-white font-semibold">
+        {currentUserData ? (
+          <span className="block">Hi {currentUserData.name}</span>
+        ) : (
+          <Link 
+            to="/login" 
+            onClick={() => setMobileMenuOpen(false)} 
+            className="block underline underline-offset-4 text-violet-400"
+          >
+            Login
+          </Link>
+        )}
+      </div>
         </nav>
     </div>
 )}
