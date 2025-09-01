@@ -53,7 +53,7 @@ function addToCart(){
   <div className="flex justify-center items-center product rounded-2xl">
     <img
       className="w-full max-w-[500px] h-auto object-contain rounded-2xl"
-      src={prod.image}
+      src={`https://ecommerce-api-3bc3.onrender.com${prod.image}`}
       alt={prod.name}
     />
   </div>

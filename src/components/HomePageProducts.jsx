@@ -39,7 +39,7 @@ function HomePageProducts(){
             <div  className='rounded-xl mt-5 p-5 card' key={products.id}>  {/* the card component div  */}
                        
              <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4]'> {/* the image div  */}
-            <img className='rounded-xl w-full h-full object-cover' src={products.image} key={products.id}/> 
+            <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${products.image}`} key={products.id}/> 
             </div> {/* the image div end */}
            <div>  {/* the details div */}
             <p className='font-semibold mt-5'>{products.name}</p>

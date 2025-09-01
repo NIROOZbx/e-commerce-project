@@ -152,7 +152,7 @@ function CheckOutPage(){
                     <>
                     
                     <div>
-                        <img onClick={()=> navigate(`/products/${items.id}`)} className="w-40 h-50 rounded-2xl object-contain images" src={items.image} alt="" />
+                        <img onClick={()=> navigate(`/products/${items.id}`)} className="w-40 h-50 rounded-2xl object-contain images" src={`https://ecommerce-api-3bc3.onrender.com${items.image}`} alt="" />
                         <p className="font-semibold mt-2">{items.name}</p>
                         <p className="font-bold">{items.currency}{items.price.toFixed(2)}</p>
                         <p className="text-xs">Quantity : {items.quantity}</p>

@@ -78,7 +78,7 @@ function CartPage() {
             {cart.map((product) => (
               <div key={product.id} className="flex flex-col sm:flex-row items-center bg-white p-4 rounded-lg gap-6 shadow-[0px_5px_15px_rgba(0,0,0,0.35)]">
                 <div className="w-32 h-32 flex-shrink-0">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover rounded-md"/>
+                  <img src={`https://ecommerce-api-3bc3.onrender.com${product.image}`} alt={product.name} className="w-full h-full object-cover rounded-md"/>
                 </div>
                 <div className="flex-grow text-center sm:text-left">
                   <h2 className="text-xl font-semibold">{product.name}</h2>

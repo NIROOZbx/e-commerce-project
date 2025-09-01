@@ -71,7 +71,7 @@ function OrdersPage(){
                                                     {/* Product Image */}
                                                     <img
                                                         className="w-24 h-24 object-cover rounded-lg cursor-pointer cont"
-                                                        src={product.image}
+                                                        src={`https://ecommerce-api-3bc3.onrender.com${product.image}`}
                                                         alt={product.name}
                                                         onClick={() => navigate(`/products/${product.id}`)}
                                                     />
