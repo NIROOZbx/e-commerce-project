@@ -131,29 +131,106 @@ function CartPage() {
         </div>
       </div>)}
     </div>
-    {backgroundChange && <div onClick={()=>setBackgroundChange(false)}  className="flex items-center justify-center w-full h-full absolute top-0 "> 
-            <div className="absolute rounded-xl z-999999 shipping bg-white ">
-            <form onSubmit={async(e)=> {
-      
-                e.preventDefault()
-                await getShippingDetails(value)
-                navigate('/checkout',{state:{shippingDetails:value,total:total}})  
-                }} action="">
-                <div onClick={(e)=> e.stopPropagation()} className="flex flex-col gap-2 details-shipping w-full p-10 gap-5"> 
-                <p className="text-center font-bold text-xl">Enter your Shipping Details</p>
-                <input value={value.name} onChange={(e)=>dispatch({type:"GET_NAME",payload:e.target.value})} type="text" className="p-3" placeholder="Enter your name" required autoFocus  autoComplete="name"/>
-                <input value={value.number}  onChange={(e)=>dispatch({type:"GET_NUMBER",payload:e.target.value})} type="tel" pattern="[0-9]{10}" maxLength="10" className="p-3" placeholder="Enter your Mobile no."  required  autoComplete="tel"/>
-                <div className="flex gap-5">
-                <input value={value.pincode}  onChange={(e)=>dispatch({type:"GET_PINCODE",payload:e.target.value})} type="text" className="p-3" maxLength="6" placeholder="Pincode"   required autoComplete="postal-code"/>
-                <input value={value.State} onChange={(e)=>dispatch({type:"GET_STATE",payload:e.target.value})} type="text" className="p-3" placeholder="State" required  autoComplete="address-level1"/>
-                 </div>
-                <input value={value.address}  onChange={(e)=>dispatch({type:"GET_ADDRESS",payload:e.target.value})} type="text" className="p-3" placeholder="Enter your address" required  autoComplete="street-address"/>
-                <input value={value.city} onChange={(e)=>dispatch({type:"GET_CITY",payload:e.target.value})} type="text" className="p-3" placeholder="Enter your city"  required autoComplete="address-level2"/>
-                <button className="bg-black text-white uppercase font-bold rounded-xl py-2">Submit</button>
-                </div>
-            </form>
-            </div>
-            </div>}
+    {backgroundChange && (
+  <div 
+    onClick={() => setBackgroundChange(false)}  
+    className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+  >
+    <div 
+      onClick={(e) => e.stopPropagation()} 
+      className="bg-white rounded-xl shadow-lg w-full max-w-lg mx-auto"
+    >
+      <form 
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await getShippingDetails(value);
+          navigate('/checkout', { state: { shippingDetails: value, total } });
+          console.log("Navigation to /checkout initiated.");
+        }} 
+        className="p-6 sm:p-8"
+      >
+        <p className="text-center font-bold text-xl mb-6">
+          Enter your Shipping Details
+        </p>
+
+        <div className="flex flex-col gap-7 details-shipping">
+          <input
+            value={value.name}
+            onChange={(e) => dispatch({ type: "GET_NAME", payload: e.target.value })}
+            type="text"
+            className="p-3  rounded-lg focus:ring-2 focus:black outline-none"
+            placeholder="Enter your name"
+            required
+            autoFocus
+            autoComplete="name"
+          />
+
+          <input
+            value={value.number}
+            onChange={(e) => dispatch({ type: "GET_NUMBER", payload: e.target.value })}
+            type="tel"
+            pattern="[0-9]{10}"
+            maxLength="10"
+            className="p-3  rounded-lg focus:ring-2 focus:black outline-none"
+            placeholder="Enter your Mobile no."
+            required
+            autoComplete="tel"
+          />
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <input
+              value={value.pincode}
+              onChange={(e) => dispatch({ type: "GET_PINCODE", payload: e.target.value })}
+              type="text"
+              maxLength="6"
+              className="flex-1 p-3  rounded-lg focus:ring-2 focus:black outline-none"
+              placeholder="Pincode"
+              required
+              autoComplete="postal-code"
+            />
+            <input
+              value={value.State}
+              onChange={(e) => dispatch({ type: "GET_STATE", payload: e.target.value })}
+              type="text"
+              className="flex-1 p-3  rounded-lg focus:ring-2 focus:black  outline-none"
+              placeholder="State"
+              required
+              autoComplete="address-level1"
+            />
+          </div>
+
+          <input
+            value={value.address}
+            onChange={(e) => dispatch({ type: "GET_ADDRESS", payload: e.target.value })}
+            type="text"
+            className="p-3  rounded-lg focus:ring-2 focus:black outline-none"
+            placeholder="Enter your address"
+            required
+            autoComplete="street-address"
+          />
+
+          <input
+            value={value.city}
+            onChange={(e) => dispatch({ type: "GET_CITY", payload: e.target.value })}
+            type="text"
+            className="p-3  rounded-lg focus:ring-2 focus:black outline-none"
+            placeholder="Enter your city"
+            required
+            autoComplete="address-level2"
+          />
+
+          <button 
+            type="submit"
+            className="bg-black text-white uppercase font-bold rounded-lg py-3 transition"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
             
   
     </>

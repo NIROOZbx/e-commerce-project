@@ -42,7 +42,7 @@ function OrderProducts({children}){
 
    async function getShippingDetails(shippingData){
 
-      await api.patch(`/${currentUserData.id}`,{shippingAddress:shippingData})
+      await api.patch(`/users/${currentUserData.id}`,{shippingAddress:shippingData})
       
     }
 

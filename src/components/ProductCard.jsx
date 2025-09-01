@@ -118,8 +118,28 @@ useEffect(() => {
                      
             <div  className='rounded-xl mt-5 p-5 card' key={product.id}>  {/* the card component div  */}
               
-             <div onClick={()=> navigate(`/products/${product.id}`)} className=' aspect-[3/4]'> {/* the image div  */}
+             <div onClick={()=> navigate(`/products/${product.id}`)} className=' aspect-[3/4] relative'> {/* the image div  */}
             <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${product.image}`}/> 
+            <span
+            style={product.quantity > 0 ? { display: "inline-block" } : { display: "none" }}
+            onClick={(e) => {
+                e.stopPropagation(); // Stop the click from navigating to the product page
+                wishlistedProduct(product);
+                if (!isInWishlist && currentUserData) {
+                    toast.success("Successfully added product to wishlist");
+                } else if (!currentUserData) {
+                    navigate('/login');
+                    toast.error("Must login");
+                }
+                if (isInWishlist) {
+                    navigate('/wishlist');
+                }
+            }}
+            // These classes position the icon and give it a nice background
+            className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer '
+        >
+            {isInWishlist ? <Heart size={20} color="#ff0000ff" strokeWidth={1.5} fill="#ff0000ff" /> : <Heart size={20} />}
+        </span>
             </div> {/* the image div end */}
            <div>  {/* the details div */}
             <p className='font-semibold mt-5'>{product.name}</p>
@@ -128,8 +148,9 @@ useEffect(() => {
               <div className="flex flex-row items-center gap-2 mt-5 w-full py-3"> 
     
             <button onClick={()=> {
-               if(!isInCart && product.quantity>0){ 
-              toast.success("Successfully added product to cart")
+               if(!isInCart && currentUserData){ 
+                    toast.success("Successfully added product to cart")
+                
               }
                 if(currentUserData){
                     if(product.quantity>0){ 
@@ -137,13 +158,13 @@ useEffect(() => {
                 addToCartInDatabase(product)
                 }
                 
-                
                 }else{
-                    alert("Must login")
+                   toast.error("Must login")
                     navigate('/login')
                 } 
                  if(isInCart){
                     navigate('/cart')
+                    return
                 }
                 
             }} 
@@ -157,12 +178,19 @@ useEffect(() => {
         sm:text-sm sm:px-3 /* Desktop: normal size */
         hover:cursor-pointer
         block" style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{product.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
-            <span style={product.quantity>0?{display:"inline-block"}:{display:"none"}}  onClick={()=>{wishlistedProduct(product) 
+            {/* <span style={product.quantity>0?{display:"inline-block"}:{display:"none"}}  onClick={()=>{wishlistedProduct(product) 
+            if(!isInWishlist && currentUserData){
+                toast.success("Successfully added product to wishlist")
+                
+              }else{
+                navigate('/login')
+                toast.error("Must login")
+              }
               if(isInWishlist){
                     navigate('/wishlist')
                 }}
               
-            } className='hover:cursor-pointer flex-shrink-0'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
+            } className='hover:cursor-pointer flex-shrink-0'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span> */}
             </div>
                </div> 
            

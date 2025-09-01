@@ -38,8 +38,21 @@ function HomePageProducts(){
                 <>       
             <div  className='rounded-xl mt-5 p-5 card' key={products.id}>  {/* the card component div  */}
                        
-             <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4]'> {/* the image div  */}
+             <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4] relative'> {/* the image div  */}
             <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${products.image}`} key={products.id}/> 
+            <span onClick={()=>{wishlistedProduct(products) 
+              if(!isInWishlist && currentUserData){
+                toast.success("Successfully added product to wishlist")
+              }else{
+                navigate('/login')
+                toast.error('Must login')
+              }
+              if(isInWishlist){
+
+                    navigate('/wishlist')
+                }}
+              
+            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} c className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer '>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
             </div> {/* the image div end */}
            <div>  {/* the details div */}
             <p className='font-semibold mt-5'>{products.name}</p>
@@ -47,7 +60,7 @@ function HomePageProducts(){
             </div> {/* the details div  end*/}
               <div className="flex flex-row items-center gap-2 mt-5 w-full py-3">
             <button onClick={()=>{ 
-              if(!isInCart){ 
+              if(!isInCart && currentUserData){ 
               toast.success("Successfully added product to cart")
               }
               if(currentUserData){ 
@@ -72,16 +85,7 @@ function HomePageProducts(){
         hover:cursor-pointer
         block"
               style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{products.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
-            <span onClick={()=>{wishlistedProduct(products) 
-              if(!isInWishlist){
-                toast.success("Successfully added product to wishlist")
-              }
-              if(isInWishlist){
-
-                    navigate('/wishlist')
-                }}
-              
-            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} className='hover:cursor-pointer flex-shrink-0'>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
+            
             </div>
                </div> {/* the card component div end   */}
 

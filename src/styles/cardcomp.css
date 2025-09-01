@@ -8,3 +8,10 @@
 .btn{
     box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
+.wish{ 
+     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.wish:hover{
+     transition: transform 0.3s ease;
+    transform: scale(1.06);
+}

@@ -120,6 +120,12 @@ function addToCart(){
           if (isInWishlist) {
             navigate("/wishlist");
           }
+          if(!isInWishlist &&currentUserData){
+            toast.success("Added product to wishlist")
+          }else{
+            navigate('/login')
+            toast.error("Must login")
+          }
         }}
         className="bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2"
       >

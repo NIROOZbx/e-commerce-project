@@ -131,67 +131,74 @@ function CheckOutPage(){
      <>
      <Navbar/>
 
-    <div className="w-full h-screen flex justify-center items-center"> {/* main div of the page */}
-
-        <div className="h-3/4 w-7xl  p-2 checkout rounded-xl overflow-auto"> {/* container div of the page */}
-       
-        <div className="flex p-3 justify-baseline address "> {/*  div of the address */}
-        
-         <MapPin size={20}/> 
-        <span className="font-bold px-1">Address : </span>
-          
-         <span className="px-1 capitalize font-sans">{currentUserAddress.name} ,+91-{currentUserAddress.number} , {currentUserAddress.State} , 
-             {currentUserAddress.city}  , {currentUserAddress.address}</span>
-          </div>  {/*  div of the address */}
-
-        
-            <p className="mt-5 text-center font-bold">Products You've selected : </p>
-            <div className="grid grid-cols-6 w-full  gap-5 mt-5 px-3 "> 
-            {cart.map((items)=>{
-                return (
-                    <>
-                    
-                    <div>
-                        <img onClick={()=> navigate(`/products/${items.id}`)} className="w-40 h-50 rounded-2xl object-contain images" src={`https://ecommerce-api-3bc3.onrender.com${items.image}`} alt="" />
-                        <p className="font-semibold mt-2">{items.name}</p>
-                        <p className="font-bold">{items.currency}{items.price.toFixed(2)}</p>
-                        <p className="text-xs">Quantity : {items.quantity}</p>
-                    </div> 
-                    </>
-                )
-            })}
-            
-            </div>
-            
-            <div className="mt-6 ">
-                <p className="font-bold text-center">Payment mode : </p>
-                <div className="flex justify-center gap-5 py-3"> 
-                    <div className="flex gap-2"> 
-                    <input onChange={handlePay} type="radio" name="choice" value="cod" />
-                    <p>Cash on delivery</p>
-                    </div>
-                    <div className="flex gap-2">
-                    <input onChange={handlePay} type="radio" name="choice" value="online" />
-                    <p>Pay online</p>
-
-                     </div>
-                    
-                    
-
-                </div>
-            </div>
+   <div className="w-full min-h-screen flex justify-center items-center bg-gray-50 px-4">
+  {/* Main container */}
+  <div className="w-full max-w-6xl bg-white shadow-lg rounded-xl p-6 sm:p-8 overflow-auto  mt-14 checkout">
     
-            <div className="py-4 px-5 flex justify-between">
-                <p style={cart.length>0?{display:"block"}:{display:"none"}} className="font-bold">Total : {dollar}{total} <span className="text-xs"> (Including shipping charge)</span></p>
-                <button style={cart.length>0?{display:"block"}:{display:"none"}} onClick={handlePayment} className="border-1 bg-black text-white font-semibold py-1 px-4 hover:cursor-pointer">PLACE ORDER</button>
-            </div>
-        
+    {/* Address */}
+    <div className="flex items-start gap-2 border-b border-gray-200 pb-4 mb-4">
+      <MapPin size={22} className="text-violet-500 shrink-0" />
+      <div className="flex">
+        <p className="font-bold text-gray-800">Address:</p>
+        <p className="text-gray-600 text-sm sm:text-base capitalize">
+          &nbsp; {currentUserAddress.name}, +91-{currentUserAddress.number}, {currentUserAddress.State}, {currentUserAddress.city}, {currentUserAddress.address}
+        </p>
+      </div>
+    </div>
 
-        </div>{/* container div of the page end*/}
+    {/* Products */}
+    <h2 className="text-lg font-bold text-center text-gray-800">Products You&apos;ve Selected</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-5 ">
+      {cart.map((items) => (
+        <div
+          key={items.id}
+          className="bg-gray-50 rounded-xl p-4 shadow hover:shadow-md transition cursor-pointer images"
+          onClick={() => navigate(`/products/${items.id}`)}
+        >
+          <img
+            className="w-full h-40 object-contain rounded-lg mb-3"
+            src={`https://ecommerce-api-3bc3.onrender.com${items.image}`}
+            alt={items.name}
+          />
+          <p className="font-semibold text-gray-700">{items.name}</p>
+          <p className="font-bold text-gray-900">{items.currency}{items.price.toFixed(2)}</p>
+          <p className="text-sm text-gray-500">Quantity: {items.quantity}</p>
+        </div>
+      ))}
+    </div>
 
+    {/* Payment Mode */}
+    <div className="mt-8 text-center">
+      <p className="font-bold text-gray-800 mb-3">Select Payment Mode</p>
+      <div className="flex justify-center flex-wrap gap-6">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input onChange={handlePay} type="radio" name="choice" value="cod" />
+          <span className="text-gray-700">Cash on Delivery</span>
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input onChange={handlePay} type="radio" name="choice" value="online" />
+          <span className="text-gray-700">Pay Online</span>
+        </label>
+      </div>
+    </div>
 
-
-    </div> {/* main div of the page end */}
+    {/* Total & Place Order */}
+    {cart.length > 0 && (
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-8 border-t border-gray-200 pt-4">
+        <p className="font-bold text-gray-800 mb-3 sm:mb-0">
+          Total: {dollar}{total} 
+          <span className="text-xs text-gray-500"> (Including shipping)</span>
+        </p>
+        <button
+          onClick={handlePayment}
+          className="bg-black hover:cursor-pointer text-white font-semibold py-2 px-6 rounded-lg shadow transition"
+        >
+          PLACE ORDER
+        </button>
+      </div>
+    )}
+  </div>
+</div>
     
     </>
     )
