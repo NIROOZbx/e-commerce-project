@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthenticationContext";
+import api from "../api/api";
 
 export const CartContext=createContext(null)
 
@@ -11,7 +12,7 @@ export function CartDetails({children}){
    
     async function fetchCart() {
         try{ 
-        const {data:res}=await axios.get(`http://localhost:5000/users/${currentUserData.id}`)
+        const {data:res}=await api.get(`/users/${currentUserData.id}`)
         setCart(res.cart)
         }catch(e){
             console.log("There has been an error in your fetching")
@@ -25,7 +26,7 @@ export function CartDetails({children}){
 
     async function addToCartInDatabase(product) {
 
-        const {data:res}=await axios.get(`http://localhost:5000/users/${currentUserData.id}`)
+        const {data:res}=await api.get(`/users/${currentUserData.id}`)
 
         const duplicateProducts=res.cart.find((items)=>items.id===product.id)
         
@@ -40,7 +41,7 @@ export function CartDetails({children}){
         const updatedCart = [...res.cart, product];
         setCart(updatedCart);
 
-    await axios.patch(`http://localhost:5000/users/${currentUserData.id}`, { cart: updatedCart});
+    await api.patch(`/users/${currentUserData.id}`, { cart: updatedCart});
 
     }
   }
@@ -50,7 +51,7 @@ export function CartDetails({children}){
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart);
 
-    await axios.patch(`http://localhost:5000/users/${currentUserData.id}`, {
+    await api.patch(`/users/${currentUserData.id}`, {
       cart: updatedCart,
     });
   }

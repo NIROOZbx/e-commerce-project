@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import prroducts from '../../Product.json'
 import Lottie from "lottie-react";
+import api from "../../api/api";
 
 
 function getProductData(state,action) {
@@ -101,11 +102,11 @@ useEffect(() => {
         setSubmissionStatus('submitting')
         
         if(editProduct){ 
-            let {data:updatedProduct}=await axios.patch(`http://localhost:5000/products/${editProduct.id}`,value)
+            let {data:updatedProduct}=await api.patch(`/products/${editProduct.id}`,value)
             setProducts(prevProd=>prevProd.map(prod=> prod.id===updatedProduct.id?updatedProduct:prod))
 
         }else{
-        let {data:newProduct}=await axios.post("http://localhost:5000/products",value)
+        let {data:newProduct}=await api.post("/products",value)
         
         setProducts(prevProduct=>[...prevProduct,newProduct])
     }
@@ -127,7 +128,7 @@ useEffect(() => {
     const handleDeleteProduct = async (productId) => {
 
          if(window.confirm(`Are you sure you want to delete the product`)){ 
-        await axios.delete(`http://localhost:5000/products/${productId}`)
+        await api.delete(`/products/${productId}`)
 
         setProducts(prevProd=>prevProd.filter(prod=>prod.id!==productId))
         }

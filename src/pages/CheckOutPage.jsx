@@ -9,6 +9,7 @@ import { useState } from "react"
 import { AuthContext } from "../context/AuthenticationContext"
 import axios from "axios"
 import { toast } from "react-toastify"
+import api from "../api/api"
 
 
 
@@ -73,10 +74,10 @@ function CheckOutPage(){
 
         try{
 
-        let {data:res}=await axios.patch(`http://localhost:5000/users/${currentUserData.id}`,{order:updatedOrders})
+        let {data:res}=await api.patch(`/users/${currentUserData.id}`,{order:updatedOrders})
 
         if(res.order.length>0){
-            let {data:res}=await axios.patch(`http://localhost:5000/users/${currentUserData.id}`,{cart:[]})
+            let {data:res}=await api.patch(`/users/${currentUserData.id}`,{cart:[]})
             setCart(res.cart)      
             setOrderDetails(res.order)
             navigate('/ordersuccess',{replace:true})

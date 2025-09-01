@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthenticationContext"
 import {  Chart as ChartJS,CategoryScale,  LinearScale,  BarElement,  Title,  Tooltip,  Legend,PointElement, ArcElement} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import '/src/styles/orderspage.css'
+import api from "../../api/api";
 
 // --- IMPORTANT: Register the Chart.js components you will use ---
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -21,7 +22,7 @@ function Dashboard(){
         useEffect(()=>{
 
         async function getAllUsers() {
-            let {data:res}=await axios.get("http://localhost:5000/users")
+            let {data:res}=await api.get("/users")
             setAllUser(res)
             console.log( "getting all users",)
 

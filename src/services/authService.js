@@ -1,4 +1,5 @@
 import axios from 'axios'
+import api from '../api/api'
 
 export async function registerData(registerCredentials) {
     try{ 
@@ -12,14 +13,14 @@ export async function registerData(registerCredentials) {
         order:[]
     }
 
-    const {data:users}=await axios.get("http://localhost:5000/users")
+    const {data:users}=await api.get("/users")
 
      const userExists=users.some((users)=> users.name==regData.name)
     const emailExists=users.some((users)=> users.email==regData.email)
    if(userExists||emailExists){ 
 
    }else{
-    await axios.post("http://localhost:5000/users",regData)
+    await api.post("/users",regData)
       }
      return {userExists,emailExists}
     }catch(e){
@@ -30,12 +31,12 @@ export async function registerData(registerCredentials) {
 export async function loginData(loginCredentials) {
 
     if(loginCredentials.email==="admin@gmail.com" && loginCredentials.password==="admin@123"){
-        const {data:res}=await axios.get("http://localhost:5000/admin")
+        const {data:res}=await api.get("/admin")
         const adminInDb=res.find((admin)=>admin.email===loginCredentials.email && admin.password === loginCredentials.password)
         console.log(adminInDb)
         return {adminInDb}
     }else{
-     const {data:res}=await axios.get("http://localhost:5000/users")
+     const {data:res}=await api.get("/users")
     
     const userInDatabase=res.find((user)=>user.email===loginCredentials.email && user.password === loginCredentials.password)
 

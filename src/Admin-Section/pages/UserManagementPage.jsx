@@ -3,6 +3,7 @@ import { useContext, useState } from "react"
 import { useEffect } from "react"
 import { Shield, ShieldOff, Trash2, UserCircle, Users } from 'lucide-react';
 import { AuthContext } from "../../context/AuthenticationContext";
+import api from "../../api/api";
 
 function UserManagementPage(){ 
     
@@ -13,7 +14,7 @@ function UserManagementPage(){
     useEffect(()=>{
 
         async function getAllUsers() {
-            let {data:res}=await axios.get("http://localhost:5000/users")
+            let {data:res}=await api.get("/users")
             setAllUser(res)
             console.log( "getting all users",)
 
@@ -25,7 +26,7 @@ function UserManagementPage(){
 
     async function handleToggleBlock(userID,userAuth) {
         const updatedAuth=!userAuth
-        await axios.patch(`http://localhost:5000/users/${userID}`,{isAuthenticated:updatedAuth})
+        await api.patch(`/users/${userID}`,{isAuthenticated:updatedAuth})
         setAllUser(prevUser=>prevUser.map(user=>user.id===userID?{...user,isAuthenticated:updatedAuth}:user))
       // Check if the updated user is the currently logged-in user
         if (currentUserData?.id === userID) {
@@ -42,7 +43,7 @@ function UserManagementPage(){
         const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1)
         
         if(window.confirm(`Are you sure you want to delete the user ${capitalizedName}`)){ 
-        await axios.delete(`http://localhost:5000/users/${userID}`)
+        await api.delete(`/users/${userID}`)
         setAllUser(prevUser=>prevUser.filter(user=>user.id!==userID))
         if (currentUserData?.id === userID){ 
             handleForceLogout()

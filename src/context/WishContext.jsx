@@ -1,6 +1,7 @@
 import axios from "axios"
 import { createContext, useContext, useEffect, useState } from "react"
 import { AuthContext } from "./AuthenticationContext"
+import api from "../api/api"
 
 
 
@@ -15,7 +16,7 @@ function WishList({children}){
 
     async function fetchWishlist() {
         try{ 
-        const {data:res}=await axios.get(`http://localhost:5000/users/${currentUserData.id}`)
+        const {data:res}=await api.get(`/users/${currentUserData.id}`)
         setWishListed(res.wishlist)
         }catch(e){
             console.log("There has been an error in your fetching")
@@ -30,7 +31,7 @@ function WishList({children}){
 
     async function wishlistedProduct(product){
         
-        const {data:res}=await axios.get(`http://localhost:5000/users/${currentUserData.id}`)
+        const {data:res}=await api.get(`/users/${currentUserData.id}`)
 
         const duplicateProducts=res.wishlist.find((items)=>items.id===product.id)
         
@@ -43,7 +44,7 @@ function WishList({children}){
         const updatedCart = [...res.wishlist, product];
         setWishListed(updatedCart);
 
-    await axios.patch(`http://localhost:5000/users/${currentUserData.id}`, { wishlist: updatedCart});
+    await api.patch(`/users/${currentUserData.id}`, { wishlist: updatedCart});
 
     }
 
@@ -53,7 +54,7 @@ function WishList({children}){
     const updatedCart = wishListed.filter((item) => item.id !== productId);
     setWishListed(updatedCart);
 
-    await axios.patch(`http://localhost:5000/users/${currentUserData.id}`, {
+    await api.patch(`/users/${currentUserData.id}`, {
       wishlist: updatedCart,
     });
   }

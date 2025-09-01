@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { loginData,registerData } from "../services/authService";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 export const AuthContext=createContext(null)
 
@@ -21,7 +22,7 @@ export const AuthContext=createContext(null)
     useEffect(()=>{
         async function getProducts() {
         try{ 
-            let {data:res}=await axios.get("http://localhost:5000/products")
+            let {data:res}=await api.get("/products")
             setProducts(res)
         }catch(e){
             console.log("Error ocuured")
@@ -38,7 +39,7 @@ export const AuthContext=createContext(null)
         if(userIdData){
             async function fetchUserData(){ 
                 try{
-            const {data:res}= await axios.get(`http://localhost:5000/users/${JSON.parse(userIdData)}`)
+            const {data:res}= await api.get(`/users/${JSON.parse(userIdData)}`)
             setCurrentUserData(res)
         
          }catch(e){

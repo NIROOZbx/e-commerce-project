@@ -12,7 +12,7 @@ function AllOrdersPage() {
 
   useEffect(() => {
     async function getAllUsers() {
-      let { data: res } = await axios.get("http://localhost:5000/users");
+      let { data: res } = await api.get("/users");
       setAllUser(res);
       console.log("getting all users");
     }
@@ -52,7 +52,7 @@ async function handleStatusChange(userId,orderId,value) {
   console.log('running');
   
 
-  let {data:res}=await axios.patch(`http://localhost:5000/users/${userId}`,{order:updatedOrders})
+  let {data:res}=await api.patch(`/users/${userId}`,{order:updatedOrders})
   console.log(res)
 
   setOrderDetails(prevOrder=>prevOrder.map(order=>order.id===orderId?{...order,delivery:value}:order))
