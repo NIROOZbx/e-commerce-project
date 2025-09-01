@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar"
 import { CartContext } from "../../context/CartContext"
 import { AuthContext } from "../../context/AuthenticationContext"
 import { useNavigate } from "react-router-dom"
-import wish from './assets/wish-list.png'
+import wish from '../assets/wish-list.png'
 import '/src/styles/cardcomp.css'
 import Footer from "../../components/Footer"
 

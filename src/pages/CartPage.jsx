@@ -4,7 +4,7 @@ import { Plus, Minus, Trash2, BrushCleaning, Landmark } from "lucide-react";
 import { AuthContext } from "../context/AuthenticationContext";
 import Navbar from "../components/Navbar";
 import '/src/styles/shipping.css'
-import carts from './assets/abandoned-cart.png';
+import carts from '../assets/abandoned-cart.png';
 import Footer from "../components/Footer";
 import { OrderContext } from "../context/OrderContext";
 import { useNavigate } from "react-router-dom";
