@@ -31,50 +31,92 @@ function WishListPage(){
       <p className="text-gray-500 mb-6">Looks like you haven’t added anything yet.</p>
       </div>
         ):( 
-       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-6 px-11"> {/* main grid container */}
-        {wishListed.map((products)=>{ 
-             const isInCart=cart.some((item)=>item.id===products.id)
-            return (
-                <>       
-            <div  className='rounded-xl mt-5 p-5 card' key={products.id}>  {/* the card component div  */}
-                       
-             <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4] relative'> {/* the image div  */}
-            <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${products.image}`} key={products.id}/> 
-                <span  className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer'>{<Trash onClick={(e)=>{
-                    e.stopPropagation()
-                removeFromWishlist(products.id)
-            }}/>}</span>
-            </div> {/* the image div end */}
-           <div>  {/* the details div */}
-            <p className='font-semibold mt-5'>{products.name}</p>
-            <p className='mt-3'><b>{products.currency} {products.price.toFixed(2)}</b></p>
-            </div> {/* the details div  end*/}
-              <div className="flex flex-row items-center gap-2 mt-5 w-full py-3"> 
-    
-            <button style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}} onClick={()=> {
-                if(currentUserData){
-                addToCartInDatabase(products)
-                navigate('/cart')
-                }else{
-                    alert("Must login")
-                    navigate('/login')
-                } }} 
-            className='"btn 
-        bg-black text-white text-center font-semibold 
-        whitespace-nowrap rounded-3xl py-2 px-3
-        w-full /* Full width button */
-        text-[10px] px-1 /* Mobile: tiny text to fit */
-        xs:text-xs xs:px-2 /* A bit larger */
-        sm:text-sm sm:px-3 /* Desktop: normal size */
-        hover:cursor-pointer
-        block card'>{isInCart?"GO TO CART":"ADD TO CART"}</button>
-            
-            </div>
-               </div> {/* the card component div end   */}
+       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-7 px-4 "> {/* main grid container */}
+  {wishListed.map((product) => {
+    const isInCart = cart.some((item) => item.id === product.id);
 
-            </>
-           ) } ) } 
-           </div>)}
+    return (
+      <div
+        key={product.id}
+        className="rounded-lg border border-gray-200 hover:shadow-md transition bg-white card"
+      >
+        {/* Image Section */}
+        <div
+          onClick={() => navigate(`/products/${product.id}`)}
+          className="aspect-[3/4] relative cursor-pointer overflow-hidden bg-gray-50"
+        >
+          <img
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            src={`https://ecommerce-api-3bc3.onrender.com${product.image}`}
+            alt={product.name}
+          />
+
+          {/* Trash Icon */}
+          <span className="absolute top-2 right-2 bg-white/80 p-2 rounded-full shadow-sm hover:cursor-pointer">
+            <Trash
+              onClick={(e) => {
+                e.stopPropagation();
+                removeFromWishlist(product.id);
+              }}
+              size={20}
+            />
+          </span>
+        </div>
+
+        {/* Details Section */}
+        <div className="p-4">
+          {/* Price Section */}
+          <div className="mb-1">
+            <p className="text-red-600 font-semibold text-lg">
+              {product.currency} {product.price.toFixed(2)}
+            </p>
+            {product.originalPrice > product.price && (
+              <p className="text-gray-500 text-sm line-through">
+                {product.currency} {product.originalPrice.toFixed(2)}
+              </p>
+            )}
+          </div>
+
+          {/* Product Name */}
+          <p className="text-base font-medium leading-snug truncate">{product.name}</p>
+
+          {/* Product Category (optional if you store it) */}
+          {product.category && (
+            <p className="text-sm text-gray-600 mt-1">{product.category}</p>
+          )}
+        </div>
+
+        {/* Add to Cart Button */}
+        <div className="px-4 pb-4">
+          <button
+            style={
+              isInCart
+                ? { backgroundColor: "white", color: "black" }
+                : { backgroundColor: "black", color: "white" }
+            }
+            onClick={() => {
+              if (currentUserData) {
+                addToCartInDatabase(product);
+                navigate("/cart");
+              } else {
+                alert("Must login");
+                navigate("/login");
+              }
+            }}
+            className={`w-full rounded-full py-2 px-4 text-sm font-medium transition ${
+              isInCart
+                ? "bg-white border border-black text-black hover:bg-gray-100"
+                : "bg-black text-white hover:bg-gray-900"
+            }`}
+          >
+            {isInCart ? "GO TO CART" : "ADD TO CART"}
+          </button>
+        </div>
+      </div>
+    );
+  })}
+</div>
+        )}
            {/* main grid container div end */}
            
             </>

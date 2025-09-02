@@ -70,7 +70,7 @@ function CheckOutPage(){
             address:currentUserAddress
         }
         
-        const updatedOrders=[...existingOrders,orderData]
+        const updatedOrders=[orderData,...existingOrders]
 
         try{
 

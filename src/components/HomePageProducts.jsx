@@ -23,78 +23,113 @@ function HomePageProducts(){
     return( 
       <>
       
-        <h1 className="text-center font-bold text-3xl">Newest Arrivals</h1>
-       
-        <br />
-        <hr className="w-50 mx-auto"/>
+        <h1 className="font-bold md:text-3xl text-xl uppercase px-4 mt-10 tracking-tighter">Newest Arrivals</h1>
+        
         {/* ------------------------------------------------------------------------------------------ */}
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-6 px-11"> {/* main grid container */}
-        {filteredProducts.map((products)=>{ 
-           const isInCart=cart.some((item)=>item.id===products.id)
-           const isInWishlist=wishListed.some((item)=>item.id===products.id)
-           
-            return (
-                <>       
-            <div  className='rounded-xl mt-5 p-5 card' key={products.id}>  {/* the card component div  */}
-                       
-             <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4] relative'> {/* the image div  */}
-            <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${products.image}`} key={products.id}/> 
-            <span onClick={(e)=>{
-              e.stopPropagation()
-              wishlistedProduct(products) 
-              if (!isInWishlist && currentUserData) {
-        toast.success("Successfully added product to wishlist");
-    } else if (!currentUserData) { // Added this condition for clarity
-        navigate('/login');
-        toast.error('Must login');
-    }
-    if (isInWishlist) {
-        navigate('/wishlist');
-    }
-  }
-              
-            } style={products.quantity>0?{display:"inline-block"}:{display:"none"}} className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer '>{isInWishlist?<Heart size={24} color="#ff0000ff" strokeWidth={1} fill="#ff0000ff" />:<Heart/>}</span>
-            </div> {/* the image div end */}
-           <div>  {/* the details div */}
-            <p className='font-semibold mt-5'>{products.name}</p>
-            <p className='mt-3'><b>{products.currency} {products.price.toFixed(2)}</b></p>
-            </div> {/* the details div  end*/}
-              <div className="flex flex-row items-center gap-2 mt-5 w-full py-3">
-            <button onClick={()=>{ 
-              if(!isInCart && currentUserData){ 
-              toast.success("Successfully added product to cart")
-              }
-              if(currentUserData){ 
-              addToCart(products)
-              addToCartInDatabase(products)
-              }else{
-                 toast.warning("Must login before continuing")
-                 navigate('/login')
-              }
-              if(isInCart){
-                    navigate('/cart')
-                }
-              
-              }} 
-             className="btn 
-        bg-black text-white text-center font-semibold 
-        whitespace-nowrap rounded-3xl py-2 px-3
-        w-full /* Full width button */
-        text-[10px] px-1 /* Mobile: tiny text to fit */
-        xs:text-xs xs:px-2 /* A bit larger */
-        sm:text-sm sm:px-3 /* Desktop: normal size */
-        hover:cursor-pointer
-        block"
-        disabled={products.quantity <= 0}
-              style={isInCart?{backgroundColor:"white",color:"black"}:{backgroundColor:"black",color:"white"}}>{products.quantity>0?isInCart?"GO TO CART":" ADD TO CART":"OUT OF STOCK"}</button>
-            
-            </div>
-               </div> {/* the card component div end   */}
+       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6 px-4"> {/* main grid container */}
+  {filteredProducts.map((products) => {
+    const isInCart = cart.some((item) => item.id === products.id);
+    const isInWishlist = wishListed.some((item) => item.id === products.id);
 
-            </>
-           ) } ) } 
-           </div>{/* main grid container div end */}
+    return (
+      <div
+        key={products.id}
+        className="rounded-lg border sahdow-lg border-gray-200 hover:shadow-md transition bg-white card"
+      >
+        {/* Image Section */}
+        <div
+          onClick={() => navigate(`/products/${products.id}`)}
+          className="aspect-[3/4] relative cursor-pointer overflow-hidden bg-gray-50"
+        >
+          <img
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            src={`https://ecommerce-api-3bc3.onrender.com${products.image}`}
+            alt={products.name}
+          />
+
+          {/* Wishlist Icon */}
+          <span
+            onClick={(e) => {
+              e.stopPropagation();
+              wishlistedProduct(products);
+              if (!isInWishlist && currentUserData) {
+                toast.success("Successfully added product to wishlist");
+              } else if (!currentUserData) {
+                navigate("/login");
+                toast.error("Must login");
+              }
+              if (isInWishlist) {
+                navigate("/wishlist");
+              }
+            }}
+            style={products.quantity > 0 ? { display: "inline-block" } : { display: "none" }}
+            className="absolute top-2 right-2 bg-white/80 p-2 rounded-full shadow-sm hover:cursor-pointer"
+          >
+            {isInWishlist ? (
+              <Heart size={22} color="#ff0000" strokeWidth={1} fill="#ff0000" />
+            ) : (
+              <Heart size={22} />
+            )}
+          </span>
+        </div>
+
+        {/* Details Section */}
+        <div className="p-4">
+          {/* Price */}
+          <div className="mb-1">
+            <p className="text-red-600 font-semibold text-lg">
+              {products.currency} {products.price.toFixed(2)}
+            </p>
+            {products.originalPrice > products.price && (
+              <p className="text-gray-500 text-sm line-through">
+                {products.currency} {products.originalPrice.toFixed(2)}
+              </p>
+            )}
+          </div>
+
+          {/* Product Name */}
+          <p className="text-base font-medium leading-snug truncate">{products.name}</p>
+
+          {/* Product Category */}
+          <p className="text-sm text-gray-600 mt-1">{products.category}</p>
+        </div>
+
+        {/* Add to Cart (Optional – not on Adidas grid, but if you want to keep it) */}
+        <div className="px-4 pb-4">
+          <button
+            onClick={() => {
+              if (!isInCart && currentUserData) {
+                toast.success("Successfully added product to cart");
+              }
+              if (currentUserData) {
+                addToCart(products);
+                addToCartInDatabase(products);
+              } else {
+                toast.warning("Must login before continuing");
+                navigate("/login");
+              }
+              if (isInCart) {
+                navigate("/cart");
+              }
+            }}
+            className={`w-full rounded-full py-2 px-4 md:text-sm font-medium transition text-xs  ${
+              isInCart
+                ? "bg-white border border-black text-black hover:bg-gray-100"
+                : "bg-black text-white hover:bg-gray-900"
+            }`}
+            disabled={products.quantity <= 0}
+          >
+            {products.quantity > 0 ? (isInCart ? "GO TO CART" : "ADD TO CART") : "OUT OF STOCK"}
+          </button>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+           
+           {/* main grid container div end */}
         </>
     
     )

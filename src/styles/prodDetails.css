@@ -1,6 +1,4 @@
-.image-section{
-box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
-}
+
 .span-container span:hover{
     background-color: rgb(233, 233, 233);
    
@@ -10,5 +8,6 @@ box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 
 }
 .product {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+   box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+   
 }

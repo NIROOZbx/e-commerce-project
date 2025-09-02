@@ -26,15 +26,20 @@ const arr = [fcbImage, liverpoolImage, mancityImage, realImage];
          <div className="w-full flex flex-col items-center py-8 md:p-5 md:pt-8 md:h-screen md:mt-14 mt-14">
                 
                 {/* Section Header */}
-                <div>
-                    <p className="font-bold text-xl md:text-2xl uppercase my-3 text-center">Our Most Selling Products</p>
-                    <hr className="w-48 md:w-60 mx-auto" />
-                </div>
+                <div className="text-center ">
+  <h2 className="text-2xl font-bold tracking-tight text-zinc-800 md:text-3xl">
+    Our Most Selling Products
+  </h2>
+
+  <div className="mx-auto mt-3 h-1 w-40 rounded-full bg-zinc-800"></div>
+</div>
 
           
-                <div className="mt-7 w-full px-10 flex justify-center md:flex md:justify-center sm:flex sm:justify-center md:min-h-0 md:mb-20 md:px-9">
+                <div className="mt-7 w-full px-4 flex justify-center md:flex md:justify-center sm:flex sm:justify-center md:min-h-0 md:mb-20 md:px-2">
+                    
 
                     <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl cont">
+                       
                         {/* This inner container is the "film strip" that slides */}
                         <div
                             className="h-full flex slide-container"

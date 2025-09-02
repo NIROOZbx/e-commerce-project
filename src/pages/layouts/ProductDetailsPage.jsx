@@ -34,6 +34,7 @@ function ProductDetailsPage() {
       if (prod.quantity > 0) {
         setCart([prod, ...cart]);
         addToCartInDatabase(prod);
+        navigate('/cart')
       }
     } else {
       toast.warning("Must login");
@@ -46,7 +47,7 @@ function ProductDetailsPage() {
       <Navbar />
       <div className="min-h-screen w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-12 py-10 mt-20 ">
         {/* Left Section - Image */}
-        <div className="flex justify-center items-center product rounded-2xl">
+        <div className="flex justify-center items-center product rounded-2xl product">
           <img
             className="w-full max-w-[500px] h-auto object-contain rounded-2xl"
             src={`https://ecommerce-api-3bc3.onrender.com${prod.image}`}
@@ -95,7 +96,7 @@ function ProductDetailsPage() {
               }
               onClick={addToCart}
                disabled={prod.quantity <= 0}
-              className="product bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2 hover:cursor-pointer"
+              className="btn bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2 hover:cursor-pointer"
             >
               {prod.quantity > 0
                 ? isInCart
@@ -124,7 +125,7 @@ function ProductDetailsPage() {
                   navigate("/login");
                 }
               }}
-              className="bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2 product hover:cursor-pointer"
+              className="btn bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2  hover:cursor-pointer"
             >
               {isInWishlist ? "GO TO WISHLIST" : "ADD TO WISHLIST"}
             </button>

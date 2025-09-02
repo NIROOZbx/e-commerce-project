@@ -4,6 +4,13 @@ body{
     box-sizing: border-box;
 }
 html, body, #root {
+font-family: 'Open Sans Condensed', sans-serif;
+
+
+  letter-spacing: -0.02em; /* Subtle condensation for minimalism */
+
+  color: #000;
+
   height: 100%;
   width: 100%;
   margin: 0;
