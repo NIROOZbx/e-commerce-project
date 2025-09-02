@@ -40,7 +40,8 @@ function WishListPage(){
                        
              <div onClick={()=> navigate(`/products/${products.id}`)} className=' aspect-[3/4] relative'> {/* the image div  */}
             <img className='rounded-xl w-full h-full object-cover' src={`https://ecommerce-api-3bc3.onrender.com${products.image}`} key={products.id}/> 
-                <span  className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer'>{<Trash onClick={()=>{
+                <span  className='wish absolute -top-1 -right-3 bg-white/70 p-1.5 rounded-full hover:cursor-pointer'>{<Trash onClick={(e)=>{
+                    e.stopPropagation()
                 removeFromWishlist(products.id)
             }}/>}</span>
             </div> {/* the image div end */}
