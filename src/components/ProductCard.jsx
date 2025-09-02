@@ -9,6 +9,7 @@ import { WishContext } from '../context/WishContext'
 import Footer from './Footer'
 import { toast } from 'react-toastify'
 import { SearchContext } from '../context/SearchContext'
+import searchError from '../../src/assets/no-results.png'
 function ProductCard(){
     const navigate=useNavigate()
     const {products,currentUserData}=useContext(AuthContext)
@@ -102,7 +103,7 @@ useEffect(() => {
         </div>
         {allData.length==0?( 
         <div className="flex flex-col items-center justify-center py-20">
-       <img src="src/assets/no-results.png" alt="searxh not found" className="w-52 h-52 mb-6 opacity-80" />
+       <img src={searchError} alt="searxh not found" className="w-52 h-52 mb-6 opacity-80" />
       <h2 className="text-2xl font-semibold mb-2">Product not found</h2>
       <p className="text-gray-500 mb-6">Search for other products</p>
       </div>
