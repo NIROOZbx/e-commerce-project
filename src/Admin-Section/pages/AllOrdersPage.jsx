@@ -21,7 +21,7 @@ function AllOrdersPage() {
     getAllUsers();
   }, []);
 
-const orders = allUser.flatMap(user => {
+const orders = allUser?.flatMap(user => {
   return (user.order).flatMap(order => {
     return (order.products).map(product => ({
       ...product,

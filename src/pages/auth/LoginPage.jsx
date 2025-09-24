@@ -2,20 +2,22 @@ import LoginComponent from "../../components/auth/LoginComponent";
 import { NavLink } from "react-router-dom";
 import '/src/styles/loginpage.css'
 import loginPageImage from '../../assets/registerpage.webp';
+import logo from '../../assets/logo.png';
 
 function LoginPage(){
 
 return( 
     <> 
-      <div className="flex h-screen justify-center items-center mx-4"> 
-             <div className="flex justify-center items-stretch gap-10 container2 p-6 rounded-xl w-4xl">
+   
+      <div className="flex min-h-screen items-center justify-center  mx-4"> 
+             <div className="flex w-full max-w-4xl overflow-hidden rounded-2xl container2">
                  
-                   <div className="w-1/2">
+                   <div className="w-full p-6 sm:p-8 lg:w-1/2">
                     <LoginComponent/>
                 </div>
                      
-                      <div className="flex items-center justify-center w-1/2 relative ">
-                        <img className="w-full h-full object-cover rounded-xl absolute" src={loginPageImage} alt="" />
+                      <div className="flex items-center justify-center w-1/2 relative hidden sm:block ">
+                        <img className="w-full h-full object-cover absolute " src={loginPageImage} alt="" />
                       </div>
               </div>
          </div>

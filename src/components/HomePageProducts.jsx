@@ -5,10 +5,12 @@ import { CartContext } from "../context/CartContext"
 import { useNavigate } from "react-router-dom"
 import { WishContext } from "../context/WishContext"
 import { toast } from "react-toastify"
+import slideLoading from '../slideLoading.json'
 import '/src/styles/cardcomp.css'
+import Lottie from "lottie-react"
 
 function HomePageProducts(){
- const {products,currentUserData}=useContext(AuthContext)
+ const {products,currentUserData ,loading}=useContext(AuthContext)
     const newProd=products.filter((product)=>product.season===2026 || product.season===2025)
     const filteredProducts=newProd.slice(0,12)
     const {setCart,cart,addToCartInDatabase}=useContext(CartContext)
@@ -20,6 +22,14 @@ function HomePageProducts(){
     }
 
 
+    if(loading==='loading'){
+       return (
+    <div className="flex justify-center items-center h-screen flex-col items-center">
+      <Lottie animationData={slideLoading} loop={true} />
+      <p className="text-lg">Loading products ....</p>
+    </div>
+  );
+    }
     return( 
       <>
       
@@ -29,13 +39,13 @@ function HomePageProducts(){
         
        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6 px-4"> {/* main grid container */}
   {filteredProducts.map((products) => {
-    const isInCart = cart.some((item) => item.id === products.id);
-    const isInWishlist = wishListed.some((item) => item.id === products.id);
+    const isInCart = cart?.some((item) => item.id === products.id);
+    const isInWishlist = wishListed?.some((item) => item.id === products.id);
 
     return (
       <div
         key={products.id}
-        className="rounded-lg border sahdow-lg border-gray-200 hover:shadow-md transition bg-white card"
+        className="rounded-lg border shadow-lg border-gray-200 hover:shadow-md transition bg-white card"
       >
         {/* Image Section */}
         <div
@@ -43,7 +53,7 @@ function HomePageProducts(){
           className="aspect-[3/4] relative cursor-pointer overflow-hidden bg-gray-50"
         >
           <img
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            className={`w-full h-full object-cover hover:scale-105 transition-transform duration-300 ${products.quantity==0 && 'grayscale'}`}
             src={`https://ecommerce-api-3bc3.onrender.com${products.image}`}
             alt={products.name}
           />

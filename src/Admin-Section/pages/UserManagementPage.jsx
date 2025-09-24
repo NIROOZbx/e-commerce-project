@@ -15,7 +15,8 @@ function UserManagementPage(){
 
         async function getAllUsers() {
             let {data:res}=await api.get("/users")
-            setAllUser(res)
+            
+            setAllUser(res.filter(user=>user.role==="user"))
             console.log( "getting all users",)
 
         }

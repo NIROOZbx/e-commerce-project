@@ -2,8 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/layouts/HomePage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegistrationPage from "./pages/auth/RegistrationPage";
-import { UserAuthentication } from "./context/AuthenticationContext";
-import ProductsPage from "./pages/layouts/ProductsPage";
+
 import ProductDetailsPage from "./pages/layouts/ProductDetailsPage";
 import { CartDetails } from "./context/CartContext";
 import CartPage from "./pages/CartPage";
@@ -20,13 +19,17 @@ import CheckOutPage from "./pages/CheckOutPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderSuccessPage from "./pages/OrderSucessPage";
 import ContactPage from "./pages/ContactPage";
-import SupportPage from "./pages/AboutPage";
 import AboutPage from "./pages/AboutPage";
 import Dashboard from "./Admin-Section/pages/Dashboard";
 import AdminLayout from "./Admin-Section/pages/Layouts/AdminLayout";
 import UserManagementPage from "./Admin-Section/pages/UserManagementPage";
 import AllOrdersPage from "./Admin-Section/pages/AllOrdersPage";
 import ProductManagementPage from "./Admin-Section/pages/ProductMangementPage";
+import ProductsPage from './pages/layouts/ProductsPage'
+import { UserAuthentication } from "./context/AuthenticationContext";
+import ProfilePage from "./pages/ProfilePage";
+import Notification from "./Admin-Section/pages/Notification";
+import NotificatonPage from "./pages/NotificationPage";
 
 
 function App() {
@@ -44,7 +47,15 @@ function App() {
 
       <SearchData> 
 
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-center"
+         autoClose={1000}
+        hideProgressBar={true}
+        newestOnTop={true}
+        closeOnClick
+            rtl={false}
+        
+        draggable
+    />
 
       <Routes>
       
@@ -56,25 +67,29 @@ function App() {
 
       <Route path="/products" element={<ProductsPage />} />
 
+      <Route path='/profile' element={<ProtectedRoute requiredRole="user"><ProfilePage/></ProtectedRoute>}/>
+
       <Route path='/contact' element={<ContactPage/>}/>
 
       <Route path='/about' element={<AboutPage/>}/>
 
       <Route path="/products/:id" element={<ProductDetailsPage />} />
 
-      <Route path="/cart" element={<ProtectedRoute>   <CartPage />  </ProtectedRoute>} />
+      <Route path="/cart" element={<ProtectedRoute requiredRole="user">   <CartPage />  </ProtectedRoute>} />
 
-      <Route path="/wishlist" element={ <ProtectedRoute> <WishListPage /> </ProtectedRoute> }/>
+      <Route path="/notifications" element={<ProtectedRoute requiredRole="user">   <NotificatonPage />  </ProtectedRoute>} />
+
+      <Route path="/wishlist" element={ <ProtectedRoute requiredRole="user"> <WishListPage /> </ProtectedRoute> }/>
 
       <Route path="*" element={<ErrorPage />} />
 
-      <Route path="/checkout" element={<CheckOutPage />} />
+      <Route path="/checkout" element={<ProtectedRoute requiredRole="user"><CheckOutPage /> </ProtectedRoute>} />
 
-      <Route path="/order" element={<OrdersPage/>}/>
+      <Route path="/order" element={<ProtectedRoute requiredRole="user"><OrdersPage/></ProtectedRoute>}/>
 
-      <Route path="/ordersuccess" element={<OrderSuccessPage/>}/>
+      <Route path="/ordersuccess" element={<ProtectedRoute requiredRole="user"><OrderSuccessPage/></ProtectedRoute>}/>
       
-      <Route path="/admin" element={  <ProtectedRoute> <AdminLayout/> </ProtectedRoute>}> 
+      <Route path="/admin" element={<ProtectedRoute requiredRole="admin"> <AdminLayout/></ProtectedRoute>}>
 
       <Route index element={<Dashboard/>}/>
 
@@ -83,6 +98,8 @@ function App() {
       <Route path="ordermanagement" element={<AllOrdersPage/>}/>
 
       <Route path="productmanagement" element={<ProductManagementPage/>}/>
+
+      <Route path="notification" element={<Notification/>}/>
 
       </Route>
 

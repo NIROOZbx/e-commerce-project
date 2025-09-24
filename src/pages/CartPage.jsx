@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { Plus, Minus, Trash2, BrushCleaning, Landmark } from "lucide-react";
 import { AuthContext } from "../context/AuthenticationContext";
@@ -8,6 +8,7 @@ import carts from '../assets/abandoned-cart.png';
 import Footer from "../components/Footer";
 import { OrderContext } from "../context/OrderContext";
 import { useNavigate } from "react-router-dom";
+import CheckOutPage from "./CheckOutPage";
 
 
 function reducer(state,action){
@@ -48,13 +49,50 @@ function CartPage() {
   const [value,dispatch]=useReducer(reducer,initialValue)
   const {getShippingDetails}=useContext(OrderContext)
   const navigate=useNavigate()
+  const [coupon,setCoupon]=useState(false)
+  const [couponData,setCouponData]=useState('')
+  const [applyCoupon,setApplyCoupon]=useState(false)
+  const [discount, setDiscount] = useState(0);
+  const [invalidCoupon,setInvalidCoupon]=useState(false)
+  const ref=useRef(null)
+  console.log(ref);
+  
+
 
  
   
   // Calculate subtotal
+
   const subtotal = cart.reduce((total, product) => total + product.price * (product.quantity || 1), 0);
   const shippingFee = subtotal > 500 ? 0 : 50; // Example: Free shipping over $500
-  const total = subtotal + shippingFee;
+  const total = subtotal + shippingFee -discount;
+
+const earliest = useMemo(() => Math.floor(Math.random() * 5) + 1, []);
+const latest = useMemo(() => Math.floor(Math.random() * 10) + earliest + 1, [earliest]);
+
+const couponMap = {
+  NEW15: 15,
+  NEW25: 25,
+  NEW50: 50,
+};
+
+
+const applyCouponHandler = () => {
+  const value = couponMap[couponData] || 0;
+  if(!value){
+    setInvalidCoupon(true)
+  }else{ 
+    setInvalidCoupon(false)
+  }
+  setDiscount(value);  // ✅ lock discount in state
+  setCoupon(false);
+  ref.current=couponData
+  setApplyCoupon(true);
+  setCouponData('')
+};
+
+console.log(invalidCoupon);
+
 
   return (
     <>
@@ -79,12 +117,13 @@ function CartPage() {
             {cart.map((product) => (
               <div key={product.id} className="flex flex-col sm:flex-row items-center bg-white p-4 rounded-lg gap-6 shadow-[0px_5px_15px_rgba(0,0,0,0.35)]">
                 <div className="w-32 h-32 flex-shrink-0">
-                  <img src={`https://ecommerce-api-3bc3.onrender.com${product.image}`} alt={product.name} className="w-full h-full object-cover rounded-md"/>
+                  <img src={`https://ecommerce-api-3bc3.onrender.com${product.image}`} alt={product.name} className="w-full h-full object-cover rounded-md" onClick={()=>navigate(`/products/${product.id}`)}/>
                 </div>
                 <div className="flex-grow text-center sm:text-left">
                   <h2 className="text-xl font-semibold">{product.name}</h2>
                   <p className="text-gray-500">{product.league}</p>
                   <p className="text-lg font-bold mt-2">{product.currency} {product.price.toFixed(2)}</p>
+                  <p className="text-sm font-bold text-gray-500 mt-2">Delivery within {earliest} - {latest} days</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <button onClick={() => decreaseQuantity(product.id)} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50" disabled={product.quantity <= 1}>
@@ -105,17 +144,51 @@ function CartPage() {
           </div>
         </div>
         <div className="w-full lg:w-1/3"  >
-          <div style={cart.length>0?{display:"block"}:{display:"none"}} className="bg-white p-6 rounded-lg shadow-md sticky top-24" >
+          <div onClick={(e)=> {
+           
+            setCoupon(false)
+          }
+          } style={cart.length>0?{display:"block"}:{display:"none"}} className="bg-white p-6 rounded-lg shadow-md sticky top-24" >
             <h2 className="text-2xl font-bold mb-6 border-b pb-4">Order Summary</h2>
             <div className="space-y-4">
+              
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
                 <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                 
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
                 <span className="font-semibold">{shippingFee === 0 ? 'Free' : `$${shippingFee.toFixed(2)}`}</span>
               </div>
+
+{/* coupon changing section */}
+
+              {coupon?
+              (<div className="flex flex-col gap-3 md:flex-row md:gap-4" onClick={(e) => e.stopPropagation()}> 
+              <input onChange={(e)=>{
+                setCouponData(e.target.value.toUpperCase())
+              }} type="text" placeholder="Enter coupon code" className="rounded-lg px-4 py-2 border-1 " value={couponData}/>
+                <button className="bg-black px-7 py-2 rounded-lg text-white font-bold uppercase" onClick={applyCouponHandler}>Apply</button>
+                
+                </div>
+              ):
+              (<span className="text-green-600" onClick={(e)=>{ 
+                e.stopPropagation()
+                setCoupon(true)
+              }}>Apply coupon</span>)
+              }
+
+              {applyCoupon && !invalidCoupon &&
+              <div className="flex justify-between mt-3">
+                <span className="text-gray-600">Coupon discount :</span>
+                <span className="font-semibold text-green-600 ">- $ {discount.toFixed(2)}</span>
+              </div>
+              }
+
+              {invalidCoupon && <p className="text-red-500 mt-2">Invalid Coupon '{ref.current}' </p>}
+             
+{/* coupon changing section */}
               <div className="flex justify-between text-xl font-bold border-t pt-4 mt-4">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
@@ -144,7 +217,7 @@ function CartPage() {
         onSubmit={async (e) => {
           e.preventDefault();
           await getShippingDetails(value);
-          navigate('/checkout', { state: { shippingDetails: value, total } });
+          navigate('/checkout', { state: { shippingDetails: value,total:total } });
           console.log("Navigation to /checkout initiated.");
         }} 
         className="p-6 sm:p-8"

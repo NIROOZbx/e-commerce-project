@@ -5,6 +5,8 @@ import Footer from "../../components/Footer"
 import { useContext, useEffect } from "react"
 import { AuthContext } from "../../context/AuthenticationContext"
 import WhyChooseUs from "../../components/DetailsComponent"
+import ChooseLeague from "../../components/ChooseLeague"
+import Banner from "../../components/Banner"
 
 
 
@@ -14,6 +16,8 @@ function HomePage(){
         <> 
         <Navbar/>
         <SlideComponent/>
+        <ChooseLeague/>
+        <Banner/>
         <HomePageProducts/>
         <WhyChooseUs/>
         <Footer/>

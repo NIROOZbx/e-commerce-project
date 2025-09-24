@@ -10,24 +10,32 @@ import Footer from './Footer'
 import { toast } from 'react-toastify'
 import { SearchContext } from '../context/SearchContext'
 import searchError from '../../src/assets/no-results.png'
+import Lottie from 'lottie-react'
+import trailLoading from "./../Trail loading.json";
+
 function ProductCard(){
     const navigate=useNavigate()
-    const {products,currentUserData}=useContext(AuthContext)
+    const {products,currentUserData,loading}=useContext(AuthContext)
     const {cart,setCart,addToCartInDatabase}=useContext(CartContext)
     const{wishListed}=useContext(WishContext)
     const [sortData,setSortData]=useState('')
     const [filterData,setFilterData]=useState('')
     const {getSearchData}=useContext(SearchContext)
+    
 
     const {wishlistedProduct}=useContext(WishContext)
 
 
-useEffect(() => {
-  console.log("Products Page saw products change:", products);
-}, [products])
+
  
     function addToCart(product){
-        setCart([product,...cart])
+        setCart((prevCart) => {
+    // prevent duplicates
+    if (prevCart.some((item) => item.id === product.id)) {
+      return prevCart; 
+    }
+    return [product, ...prevCart];
+  });
     }
     function getSort(e){
         setSortData(e.target.value)
@@ -76,7 +84,13 @@ useEffect(() => {
     )   
     } 
  
-
+if (loading === "loading") {
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <Lottie animationData={trailLoading} loop={true} />
+    </div>
+  );
+}
 
     return( 
         <>
@@ -85,8 +99,8 @@ useEffect(() => {
         
         <div className='flex justify-center mt-5 gap-10'> 
        <select onChange={getSort} name="" id="" className='ml-2 border-1 rounded-xl p-1'>
-        <option value="" disabled selected hidden>Sort</option>
-            <option value="low">Low - to - High</option>
+            <option value="" disabled selected hidden >Sort</option>
+            <option value="low" >Low - to - High</option>
             <option value="high">High - to - Low</option>
             <option value="Normal">Normal</option>
         </select>
@@ -126,7 +140,7 @@ useEffect(() => {
           className="aspect-[3/4] relative cursor-pointer overflow-hidden bg-gray-50"
         >
           <img
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          className={`w-full h-full object-cover hover:scale-105 transition-transform duration-300 ${product.quantity==0 && 'grayscale'}`}
             src={`https://ecommerce-api-3bc3.onrender.com${product.image}`}
             alt={product.name}
           />
@@ -169,6 +183,7 @@ useEffect(() => {
                 {product.currency} {product.originalPrice.toFixed(2)}
               </p>
             )}
+            
           </div>
 
           {/* Product Name */}

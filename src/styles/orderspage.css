@@ -4,3 +4,59 @@
 .cont{
      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; 
 }
+.animated-shadow {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: shadowPulse 3s infinite alternate ease-in;
+}
+
+/* Keyframes for animated shadow */
+@keyframes shadowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1),
+                0 0 20px rgba(100, 100, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15),
+                0 0 30px rgba(100, 255, 200, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2),
+                0 0 40px rgba(255, 150, 200, 0.3);
+  }
+}
+
+.box-card{
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: 2px solid transparent;  
+  transition: border-color 0.3s ease-in, box-shadow 0.3s ease-in; 
+ 
+}
+
+.box-card:hover{
+   border-color: rgb(171, 133, 46);
+   cursor: pointer;
+  
+}
+
+.truck:hover {
+  animation: peek-right 2s ease-in-out 1;
+}
+
+
+@keyframes peek-right {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+}
+
+.order-section{
+   box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+.truck:hover {
+  animation: peek-right 2s ease-in-out 1;
+}

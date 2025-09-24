@@ -7,6 +7,11 @@ import { CartContext } from "../../context/CartContext";
 import Footer from "../../components/Footer";
 import { WishContext } from "../../context/WishContext";
 import { toast } from "react-toastify";
+import { Send, Star, User, User2 } from "lucide-react";
+import api from "../../api/api";
+import loader from '../../loading.json'
+import Lottie from "lottie-react";
+import FakeStars from "../../components/FakeStar";
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -15,6 +20,64 @@ function ProductDetailsPage() {
   const { cart, setCart, addToCartInDatabase } = useContext(CartContext);
   const { wishlistedProduct, wishListed } = useContext(WishContext);
   const navigate = useNavigate();
+  const [reviewData, setReviewData] = useState("");
+  const [getReviewData, setGetReviewData] = useState([]);
+  const [reviewError, setReviewError] = useState(false);
+  const [fakeRating]=useState(Math.floor(Math.random()*5)+1)
+
+ const deliveryStatus = currentUserData?.order?.some((order) =>
+  order.delivery === "Delivered" &&
+  order.products.some((item) => String(item.id) === String(id))
+);
+
+  console.log(deliveryStatus);
+  
+
+
+
+useEffect(()=>{
+
+  const fetchReviews=async()=>{
+
+    try{
+
+      let {data:reviews}=await api.get(`/products/${id}`)
+
+      setGetReviewData(reviews.reviews||[])
+    }catch(e){
+      console.log("An error in fetching the reviews");
+      
+    }
+
+  }
+  fetchReviews()
+
+},[id])
+
+  const handleSubmitReview = async () => {
+    if (deliveryStatus) {
+      const newReview = {
+        user: currentUserData?.name,
+        review: reviewData,
+        date: new Date().toISOString(),
+      };
+
+      const updatedReview = [newReview, ...getReviewData];
+
+      setGetReviewData(updatedReview);
+      try {
+        console.log("Adding review to database");
+        let {data:res}=await api.patch(`/products/${parseInt(id)}`, {reviews: updatedReview});
+        console.log("Review added successfully!",res);
+      } catch (e) {
+        console.log("Error in updating db with reviews", e);
+      }
+    } else {
+      setReviewError(true);
+    }
+
+    setReviewData("");
+  };
 
   useEffect(() => {
     const productData = products.find((product) => product.id === id);
@@ -24,7 +87,9 @@ function ProductDetailsPage() {
   }, [id, products]);
 
   if (!prod) {
-    return <h1>Loading</h1>;
+    return <div className="flex justify-center items-center h-screen">
+            <Lottie animationData={loader} loop={true} />
+          </div>
   }
   const isInCart = cart.some((item) => item.id === prod.id);
   const isInWishlist = wishListed.some((item) => item.id === prod.id);
@@ -34,7 +99,7 @@ function ProductDetailsPage() {
       if (prod.quantity > 0) {
         setCart([prod, ...cart]);
         addToCartInDatabase(prod);
-        navigate('/cart')
+        navigate("/cart");
       }
     } else {
       toast.warning("Must login");
@@ -45,11 +110,11 @@ function ProductDetailsPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-12 py-10 mt-20 ">
+      <div className="min-h-screen w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-12 py-10 mt-20 items-start ">
         {/* Left Section - Image */}
-        <div className="flex justify-center items-center product rounded-2xl product">
+        <div className="flex justify-center items-center rounded-2xl ">
           <img
-            className="w-full max-w-[500px] h-auto object-contain rounded-2xl"
+            className="w-full max-w-[500px] h-auto object-contain rounded-2xl transition-transform duration-300 hover:scale-105"
             src={`https://ecommerce-api-3bc3.onrender.com${prod.image}`}
             alt={prod.name}
           />
@@ -62,6 +127,10 @@ function ProductDetailsPage() {
           <p className="text-lg md:text-xl font-bold">
             {prod.currency} {prod.price.toFixed(2)}
           </p>
+          <div className="flex gap-2">
+          <FakeStars rating={fakeRating}/>
+          <p className="font-bold ">{fakeRating}/5</p>
+           </div>
 
           {/* Sizes */}
           <div className="flex flex-wrap gap-3">
@@ -95,7 +164,7 @@ function ProductDetailsPage() {
                   : { backgroundColor: "black", color: "white" }
               }
               onClick={addToCart}
-               disabled={prod.quantity <= 0}
+              disabled={prod.quantity <= 0}
               className="btn bg-black text-white rounded-3xl py-2 px-6 font-bold w-full sm:w-1/2 hover:cursor-pointer"
             >
               {prod.quantity > 0
@@ -130,8 +199,49 @@ function ProductDetailsPage() {
               {isInWishlist ? "GO TO WISHLIST" : "ADD TO WISHLIST"}
             </button>
           </div>
+          <textarea
+            placeholder="Leave a review"
+            value={reviewData}
+            onChange={(e) => setReviewData(e.target.value)}
+            name=""
+            id=""
+            cols="20"
+            rows="5"
+            className="shadow-xl p-5 rounded-xl review"
+          ></textarea>
+          <div className="flex flex-col justify-center items-center gap-4">
+            {reviewError && (
+              <p className="text-red-500  text-center font-bold">
+                Order the product to leave a review
+              </p>
+            )}
+            <button
+              onClick={handleSubmitReview}
+              className="border-1 py-1 px-8 rounded-md bg-black text-white uppercase font-semibold flex gap-3 items-center"
+            >
+              Submit <Send size={16} />
+            </button>
+          </div>
         </div>
       </div>
+      <div className={`flex mx-10 gap-2 ${ getReviewData.length > 0?`block`:`hidden`}`}>
+        <p className=" text-xl font-bold">Customer Reviews</p>
+      </div>
+
+      
+  {getReviewData.map((rev, idx) => (
+    <div key={idx} className="mx-10 mt-4 p-2 box rounded-xl py-3">
+
+    <div className="flex gap-1"> 
+      <User2 size={20}/>
+      <p className="font-bold">{rev.user}</p>
+      </div>
+      <p className="py-2 capitalize">{rev.review}</p>
+      <small className="text-gray-500 py-2">{new Date(rev.date).toLocaleString()}</small>
+    </div>
+  ))}
+
+
       <Footer />
     </>
   );

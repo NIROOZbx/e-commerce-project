@@ -10,7 +10,8 @@ export async function registerData(registerCredentials) {
         isAuthenticated:true,
         cart:[],
         wishlist:[],
-        order:[]
+        order:[],
+        role:"user"
     }
 
     const {data:users}=await api.get("/users")
@@ -29,21 +30,18 @@ export async function registerData(registerCredentials) {
 }
 
 export async function loginData(loginCredentials) {
+  try {
+    const { data: users } = await api.get("/users");
 
-    if(loginCredentials.email==="admin@gmail.com" && loginCredentials.password==="admin@123"){
-        const {data:res}=await api.get("/admin")
-        const adminInDb=res.find((admin)=>admin.email===loginCredentials.email && admin.password === loginCredentials.password)
-        console.log(adminInDb)
-        return {adminInDb}
-    }else{
-     const {data:res}=await api.get("/users")
-    
-    const userInDatabase=res.find((user)=>user.email===loginCredentials.email && user.password === loginCredentials.password)
+    const userInDatabase = users.find(
+      (user) =>
+        user.email === loginCredentials.email &&
+        user.password === loginCredentials.password
+    );
 
-    return {userInDatabase}
-
-    }
-
-    
-    
+    return userInDatabase || null;
+  } catch (e) {
+    console.log("Login error", e);
+    return null;
+  }
 }

@@ -136,7 +136,7 @@ function RegisterComponent() {
       {/* first password input field */}
         
         <div className="relative">  {/* Div for the third input section */}
-        <input className=" w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input"
+        <input className={`w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input  ${error&&`animate-horizontal-bounce`}`}
           style={
             error
               ? { borderColor: "red", outline: "none" }
@@ -188,7 +188,7 @@ function RegisterComponent() {
 
         <p className="text-center font-semibold text-[#f5190a]" style={{display: duplicateCheck ? "block" : "none" }}>Username or email already exists !</p>
 
-        <button className="rounded-xl px-2 py-2 cursor-pointer  font-bold bg-black text-[#F9FEFF] btn">REGISTER</button>
+        <button className="rounded-xl px-2 py-2 cursor-pointer  font-bold bg-black text-[#F9FEFF] btn hover:bg-[#1b1b1c]">REGISTER</button>
 
         <p className="text-center font-medium " style={{fontFamily:"CerebriSans-Bold, -apple-system, system-ui, Roboto, sans-serif"}}> Already Registered ? <NavLink to="/login" style={{textDecoration:"underline",color:"green"}}> Login </NavLink> </p>
         </div>

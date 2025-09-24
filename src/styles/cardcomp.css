@@ -13,3 +13,31 @@
      transition: transform 0.3s ease;
     transform: scale(1.06);
 }
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+}
+.font-change{
+    font-family:Georgia, 'Times New Roman', Times, serif ;
+}
+.over::-webkit-scrollbar{
+    display: none
+}
+.over{
+    -ms-overflow-style: none;  
+    scrollbar-width: none;   
+}
+.tex{
+    -webkit-text-stroke: 2px;
+
+}

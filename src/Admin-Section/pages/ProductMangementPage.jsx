@@ -153,9 +153,9 @@ useEffect(() => {
             {/* Page Header */}
             <div className="flex justify-between items-center mb-8 relative">
                 <h1 className="text-3xl font-bold text-gray-800">Product Management</h1>
-                <div className='relative'>
-            <input onChange={(e)=>setSearchData(e.target.value)} type="text" className="px-3  py-1 w-90 rounded-3xl" value={searchData} placeholder='Enter product to search'/>
-            <span className='absolute right-2.5 top-1 rounded-4xl'>
+                <div className='relative flex items-center'>
+            <input onChange={(e)=>setSearchData(e.target.value)} type="text" className="px-3 main-cont py-1 w-90 rounded-3xl focus:outline-none" value={searchData} placeholder='Enter product to search'/>
+            <span className='absolute right-2.5 top-1 rounded-4xl flex'>
             <Search onClick={()=>{ 
                 setGetSearchData(searchData)
                  setSearchData('')
