@@ -3,10 +3,12 @@ import laliga from '../../src/assets/laliga.png'
 import serieA from '../../src/assets/serieA.png'
 import fifa from '../../src/assets/world-cup.webp'
 import premierLeague from '../../src/assets/Premier-League-logo.png'
-import { useState } from 'react'
+
 
 function ChooseLeague() {
   const leagues = [bundesliga, laliga, serieA, fifa, premierLeague]
+
+
 
   return (
     <>
@@ -15,7 +17,7 @@ function ChooseLeague() {
       <div className="w-full my-10 flex flex-col items-center">
         {/* Horizontal scrollable container */}
         <div className="w-full overflow-x-auto over">
-          <div className="flex flex-row gap-3 p-4 justify-between">
+          <div className="flex flex-row gap-3 p-4 justify-between"  data-aos="fade-up">
             {leagues.map((ele, index) => (
               <div 
                 key={index} 

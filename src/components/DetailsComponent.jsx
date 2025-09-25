@@ -6,7 +6,7 @@ function WhyChooseUs() {
         <section className="py-12 md:py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 {/* Section Header */}
-                <div className="text-center">
+                <div className="text-center" data-aos="fade-up">
                     <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
                         Why Choose Jersey Hub?
                     </h2>
@@ -19,7 +19,7 @@ function WhyChooseUs() {
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 px-4">
                     
                     {/* Feature 1: Authentic Quality */}
-                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards">
+                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards" data-aos="fade-up">
                         <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 text-indigo-600 ">
                             <ShieldCheck size={32} strokeWidth={2} color='#000000'/>
                         </div>
@@ -30,7 +30,7 @@ function WhyChooseUs() {
                     </div>
 
                     {/* Feature 2: Fast Shipping */}
-                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards">
+                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards" data-aos="fade-up">
                         <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 text-indigo-600">
                             <Truck size={32} strokeWidth={2} color='#000000' />
                         </div>
@@ -41,7 +41,7 @@ function WhyChooseUs() {
                     </div>
 
                     {/* Feature 3: Customer Support */}
-                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards">
+                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards" data-aos="fade-up">
                         <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 text-indigo-600">
                             <Headset size={32} strokeWidth={2} color='#000000'/>
                         </div>
@@ -52,7 +52,7 @@ function WhyChooseUs() {
                     </div>
 
                     {/* Feature 4: Unmatched Selection */}
-                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards">
+                    <div className="bg-white p-8 rounded-xl shadow-lg text-center transition-transform hover:scale-105 cards" data-aos="fade-up">
                         <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 text-indigo-600">
                             <Shirt size={32} strokeWidth={2} color='#000000'/>
                         </div>

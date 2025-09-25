@@ -106,11 +106,11 @@ function ProfilePage() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col min-h-screen mt-25">
+      <div className="flex flex-col min-h-screen mt-25"  >
         {popup && <PasswordPopup setPopup={setPopup} />}
-        <main className="flex-grow px-4 sm:px-10">
+        <main className="flex-grow px-4 sm:px-10" >
           {/* Profile Card */}
-          <div
+          <div data-aos="fade-up"
             className="p-6 sm:p-10 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-16 rounded-3xl shadow-lg backdrop-blur-sm animated-shadow bg-white"
             onClick={(e) => {
               e.stopPropagation();
@@ -199,18 +199,18 @@ function ProfilePage() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4">
+            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4" data-aos="fade-up">
               <img
                 src={cart}
                 className="w-10 h-10 hover:animate-vertical-bounce"
               />
-              <div>
+              <div >
                 <p className="font-bold">Plus points</p>
                 <p className="font-bold">{deliveredItems.length*100}</p>
               </div>
             </div>
 
-            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4">
+            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4" data-aos="fade-up">
               <img src={delivery} className="w-10 h-10 truck" />
               <div>
                 <p className="font-bold">Total orders</p>
@@ -218,7 +218,7 @@ function ProfilePage() {
               </div>
             </div>
 
-            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4">
+            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4" data-aos="fade-up">
               <img src={money} className="w-10 h-10 hover:animate-sway" />
               <div>
                 <p className="font-bold">Total spent</p>
@@ -226,7 +226,7 @@ function ProfilePage() {
               </div>
             </div>
 
-            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4">
+            <div className="bg-white box-card rounded-xl p-5 flex items-center gap-4" data-aos="fade-up">
               <img
                 src={box}
                 className="w-10 h-10 hover:animate-rotational-wave"
@@ -240,19 +240,19 @@ function ProfilePage() {
         </main>
 
         <div className="mx-4 md:mx-10 mt-10">
-  <p className="py-3 backdrop-blur-xl animated-border    rounded-2xl px-3 font-bold text-xl flex gap-2 items-center">
+  <p className="py-3 backdrop-blur-xl animated-border    rounded-2xl px-3 font-bold text-xl flex gap-2 items-center" data-aos="fade-up">
     {/* Assuming TruckIcon is a component */}
     <TruckIcon className="truck"/>
     Recent orders
   </p>
   <div className="flex flex-col gap-4">
     {currentUserData.order.map((items) => (
-      <div key={items.id} className="mt-5 px-3 py-5 rounded-xl animated-border">
+      <div key={items.id} className="mt-5 px-3 py-5 rounded-xl animated-border" data-aos="fade-up">
         
         <div className="flex flex-col md:flex-row gap-4 py-2 items-start md:items-center justify-between px-2 md:px-5 flex-wrap">
           <p className="font-semibold">Order #{items.id}</p>
 
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center" >
             {getStatusIcon(items.delivery)}
             <p className={`px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide ${getStatusColor(items.delivery)}`}>
               {items.delivery}
@@ -266,8 +266,8 @@ function ProfilePage() {
         <hr />
 
         {items.products.map((product) => (
-          <div key={product.id}>
-            <div className="flex my-5 px-1 md:px-4 items-center">
+          <div key={product.id} data-aos="fade-up">
+            <div className="flex my-5 px-1 md:px-4 items-center" >
               <img
                 src={`https://ecommerce-api-3bc3.onrender.com${product.image}`}
                 alt={product.name}

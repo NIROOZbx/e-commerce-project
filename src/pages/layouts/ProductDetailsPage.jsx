@@ -112,7 +112,7 @@ useEffect(()=>{
       <Navbar />
       <div className="min-h-screen w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-12 py-10 mt-20 items-start ">
         {/* Left Section - Image */}
-        <div className="flex justify-center items-center rounded-2xl ">
+        <div className="flex justify-center items-center rounded-2xl " data-aos="fade-up">
           <img
             className="w-full max-w-[500px] h-auto object-contain rounded-2xl transition-transform duration-300 hover:scale-105"
             src={`https://ecommerce-api-3bc3.onrender.com${prod.image}`}
@@ -121,21 +121,21 @@ useEffect(()=>{
         </div>
 
         {/* Right Section - Product Details */}
-        <div className="flex flex-col gap-6 mt-5 md:mt-0">
-          <p className="text-2xl md:text-3xl font-bold">{prod.name}</p>
-          <p className="text-base md:text-lg">{prod.description}</p>
-          <p className="text-lg md:text-xl font-bold">
+        <div className="flex flex-col gap-6 mt-5 md:mt-0" data-aos="fade-up">
+          <p className="text-2xl md:text-3xl font-bold"  data-aos="fade-up">{prod.name}</p>
+          <p className="text-base md:text-lg"  data-aos="fade-up">{prod.description}</p>
+          <p className="text-lg md:text-xl font-bold"  data-aos="fade-up">
             {prod.currency} {prod.price.toFixed(2)}
           </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2"  data-aos="fade-up">
           <FakeStars rating={fakeRating}/>
           <p className="font-bold ">{fakeRating}/5</p>
            </div>
 
           {/* Sizes */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3"  data-aos="fade-up">
             {["S", "M", "L", "XL"].map((size) => (
-              <span
+              <span  data-aos="fade-up"
                 key={size}
                 className="border-2 border-solid px-4 py-2 rounded-md cursor-pointer hover:bg-gray-100"
               >
@@ -145,7 +145,7 @@ useEffect(()=>{
           </div>
 
           {/* Stock */}
-          <p
+          <p  data-aos="fade-up"
             className={
               prod.quantity > 0
                 ? "text-green-500 font-bold"
@@ -157,7 +157,7 @@ useEffect(()=>{
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button
+            <button  data-aos="fade-up"
               style={
                 isInCart
                   ? { backgroundColor: "white", color: "black" }
@@ -174,7 +174,7 @@ useEffect(()=>{
                 : "OUT OF STOCK"}
             </button>
 
-            <button
+            <button  data-aos="fade-up"
               style={
                 prod.quantity > 0
                   ? isInWishlist
@@ -199,7 +199,7 @@ useEffect(()=>{
               {isInWishlist ? "GO TO WISHLIST" : "ADD TO WISHLIST"}
             </button>
           </div>
-          <textarea
+          <textarea  data-aos="fade-up"
             placeholder="Leave a review"
             value={reviewData}
             onChange={(e) => setReviewData(e.target.value)}
@@ -211,11 +211,11 @@ useEffect(()=>{
           ></textarea>
           <div className="flex flex-col justify-center items-center gap-4">
             {reviewError && (
-              <p className="text-red-500  text-center font-bold">
+              <p  data-aos="fade-up" className="text-red-500  text-center font-bold">
                 Order the product to leave a review
               </p>
             )}
-            <button
+            <button 
               onClick={handleSubmitReview}
               className="border-1 py-1 px-8 rounded-md bg-black text-white uppercase font-semibold flex gap-3 items-center"
             >

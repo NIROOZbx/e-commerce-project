@@ -23,7 +23,7 @@ const arr = [fcbImage, liverpoolImage, mancityImage, realImage];
     return (
             <>
 
-         <div className="w-full flex flex-col items-center py-8 md:p-5 md:pt-8 md:h-screen md:mt-14 mt-14">
+         <div className="w-full flex flex-col items-center py-8 md:p-5 md:pt-8 md:h-screen md:mt-14 mt-14" data-aos="fade-up">
                 
                 {/* Section Header */}
                 <div className="text-center ">

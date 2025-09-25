@@ -45,7 +45,7 @@ function OrdersPage(){
                     {orderDetails && orderDetails.length > 0 ? (
                         <div className="space-y-8">
                             {orderDetails.map((order) => (
-                                <div key={order.id} className="bg-white rounded-2xl shadow-lg overflow-hidden main-cont">
+                                <div  data-aos="fade-up" key={order.id} className="bg-white rounded-2xl shadow-lg overflow-hidden main-cont">
                                     {/* Order Header */}
                                     <div className="bg-gray-100 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b ">
                                         <div>

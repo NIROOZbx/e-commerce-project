@@ -30,9 +30,16 @@ import { UserAuthentication } from "./context/AuthenticationContext";
 import ProfilePage from "./pages/ProfilePage";
 import Notification from "./Admin-Section/pages/Notification";
 import NotificatonPage from "./pages/NotificationPage";
+import { useEffect } from "react";
+import  AOS  from "aos";
+import "aos/dist/aos.css";
 
 
 function App() {
+
+    useEffect(() => {
+    AOS.init({ duration: 1000 }); // animation lasts 1s
+  }, []);
  
 
   return (

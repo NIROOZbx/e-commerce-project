@@ -10,11 +10,13 @@ function NotificatonPage() {
   const { currentUserData } = useContext(AuthContext);
   const [hoveredId, setHoveredId] = useState(null);
 
-  const currentUserNotifications=notification.filter(notifs=>notifs.userId===currentUserData.id)
+  const currentUserNotifications=notification.filter(notifs=>notifs.userId===currentUserData.id).sort((a, b) => new Date(b.date) - new Date(a.date))
   // This line sorts the notifications by date, making the newest appear first.
-    const sortedNotifications = notification.sort((a, b) => new Date(b.date) - new Date(a.date));
+
     
+
     
+console.log(currentUserNotifications);
 
   useEffect(() => {
     const getNotifications = async () => {
@@ -31,15 +33,15 @@ function NotificatonPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar notification={notification}/>
       <div className="mt-25 px-10">
-        <h1 className="flex items-center gap-3 mb-8 text-3xl font-bold text-gray-800">
-          Your Notifications <BellRingIcon className="w-8 h-8 text-gray-700 hover:animate-sway" />
+        <h1 data-aos="fade-up" className="flex items-center gap-3 mb-8 text-3xl font-bold text-gray-800">
+          Your Notifications <BellRingIcon data-aos="fade-up" className="w-8 h-8 text-gray-700 hover:animate-sway" />
         </h1>
 
         <div>
             {currentUserNotifications.map(notifs=>(
-            <div key={notifs.id} className="px-8 py-5 rounded-3xl flex flex-col gap-2 notif-cont mt-4 group"
+            <div data-aos="fade-up" key={notifs.id} className="px-8 py-5 rounded-3xl flex flex-col gap-2 notif-cont mt-4 group"
              onMouseOver={() => setHoveredId(notifs.id)}
              onMouseOut={() => setHoveredId(null)}> 
 

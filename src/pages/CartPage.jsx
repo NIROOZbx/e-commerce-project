@@ -115,7 +115,7 @@ console.log(invalidCoupon);
         <div className="w-full lg:w-2/3">
           <div className="space-y-6">
             {cart.map((product) => (
-              <div key={product.id} className="flex flex-col sm:flex-row items-center bg-white p-4 rounded-lg gap-6 shadow-[0px_5px_15px_rgba(0,0,0,0.35)]">
+              <div  data-aos="fade-up" key={product.id} className="flex flex-col sm:flex-row items-center bg-white p-4 rounded-lg gap-6 shadow-[0px_5px_15px_rgba(0,0,0,0.35)]">
                 <div className="w-32 h-32 flex-shrink-0">
                   <img src={`https://ecommerce-api-3bc3.onrender.com${product.image}`} alt={product.name} className="w-full h-full object-cover rounded-md" onClick={()=>navigate(`/products/${product.id}`)}/>
                 </div>
@@ -143,13 +143,13 @@ console.log(invalidCoupon);
             ))}
           </div>
         </div>
-        <div className="w-full lg:w-1/3"  >
+        <div className="w-full lg:w-1/3"   data-aos="fade-up">
           <div onClick={(e)=> {
            
             setCoupon(false)
           }
           } style={cart.length>0?{display:"block"}:{display:"none"}} className="bg-white p-6 rounded-lg shadow-md sticky top-24" >
-            <h2 className="text-2xl font-bold mb-6 border-b pb-4">Order Summary</h2>
+            <h2 className="text-2xl font-bold mb-6 border-b pb-4" >Order Summary</h2>
             <div className="space-y-4">
               
               <div className="flex justify-between">

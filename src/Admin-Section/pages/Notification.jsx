@@ -85,7 +85,6 @@ function Notification() {
       </p>
       <div className="p-6 main-cont rounded-2xl">
         <label htmlFor="title" className="block text-lg font-semibold mb-3 ">
-          {" "}
           Notification Title
         </label>
         <input

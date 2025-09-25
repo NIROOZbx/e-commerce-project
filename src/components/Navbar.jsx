@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { SearchContext } from "../context/SearchContext";
 
 function Navbar() {
+  
   const navigate = useNavigate();
   // const [cart,setCartCount]=useState(0)
   // const [wishlist,setWishlisttCount]=useState(0)
@@ -142,6 +143,7 @@ function Navbar() {
 {/* notification */}
 <div className="relative hidden sm:hidden md:block" onClick={()=>navigate('/notifications')}>
   <Bell size={20} color="white" className="hover:cursor-pointer"/>
+  <span className="absolute -top-1 -right-1 bg-red-500 text-xs w-3 h-3 flex items-center justify-center rounded-full font-bold text-white"></span>
 </div>
 
 

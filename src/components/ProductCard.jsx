@@ -130,7 +130,7 @@ if (loading === "loading") {
     const isInWishlist = wishListed.some((item) => item.id === product.id);
 
     return (
-      <div
+      <div data-aos="fade-up"
         key={product.id}
         className="rounded-lg shadow-lg border border-gray-200 hover:shadow-lg transition bg-white card mt-3"
       >

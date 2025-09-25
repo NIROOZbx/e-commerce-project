@@ -32,7 +32,7 @@ function Banner(){
     
     
     return (
-      <div
+      <div data-aos="fade-up"
             className={`
                 relative w-full my-8 sm:my-12 flex flex-col justify-center items-center
                 text-center h-[90vh] bg-cover bg-center
@@ -48,8 +48,8 @@ function Banner(){
         </div>
 
         {/* LOGO SCROLLER (can remain absolute as it's decorative) */}
-        <div className="absolute top-4 left-0 w-full overflow-hidden z-10">
-            <div className="flex gap-6 sm:gap-10 md:gap-12 animate-scroll px-3 sm:px-5 md:px-16">
+        <div className="absolute top-4 left-0 w-full overflow-hidden z-10" >
+            <div className="flex gap-6 sm:gap-10 md:gap-12 animate-scroll px-3 sm:px-5 md:px-16" >
                 {duplicatedClubs.map((image, index) => (
                     <div key={index} className='flex-shrink-0 my-7'>
                         <img src={image} alt="Club logo" className='w-8 h-8 sm:w-10 sm:h-10 md:w-20 md:h-20 object-contain'/>
@@ -60,20 +60,20 @@ function Banner(){
 
         {/* Main Content Container (positioned by Flexbox) */}
         <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 mt-5">
-            <p className="tex text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight py-10 sm:py-10 leading-tight">
+            <p data-aos="fade-up" className="tex text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight py-10 sm:py-10 leading-tight">
                 AUTHENTIC JERSEYS AT AFFORDABLE RATES
             </p>
-            <p className='mt-4 md:mt-5 text-xs sm:text-sm md:text-base italic max-w-xs sm:max-w-md lg:max-w-lg px-4 '>
+            <p data-aos="fade-up" className='mt-4 md:mt-5 text-xs sm:text-sm md:text-base italic max-w-xs sm:max-w-md lg:max-w-lg px-4 '>
                 "Shop authentic jerseys from your favorite clubs and countries. Don't wait—get yours today!"
             </p>
-            <button 
+            <button data-aos="fade-up"
             
                 className="mt-6 px-4 py-2 sm:px-6 sm:py-2 md:px-8 md:py-3 my-6 sm:my-10 rounded-md bg-black text-white text-sm sm:text-base font-semibold hover:bg-gray-800 transition-colors flex gap-2 items-center" 
                 onClick={() => navigate('/products')}
                 
             >
                 SHOP NOW
-                <CircleArrowRightIcon size={20}/>
+                <CircleArrowRightIcon size={20} data-aos="fade-up"/>
             </button>
         </div>
     </div>

@@ -11,7 +11,7 @@ import Lottie from "lottie-react"
 
 function HomePageProducts(){
  const {products,currentUserData ,loading}=useContext(AuthContext)
-    const newProd=products.filter((product)=>product.season===2026 || product.season===2025)
+    const newProd=products?.filter((product)=>product.season===2026 || product.season===2025)
     const filteredProducts=newProd.slice(0,12)
     const {setCart,cart,addToCartInDatabase}=useContext(CartContext)
     const {wishlistedProduct,wishListed}=useContext(WishContext)
@@ -43,7 +43,7 @@ function HomePageProducts(){
     const isInWishlist = wishListed?.some((item) => item.id === products.id);
 
     return (
-      <div
+      <div  data-aos="fade-up"
         key={products.id}
         className="rounded-lg border shadow-lg border-gray-200 hover:shadow-md transition bg-white card"
       >
