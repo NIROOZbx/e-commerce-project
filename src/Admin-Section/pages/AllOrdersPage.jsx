@@ -22,7 +22,7 @@ function AllOrdersPage() {
   }, []);
 
 const orders = allUser?.flatMap(user => {
-  return (user.order).flatMap(order => {
+  return (user.order)?.flatMap(order => {
     return (order.products).map(product => ({
       ...product,
       username: user.name,
@@ -37,10 +37,10 @@ const orders = allUser?.flatMap(user => {
 });
 
 const totalOrders=orders.length
-const processing=orders.filter((item)=>item.delivery==="Processing").length
-const shipped=orders.filter((item)=>item.delivery==="Shipped").length
-const cancelled=orders.filter((item)=>item.delivery==="Cancelled").length
-const delivered=orders.filter((item)=>item.delivery==="Delivered").length
+const processing=orders.filter((item)=>item?.delivery==="Processing").length
+const shipped=orders.filter((item)=>item?.delivery==="Shipped").length
+const cancelled=orders.filter((item)=>item?.delivery==="Cancelled").length
+const delivered=orders.filter((item)=>item?.delivery==="Delivered").length
 
 async function handleStatusChange(userId,orderId,value) {
   
@@ -149,21 +149,21 @@ console.log(orders);
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {orders.map((orderItem, index) => (
-                            <tr key={`${orderItem.orderId}-${orderItem.id}-${index}`} className="hover:bg-gray-50">
+                            <tr key={`${orderItem?.orderId}-${orderItem?.id}-${index}`} className="hover:bg-gray-50">
                                 <td className="p-5 flex items-center">
-                                    <img src={`https://ecommerce-api-3bc3.onrender.com${orderItem.image}`} alt={orderItem.name} className="w-12 h-12 object-cover rounded-md mr-4" />
+                                    <img src={`https://ecommerce-api-3bc3.onrender.com${orderItem?.image}`} alt={orderItem?.name} className="w-12 h-12 object-cover rounded-md mr-4" />
                                     <div>
-                                        <p className="font-semibold text-gray-900">{orderItem.name}</p>
-                                        <p className="text-xs text-gray-500">Product ID: {orderItem.id}</p>
+                                        <p className="font-semibold text-gray-900">{orderItem?.name}</p>
+                                        <p className="text-xs text-gray-500">Product ID: {orderItem?.id}</p>
                                     </div>
                                 </td>
-                                <td className="p-5 text-sm text-gray-700 capitalize" >{orderItem.username}</td>
-                                <td className="p-5 text-sm text-gray-700 capitalize" >{orderItem.date}</td>
-                                <td className="p-5 text-sm font-semibold text-gray-800">${orderItem.price.toFixed(2)}</td>
+                                <td className="p-5 text-sm text-gray-700 capitalize" >{orderItem?.username}</td>
+                                <td className="p-5 text-sm text-gray-700 capitalize" >{orderItem?.date}</td>
+                                <td className="p-5 text-sm font-semibold text-gray-800">${orderItem?.price.toFixed(2)}</td>
                                 <td className="p-5">
                                     <select
-                                        value={orderItem.delivery}
-                                        onChange={(e) => handleStatusChange(orderItem.userid, orderItem.orderid, e.target.value)}
+                                        value={orderItem?.delivery}
+                                        onChange={(e) => handleStatusChange(orderItem?.userid, orderItem?.orderid, e.target.value)}
                                         className={`p-2 rounded-lg text-xs font-semibold shadow-lg cursor-pointer`}
                                     >
                                         <option value="Processing">Processing</option>
