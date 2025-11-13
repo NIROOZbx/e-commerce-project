@@ -1,8 +1,8 @@
 import LoginComponent from "../../components/auth/LoginComponent"; 
-import { NavLink } from "react-router-dom";
+
 import '/src/styles/loginpage.css'
 import loginPageImage from '../../assets/registerpage.webp';
-import logo from '../../assets/logo.png';
+
 
 function LoginPage(){
 

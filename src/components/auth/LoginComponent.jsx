@@ -55,11 +55,8 @@ function LoginComponent(){
       return;
     }
 
-    // ✅ store in context + localStorage
     setCurrentUserData(userInDatabase);
     localStorage.setItem("userId", JSON.stringify(userInDatabase.id));
-
-    // ✅ navigate based on role
     if (userInDatabase.role === "admin") {
       return navigate("/admin", { replace: true });
     }
