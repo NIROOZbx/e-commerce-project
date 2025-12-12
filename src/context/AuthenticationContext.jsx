@@ -1,101 +1,80 @@
 import { createContext, useEffect, useState } from "react";
-import { loginData, registerData } from "../services/authService";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import api from "../api/api";
+import { api, jsonApi } from "../api/api";
+
 
 export const AuthContext = createContext(null);
 
 export function UserAuthentication({ children }) {
-  const [currentUserData, setCurrentUserData] = useState(null);
 
-  const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState("idle");
 
-  useEffect(() => {
-    async function getProducts() {
-        setLoading('loading')
-      try {
-        let { data: res } = await api.get("/products");
-        setProducts(res);
-        setLoading('success')
-      } catch (e) {
-        setLoading('error')
-        console.log("Error ocuured");
-      }
-    }
-    getProducts();
-  }, []);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const userIdData = localStorage.getItem("userId");
 
-    if (userIdData) {
-      async function fetchUserData() {
+    const [token, setToken] = useState(sessionStorage.getItem("accessToken") || "");
+    const [role, setRole] = useState(sessionStorage.getItem("role") || "");
+    const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user") || "null"));
+
+
+    async function handleLogin(userEmail, userPassword) {
+
         try {
-          const { data: res } = await api.get(
-            `/users/${JSON.parse(userIdData)}`
-          );
-          setCurrentUserData(res);
-        } catch (e) {
-          console.log("Fetching error");
-          handleForceLogout();
-        }
-      }
-      fetchUserData();
-    }
-  }, []);
+            const { data } = await api.post("/auth/login", { email: userEmail, password: userPassword });
 
-  useEffect(()=>{
-    const adminData = localStorage.getItem("adminId");
-       if (adminData) {
-      async function fetchAdmin() {
-        try {
-          const { data: res } = await api.get(
-            `/admin/${JSON.parse(adminData)}`
-          );
-          setCurrentUserData(res);
-        } catch (e) {
-          console.log("Fetching error");
-          
+
+
+            const { accessToken, role, email, name } = data;
+
+            setToken(accessToken);
+            setRole(role);
+            setUser({ name, email })
+
+            sessionStorage.setItem("accessToken", accessToken);
+            sessionStorage.setItem("role", role);
+            sessionStorage.setItem("user", JSON.stringify({ name, email }));
+
+            return { role, name, email };
+        } catch (err) {
+            throw err;
         }
-      }
-      fetchAdmin();
+
+
     }
 
-  },[])
+    async function handleLogout() {
 
-  function handleForceLogout() {
-    localStorage.removeItem("userId");
-    setCurrentUserData(null);
-    setCart([]);
-    setWishListed([]);
-    navigate("/login");
-  }
+        try{
 
-  function handleRegister(userRegistrationData) {
-    return registerData(userRegistrationData);
-  }
+        await api.post("/auth/logout")
+        sessionStorage.removeItem("accessToken")
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("role");
+        sessionStorage.removeItem("user");
+        setToken("");
+        setRole("");
+        setUser(null);
 
-  function handleLogin(userLoginData) {
-    return loginData(userLoginData);
-  }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        handleRegister,
-        handleLogin,
-        setCurrentUserData,
-        currentUserData,
-        products,
-        setProducts,
-        handleForceLogout,
-        loading
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+        navigate("/login");
+
+        }catch(err){ 
+
+        }
+        
+    }
+
+    return (
+        <AuthContext.Provider
+            value={{
+                token,
+                role,
+                user,
+                handleLogin,
+                handleLogout,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 }

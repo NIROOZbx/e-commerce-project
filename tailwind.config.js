@@ -9,6 +9,6 @@ export default {
   },
   // Add the plugin here
   plugins: [
-    require('@midudev/tailwind-animations')
+   
   ],
 }

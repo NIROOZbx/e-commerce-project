@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthenticationContext"
 import { useNavigate } from "react-router-dom"
 import wishlistIcon from '../../assets/wish-list.png';
 import '/src/styles/cardcomp.css'
+import useCartActions from "@/custom hook/useCart"
 
 
 
@@ -15,8 +16,9 @@ function WishListPage(){
 
     const{wishListed,removeFromWishlist}=useContext(WishContext)
     const {cart,setCart,addToCartInDatabase}=useContext(CartContext)
-    const{currentUserData}=useContext(AuthContext)
+    const{user}=useContext(AuthContext)
     const navigate=useNavigate()
+     const {isInCart,handleCartClick}=useCartActions()
     
 
     return( 
@@ -24,7 +26,7 @@ function WishListPage(){
         <Navbar/>
         <h1 className="font-bold text-2xl text-center mt-23">YOUR WISH LIST</h1>
         <hr className="w-30 mx-auto mt-3"/>
-        {wishListed.length==0? ( 
+        {wishListed?.length==0? ( 
         <div className="flex flex-col items-center justify-center py-20">
       <img  src={wishlistIcon} alt="Empty wishlist" className="w-52 h-52 mb-6 opacity-80"/>
       <h2 className="text-2xl font-semibold mb-2">Your wish list is empty</h2>
@@ -32,8 +34,8 @@ function WishListPage(){
       </div>
         ):( 
        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-7 px-4 "> {/* main grid container */}
-  {wishListed.map((product) => {
-    const isInCart = cart.some((item) => item.id === product.id);
+  {wishListed?.map((product) => {
+   
 
     return (
       <div
@@ -42,12 +44,12 @@ function WishListPage(){
       >
         {/* Image Section */}
         <div
-          onClick={() => navigate(`/products/${product.id}`)}
+         onClick={()=>navigate(`/products/${product.id}`)}
           className="aspect-[3/4] relative cursor-pointer overflow-hidden bg-gray-50"
         >
           <img
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            src={`https://ecommerce-api-3bc3.onrender.com${product.image}`}
+            src={product.image_url}
             alt={product.name}
           />
 
@@ -90,26 +92,18 @@ function WishListPage(){
         <div className="px-4 pb-4">
           <button
             style={
-              isInCart
+              isInCart(product.id)
                 ? { backgroundColor: "white", color: "black" }
                 : { backgroundColor: "black", color: "white" }
             }
-            onClick={() => {
-              if (currentUserData) {
-                addToCartInDatabase(product);
-                navigate("/cart");
-              } else {
-                alert("Must login");
-                navigate("/login");
-              }
-            }}
+            onClick={() => {handleCartClick(product) }}
             className={`w-full rounded-full py-2 px-4 text-sm font-medium transition ${
-              isInCart
+              isInCart(product.id)
                 ? "bg-white border border-black text-black hover:bg-gray-100"
                 : "bg-black text-white hover:bg-gray-900"
             }`}
           >
-            {isInCart ? "GO TO CART" : "ADD TO CART"}
+            {isInCart(product.id) ? "GO TO CART" : "ADD TO CART"}
           </button>
         </div>
       </div>

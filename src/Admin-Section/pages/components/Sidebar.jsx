@@ -73,7 +73,10 @@ function Sidebar({ isExpanded, setIsExpanded }) {
             // Check if the user clicked "OK"
             if (window.confirm("Do you want to logout?")) {
               console.log("User confirmed. Logging out...");
-              localStorage.removeItem("userId");
+             sessionStorage.removeItem("accessToken")
+             sessionStorage.removeItem("role")
+             sessionStorage.removeItem("user")
+             navigate("/login")
               
             }
           }}

@@ -1,23 +1,23 @@
-import axios from "axios"
+
 import { useContext, useState } from "react"
 import { useEffect } from "react"
 import { Shield, ShieldOff, Trash2, UserCircle, Users } from 'lucide-react';
 import { AuthContext } from "../../context/AuthenticationContext";
-import api from "../../api/api";
+import { api } from "../../api/api";
+import { toast } from "sonner";
 
 function UserManagementPage(){ 
     
         const[allUser,setAllUser]=useState([])
-        const{setCurrentUserData,currentUserData,handleForceLogout}=useContext(AuthContext)
+        const{user}=useContext(AuthContext)
        
 
     useEffect(()=>{
 
         async function getAllUsers() {
-            let {data:res}=await api.get("/users")
+            let {data}=await api.get("/admin/users")
             
-            setAllUser(res.filter(user=>user.role==="user"))
-            console.log( "getting all users",)
+            setAllUser(data.data)
 
         }
 
@@ -26,13 +26,22 @@ function UserManagementPage(){
     },[])
 
     async function handleToggleBlock(userID,userAuth) {
+
+       const confirmation = window.confirm(
+        userAuth
+            ? "Do you want to unblock this user?"
+            : "Do you want to block this user?"
+    );
+
+    if (!confirmation) return; // stop if user clicked cancel
         const updatedAuth=!userAuth
-        await api.patch(`/users/${userID}`,{isAuthenticated:updatedAuth})
-        setAllUser(prevUser=>prevUser.map(user=>user.id===userID?{...user,isAuthenticated:updatedAuth}:user))
-      // Check if the updated user is the currently logged-in user
-        if (currentUserData?.id === userID) {
-            // If so, update the currentUserData state as well
-            setCurrentUserData(prevData => ({
+         console.log(updatedAuth);
+        await api.patch(`/admin/users/${userID}`,{"is_blocked":updatedAuth})
+        setAllUser(prevUser=>prevUser.map(user=>user.id===userID?{...user,is_blocked:updatedAuth}:user))
+        toast.success(userAuth?"Unblocked user successfully":"Blocked user successfully")
+     
+        if (user?.id === userID) {
+            setAllUser(prevData => ({
                 ...prevData,
                 isAuthenticated: updatedAuth
             }));
@@ -40,22 +49,11 @@ function UserManagementPage(){
         
     }
 
-    async function handleDeleteUser(userID,name) {
-        const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1)
-        
-        if(window.confirm(`Are you sure you want to delete the user ${capitalizedName}`)){ 
-        await api.delete(`/users/${userID}`)
-        setAllUser(prevUser=>prevUser.filter(user=>user.id!==userID))
-        if (currentUserData?.id === userID){ 
-            handleForceLogout()
-        }
-        }
-        
-    }
+
 
      // counts
     const totalUsers = allUser.length
-    const blockedUsers = allUser.filter(user => !user.isAuthenticated).length
+    const blockedUsers = allUser.filter(user => user.is_blocked).length
 
     return (
         <div className="px-10 bg-gray-50 min-h-screen">
@@ -90,43 +88,52 @@ function UserManagementPage(){
                             <th className="p-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">User</th>
                             <th className="p-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                             <th className="p-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                            <th className="p-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Verified</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {allUser.map((user) => (
                             <tr key={user.id} className="hover:bg-gray-50">
                                 <td className="p-4 flex items-center">
-                                    <UserCircle size={35} className="text-gray-400 mr-4" />
-                                    <div>
+                                    <img
+                                    src={user.profile_image || "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="}
+                                    className="w-10 h-10 rounded-full object-cover"
+                                />
+                                    <div className="px-2">
                                         <p className="font-semibold text-gray-900">{user.name}</p>
                                         <p className="text-sm text-gray-500">{user.email}</p>
                                     </div>
                                 </td>
                                 <td className="p-4">
-                                    <span className={`px-3 py-1 text-xs font-semibold rounded-full ${user.isAuthenticated ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                                        {user.isAuthenticated ? "Active" : "Blocked"}
+                                    <span className={`px-3 py-1 text-xs font-semibold rounded-full ${user.is_blocked ?'bg-red-100 text-red-800':'bg-green-100 text-green-800' }`}>
+                                        {user.is_blocked ?"Blocked":"Active"}
                                     </span>
                                 </td>
                                 <td className="p-4">
                                     <div className="flex gap-4">
                                         <button
-                                            onClick={() => handleToggleBlock(user.id,user.isAuthenticated)}
-                                            className={`p-2 rounded-full transition-colors ${user.isAuthenticated ? 'text-yellow-600 hover:bg-yellow-100' : 'text-green-600 hover:bg-green-100'}`}
-                                            title={user.isAuthenticated ? "Block User" : "Unblock User"}
+                                            onClick={() => handleToggleBlock(user.id,user.is_blocked)}
+                                            className={`p-2 rounded-full transition-colors ${user.is_blocked ? 'text-red-600 hover:bg-red-100' : 'text-green-600 hover:bg-green-100'}`}
+                                            title={user.is_blocked ?"Unblock User": "Block User" }
                                         >
-                                            {user.isAuthenticated ? <ShieldOff size={20} /> : <Shield size={20} />}
+                                            {user.is_blocked ? <ShieldOff size={20} /> : <Shield size={20} />}
                                         </button>
-                                        <button
-                                            onClick={() => handleDeleteUser(user.id,user.name)}
-                                            className="p-2 rounded-full text-red-500 hover:bg-red-100 transition-colors"
-                                            title="Delete User"
-                                        >
-                                            <Trash2 size={20} />
-                                        </button>
+                                        
                                         
                                     </div>
                                     
                                 </td>
+                                 <td className="p-4">
+                                <span
+                                    className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                                        user.is_verified
+                                            ? "bg-blue-100 text-blue-800"
+                                            : "bg-gray-200 text-gray-600"
+                                    }`}
+                                >
+                                    {user.is_verified ? "Verified" : "Not Verified"}
+                                </span>
+                            </td>
                             </tr>
                             
                         ))}

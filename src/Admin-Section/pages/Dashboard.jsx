@@ -1,6 +1,6 @@
 import axios from "axios";
-import { DollarSign, Shirt, TrendingUp, Users } from "lucide-react";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { DollarSign, Shirt, TrendingUp, Truck, Users } from "lucide-react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthenticationContext";
 import {
   Chart as ChartJS,
@@ -16,7 +16,7 @@ import {
 } from "chart.js";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 import "/src/styles/orderspage.css";
-import api from "../../api/api";
+import { api } from "../../api/api";
 
 // Register Chart.js components
 ChartJS.register(
@@ -32,43 +32,74 @@ ChartJS.register(
 );
 
 function Dashboard() {
-   const [allUser, setAllUser] = useState([]);
-  const { products } = useContext(AuthContext);
+
+  const [orderStats,setOrderStats]=useState({})
+  const [orderDetails,setOrderDetails]=useState([])
 
   useEffect(() => {
-    async function getAllUsers() {
-      try {
-        const { data: res } = await api.get("/users");
-        setAllUser(res);
-      } catch (error) {
-        console.error("Failed to fetch users:", error);
-      }
-    }
-    getAllUsers();
-  }, []);
+        async function fetchStats() {
+            try {
+                const { data } = await api.get("/admin/dashboard-stats");
+                setOrderStats(data.stats)
+               
+            } catch (err) {
+                console.error("Stats error", err);
+            }
+        }
+        fetchStats();
+    }, []); 
+  useEffect(() => {
+        async function fetchOrder() {
+            try {
+                const { data } = await api.get("/admin/orders");
+                setOrderDetails(data.data)
+               
+            } catch (err) {
+                console.error("Stats error", err);
+            }
+        }
+        fetchOrder();
+    }, []); 
+  
 
-  const allOrders = useMemo(() => allUser.flatMap((user) => user.order), [allUser]);
-  const deliveredOrders = useMemo(() => allOrders.filter((items) => items?.delivery === "Delivered"), [allOrders]);
-  const totalRevenue = useMemo(() => deliveredOrders.reduce((sum, item) => sum + item.price, 0), [deliveredOrders]);
-  const estimatedProfit = totalRevenue * 0.4;
+const deliveredOrders = useMemo(() => {
+  return orderDetails
+    .filter(item => item.item_status === "delivered")
+    .map(item => ({
+      date: item.order_date,
+      price: item.product_price,
+      category: item.category
+    }));
+}, [orderDetails]);
 
-  // Data for charts
-  const categoryCounts = useMemo(() => {
-      const deliveredFilter = deliveredOrders.flatMap((item) =>
-        item.products.map((product) => product.league)
-      );
-      return deliveredFilter.reduce((acc, league) => {
-          acc[league] = (acc[league] || 0) + 1;
-          return acc;
-      }, {});
-  }, [deliveredOrders]);
+useEffect(() => {
+  if (deliveredOrders.length) {
+    console.log("deliveredOrders sample:", deliveredOrders[0]);
+  }
+}, [deliveredOrders]);
+
+
+const categoryCounts = useMemo(() => {
+  const counts = {};
+
+  deliveredOrders.forEach(order => {
+    const cat = order.category || "Unknown";
+    counts[cat] = (counts[cat] || 0) + 1;
+  });
+
+  return counts;
+}, [deliveredOrders]);
+
+
+console.log(deliveredOrders);
+
+
 
 
   // Time-based sales data for the Line Chart
   const timeSalesData = useMemo(() => {
     const salesByDate = deliveredOrders.reduce((acc, order) => {
       if (!order.date) return acc;
-      // Convert date string to a reliable format (YYYY-MM-DD) for sorting and grouping
       const dateObj = new Date(order.date.replace(/,/g, ''));
       const dateKey = dateObj.toISOString().split('T')[0];
       
@@ -105,6 +136,7 @@ function Dashboard() {
       ],
     };
   }, [deliveredOrders]);
+
 
   // Options for the Line Chart
     const timeSalesOptions = useMemo(() => ({
@@ -206,6 +238,8 @@ function Dashboard() {
     }),
     [categoryCounts]
   );
+
+  
   
   // Options for the Bar Chart
   const barChartOptions = useMemo(
@@ -256,14 +290,17 @@ function Dashboard() {
     []
   );
 
+  console.log(orderStats);
+  
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen font-sans">
       <p className="text-3xl font-bold text-gray-800 mb-8">Welcome back, Admin!</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
         <div className="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between transition-transform hover:scale-105">
           <div>
             <p className="text-sm font-medium text-gray-500">Total Revenue</p>
-            <p className="text-3xl font-bold text-gray-800 mt-1">{`$${totalRevenue.toFixed(2)}`}</p>
+            <p className="text-3xl font-bold text-gray-800 mt-1">$ {`${orderStats.TotalRevenue ? orderStats.TotalRevenue .toFixed(2) : "0.00"}`}</p>
           </div>
           <div className="p-4 rounded-full text-white bg-gradient-to-br from-green-500 to-green-600 shadow-lg">
             <DollarSign />
@@ -272,7 +309,7 @@ function Dashboard() {
         <div className="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between transition-transform hover:scale-105">
           <div>
             <p className="text-sm font-medium text-gray-500">Estimated Profit</p>
-            <p className="text-3xl font-bold text-gray-800 mt-1">{`$${estimatedProfit.toFixed(2)}`}</p>
+            <p className="text-3xl font-bold text-gray-800 mt-1">${`${orderStats?.EstimatedProfit ? orderStats.EstimatedProfit .toFixed(2) : "0.00"}`}</p>
           </div>
           <div className="p-4 rounded-full text-white bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
             <TrendingUp />
@@ -280,8 +317,17 @@ function Dashboard() {
         </div>
         <div className="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between transition-transform hover:scale-105">
           <div>
+            <p className="text-sm font-medium text-gray-500">Total orders</p>
+            <p className="text-3xl font-bold text-gray-800 mt-1">{orderStats?.TotalItems}</p>
+          </div>
+          <div className="p-4 rounded-full text-white bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
+            <Truck />
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between transition-transform hover:scale-105">
+          <div>
             <p className="text-sm font-medium text-gray-500">Total Users</p>
-            <p className="text-3xl font-bold text-gray-800 mt-1">{allUser.length}</p>
+            <p className="text-3xl font-bold text-gray-800 mt-1">{orderStats?.TotalUsers}</p>
           </div>
           <div className="p-4 rounded-full text-white bg-gradient-to-br from-purple-500 to-purple-600 shadow-lg">
             <Users />
@@ -290,7 +336,7 @@ function Dashboard() {
         <div className="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between transition-transform hover:scale-105">
           <div>
             <p className="text-sm font-medium text-gray-500">Total Products</p>
-            <p className="text-3xl font-bold text-gray-800 mt-1">{products.length}</p>
+            <p className="text-3xl font-bold text-gray-800 mt-1">{orderStats?.TotalProducts}</p>
           </div>
           <div className="p-4 rounded-full text-white bg-gradient-to-br from-pink-500 to-pink-600 shadow-lg">
             <Shirt />

@@ -3,6 +3,7 @@ import { ClipboardCheck } from "lucide-react"
 import Truck from '../Truck.json';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "@/components/Navbar";
 
 function OrderSuccessPage(){ 
     const navigate=useNavigate()
@@ -25,6 +26,8 @@ function OrderSuccessPage(){
     },[navigate,counter])
 
     return( 
+        <> 
+        <Navbar/>
         <div className='flex flex-col items-center justify-center w-full h-screen'>
        
              
@@ -38,10 +41,12 @@ function OrderSuccessPage(){
          </div>
          <p className="text-center">Redirecting to your page in {counter}</p>
          </div>
+        
          
          
             
           </div>
+           </>
     )
 
 }

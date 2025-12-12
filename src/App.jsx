@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/layouts/HomePage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegistrationPage from "./pages/auth/RegistrationPage";
@@ -33,6 +33,11 @@ import NotificatonPage from "./pages/NotificationPage";
 import { useEffect } from "react";
 import  AOS  from "aos";
 import "aos/dist/aos.css";
+import VerifyOTPPage from "./components/auth/verify-otp";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import EmailOtpForm from "./components/auth/emailInput";
+import { Toaster } from "sonner";
+import {NotificationProvider } from "./context/NotificationContext";
 
 
 function App() {
@@ -43,6 +48,9 @@ function App() {
  
 
   return (
+
+    
+
     
       <UserAuthentication>
 
@@ -54,6 +62,8 @@ function App() {
 
       <SearchData> 
 
+        <NotificationProvider>
+
       <ToastContainer position="top-center"
          autoClose={1000}
         hideProgressBar={true}
@@ -64,13 +74,24 @@ function App() {
         draggable
     />
 
+     <Toaster />
+
+    
+
       <Routes>
+
       
       <Route path="/" element={<HomePage />} />
 
       <Route path="/register" element={ <PublicRoute> <RegistrationPage /> </PublicRoute>} />
 
       <Route path="/login" element={ <PublicRoute> <LoginPage /></PublicRoute> }/>
+
+      <Route path="/verify-otp" element={<VerifyOTPPage/>} />
+
+      <Route path="/forgot-password" element={<ForgotPassword/>}/>
+
+      <Route path="/email-input" element={<EmailOtpForm/>}/>
 
       <Route path="/products" element={<ProductsPage />} />
 
@@ -111,6 +132,8 @@ function App() {
       </Route>
 
       </Routes>
+
+      </NotificationProvider>
 
       </SearchData>     
 

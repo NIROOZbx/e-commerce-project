@@ -1,15 +1,25 @@
 .div1{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.adding-product input{ 
-      border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.adding-product input, 
+.adding-product select, 
+.adding-product textarea {
+
+
+    background-color: #ffffff;          /* bg-white */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+    border-radius: 9999px;             /* rounded-full */
+    border: 1px solid #e5e7eb;         /* border border-gray-200 */
+    color: #374151;                    /* text-gray-700 */
+    padding: 0.5rem 1rem;              /* optional input padding */
+
+    /* Focus behaviour */
+    outline: none !important;          /* focus:outline-none */
+    box-shadow: none !important;       /* focus:ring-0 */
+    border-color: #e5e7eb !important;  
 }
-.adding-product select{ 
-      border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.adding-product textarea{ 
-      border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+.adding-product textarea{
+    border-radius: 9px;  
+
 }

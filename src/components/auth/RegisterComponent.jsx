@@ -1,9 +1,13 @@
-import { useContext, useReducer, useRef, useState } from "react";
+import { useReducer, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthenticationContext";
-import { registerData } from "../../services/authService";
-import {Eye,EyeOff,User,Mail} from 'lucide-react'
-import { toast } from 'react-toastify';
+import {Eye,EyeOff,User,Mail, LoaderIcon} from 'lucide-react'
+
+import { api } from "../../api/api";
+import { Spinner } from "../ui/spinner";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+
 
 //reducer function for getting data from user input
 function reducer(state, action) {
@@ -35,15 +39,39 @@ const initialValue = {
 function RegisterComponent() {
   const [value, dispatch] = useReducer(reducer, initialValue);
   const navigate = useNavigate();
-  const [error, errorValidation] = useState(false);
-  const [pass, passLength] = useState(false);
   const [showPassword,setShowPassword]=useState(false)
   const [showConfirmPassword,setshowConfirmPassword]=useState(false)
-  const [duplicateCheck,setDuplicateCheck]=useState(false)
+  const [loading,setLoading]=useState(false)
+
+ const [errors, setError] = useState({});
 
 
-  const { handleRegister } = useContext(AuthContext);
 
+async function RegisteringUser(e) {
+    e.preventDefault()
+    setLoading(true)
+    setError([])
+
+setTimeout(async() => {
+    try{ 
+    const {data}=await api.post("/auth/signup",{
+        name:value?.name,
+        email:value.email,
+        password:value.password,
+        confirm_password:value.confirm_password
+    })
+    setLoading(false)
+    toast.success("Registered successfully")
+    navigate("/verify-otp",{state:{email:data.userEmail}})
+    }catch(err){
+        setError(err.response?.data?.errors || {});
+    }finally{
+        setLoading(false)
+    }
+}, 1500);
+
+    
+}
 
 
   function showPass(e){
@@ -56,45 +84,20 @@ function RegisterComponent() {
     setshowConfirmPassword(!showConfirmPassword)
   }
 
-  async function handleSubmit(e) {
-  e.preventDefault();
+  let dupUser=errors?.error?.includes("username or email")
 
-  // Reset error states before checking again
+  console.log(dupUser);
+  
+  
 
-  if (!value.name.trim()) {
-    toast.warning("Please enter your name");
-    return;
-  }
-
-  // Check password match
-  if (value.password !== value.confirm_password) {
-    errorValidation(true);
-    return;
-  }
-
-  // If we reach here → both checks passed
-  if (value.password.length >= 8) {
-    const {userExists,emailExists}= await registerData(value)
-       if(userExists||emailExists){ 
-         
-         setDuplicateCheck(true)
-       }else{ 
-         handleRegister(value);
-         navigate("/login");
-       }
-    
-} else {
-    passLength(true);
-}
-
-}
+ 
 
 
   return (
     <>
     
-      <form action="" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-7 w-full h-full"> 
+      <form action="" onSubmit={RegisteringUser}>
+        <div className="flex flex-col gap-5 w-full h-full"> 
 
           <span className="text-center px-2 tracking-tighter text-balance font-bold uppercase text-2xl">Register your Account</span>
           <span className=" text-center px-2 tracking-tighter text-balance">'Buying your favourite jersey online made simple'</span>
@@ -103,7 +106,7 @@ function RegisterComponent() {
            {/* username input field */}
           <div className="relative"> {/* Div for the first input section */}
         <input
-        className="w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input"
+        className={`w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input `}
           pattern="[a-zA-Z0-9]+"
           required
           id="username"
@@ -116,12 +119,13 @@ function RegisterComponent() {
         <span className=" absolute left-0 top-2.5 ml-1"> <User className="ml-2 cursor-pointer" size={20} /></span>
         
         </div> {/* username input field end*/}
+        
 
 
             {/* email input field */}
           <div className="relative">  {/* Div for the second input section */}
         <input 
-        className=" w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input"
+        className={`w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input ${errors.Email ? "border-red-500" : ""}`}
           required
           id="email"
           placeholder="Enter your email"
@@ -131,14 +135,17 @@ function RegisterComponent() {
           }
         />
         <span className=" absolute left-0  top-2.5 ml-1"> <Mail className="ml-2 cursor-pointer" size={20}/></span>
+         
         </div> {/* email input field end */}
+         
+         {errors.Email && <p className="text-center text-red-500 text-sm">{errors.Email}</p>}
 
       {/* first password input field */}
         
         <div className="relative">  {/* Div for the third input section */}
-        <input className={`w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input  ${error&&`animate-horizontal-bounce`}`}
+        <input className={`w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input  ${errors&&`animate-horizontal-bounce`}`}
           style={
-            error
+            errors.Password
               ? { borderColor: "red", outline: "none" }
               : { borderColor: "none" }
           }
@@ -154,7 +161,10 @@ function RegisterComponent() {
        {showPassword ? (<Eye className="ml-2 cursor-pointer" onClick={showPass} size={20} />)
         :( <EyeOff className="ml-2 cursor-pointer" onClick={showPass}  size={20}/> )}</span>
 
+         
+
         </div> {/* first password end field */}
+         {errors.Password && <p className="text-center text-red-500 text-sm">{errors.Password}</p>}
 
         
             {/* confirm password input field */}
@@ -163,7 +173,7 @@ function RegisterComponent() {
         <input
         className="w-full px-8 py-2 pl-10 rounded-3xl border-2 border-[#5f6060] first-input"
           style={
-            error
+             errors.ConfirmPassword
               ? { borderColor: "red", outline: "none" }
               : { borderColor: "none" }
           }
@@ -179,16 +189,18 @@ function RegisterComponent() {
        <span className=" absolute left-0  top-2.5 ml-1">{showConfirmPassword ? (<Eye className="ml-2 cursor-pointer" onClick={showConfirmPass} size={20} />)
         :( <EyeOff className="ml-2 cursor-pointer" onClick={showConfirmPass}  size={20}/> )}</span>
 
+      
+
         </div> {/* confirm password input field end*/}
-        
-        
-        <p className="text-center font-semibold text-[#f5190a]" style={{ display: error ? "block" : "none" }}> Passwords do not match ! </p>
+         
+        {errors.ConfirmPassword && <p className="text-center text-red-500 text-sm">{errors.ConfirmPassword}</p>}
 
-        <p className="text-center font-semibold text-[#f5190a]" style={{ display: pass ? "block" : "none" }}> Enter a longer password </p>
 
-        <p className="text-center font-semibold text-[#f5190a]" style={{display: duplicateCheck ? "block" : "none" }}>Username or email already exists !</p>
+        {dupUser &&  <p className="text-center text-red-500 text-sm">{errors.error}</p>}
 
-        <button className="rounded-xl px-2 py-2 cursor-pointer  font-bold bg-black text-[#F9FEFF] btn hover:bg-[#1b1b1c]">REGISTER</button>
+
+        <button disabled={loading} className="rounded-xl px-2 py-2 cursor-pointer  font-bold bg-black text-[#F9FEFF] btn hover:bg-[#1b1b1c]">{loading?<span className="flex gap-2 justify-center items-center text-gray-100">Registering ... <LoaderIcon className={cn("size-5 animate-spin")} /></span>:"Register"}</button>
+
 
         <p className="text-center font-medium " style={{fontFamily:"CerebriSans-Bold, -apple-system, system-ui, Roboto, sans-serif"}}> Already Registered ? <NavLink to="/login" style={{textDecoration:"underline",color:"green"}}> Login </NavLink> </p>
         </div>

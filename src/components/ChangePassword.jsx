@@ -1,40 +1,66 @@
-import { useContext, useState } from "react";
-import { X } from "lucide-react";
-import api from "../api/api";
+import {useState } from "react";
+import { LoaderIcon, X } from "lucide-react";
 import { AuthContext } from "../context/AuthenticationContext";
+import { api } from "../api/api";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
 
 export default function PasswordPopup({setPopup}) {
+  const [oldPassword,setOldPassword]=useState("")
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [pass, passLength] = useState(false);
-  const { currentUserData } = useContext(AuthContext);
+   const [loading, setLoading] = useState(false)
+   const [errors, setError] = useState({});
 
-  console.log(password.length, confirmPassword.length);
+
 
   function getPassword(e) {
     setPassword(e.target.value.trim());
   }
-
+  function getOldPass(e) {
+    setOldPassword(e.target.value.trim());
+  }
+  
   function getConfirmPassword(e) {
     setConfirmPassword(e.target.value.trim());
   }
-  async function sendToServer() {
-    if (
-      password.length >= 8 &&
-      confirmPassword.length >= 8 &&
-      password === confirmPassword
-    ) {
-      try {
-        await api.patch(`/users/${currentUserData.id}`, { password: password });
+  async function sendToServer(e) {
+    e.preventDefault();
+    setLoading(true)
+   
+      setTimeout(async()=>{
+        try {
+        const {data}=await api.post(`/api/user/change-password`, {
+            "old_password":oldPassword,
+            "new_password":password,
+            "confirm_new_password": confirmPassword
+             });
         console.log("send response to server");
         setPopup(false)
+         toast.success("Password updated successfully")
+         console.log("data",data.message);
+         setLoading(false)
+         
         
       } catch (e) {
-        console.log("An error in updating the password");
+        const responseErrors = e.response?.data?.errors;
+      const genericError = e.response?.data?.error;
+        if (responseErrors) {
+        setError(responseErrors);
+      } 
+      // Handle Single String error (e.g. {"error": "Server failed"})
+      else if (genericError) {
+        setError({ general: genericError });
+      } else {
+        setError({ general: "Something went wrong" });
       }
-    } else {
-      passLength(true);
+        
+    }finally{
+        setLoading(false)
     }
+
+      },1000)
   }
 
   return (
@@ -43,31 +69,58 @@ export default function PasswordPopup({setPopup}) {
 
       <h2 className="text-xl font-semibold mb-4">Change Password</h2>
 
-      <div className="flex flex-col gap-7">
+     <form onSubmit={sendToServer} className="flex flex-col gap-5">
+        <input
+          type="text"
+          placeholder="Old Password"
+          className="border rounded-lg px-3 py-2 w-full"
+          onChange={getOldPass}
+          required
+        />
+
         <input
           type="text"
           placeholder="New Password"
           className="border rounded-lg px-3 py-2 w-full"
           onChange={getPassword}
+          required
         />
         <input
           type="text"
           placeholder="Confirm Password"
           className="border rounded-lg px-3 py-2 w-full"
           onChange={getConfirmPassword}
+          required
         />
-        {pass && (
-          <p className="text-red-500">
-            "Password must have 8 characters or above"
-          </p>
-        )}
+       {Object.keys(errors).length > 0 && (
+  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-2 animate-fadeIn">
+    
+    
+    <ul className="list-disc list-inside text-red-600 text-sm space-y-1">
+      {Object.values(errors).map((msg, index) => {
+        // OPTIONAL: Clean up backend messages that repeat the field name
+        // e.g. "OldPassword must be..." -> "Must be..."
+        const cleanMsg = msg.replace(/^(OldPassword|NewPassword|ConfirmNewPassword)/, "").trim();
+        
+        // Capitalize first letter if we stripped the word
+        const finalMsg = cleanMsg.charAt(0).toUpperCase() + cleanMsg.slice(1);
+
+        return (
+          <li key={index}>
+            {finalMsg}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
         <button
           className="bg-black text-white rounded-lg py-2 mt-2 w-full"
-          onClick={sendToServer}
+          
         >
-          Save Password
+         {loading?<span className="flex gap-2 justify-center items-center text-gray-100">Submitting ... <LoaderIcon className={cn("size-5 animate-spin")} /></span>:"Submit"}
         </button>
-      </div>
+      </form>
     </div>
   );
 }

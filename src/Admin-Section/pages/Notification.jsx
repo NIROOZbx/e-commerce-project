@@ -1,6 +1,9 @@
 import { Send, SendIcon, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import api from "../../api/api";
+import { api } from "../../api/api";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
+
 
 function Notification() {
   const [allUser, setAllUser] = useState([]);
@@ -8,25 +11,27 @@ function Notification() {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [selectedUserid, setSelectedUserid] = useState([]);
+  const [loading,setLoading]=useState(false)
 
 
   useEffect(() => {
     async function getAllUsers() {
-      let { data: res } = await api.get("/users");
-      setAllUser(res);
-      console.log("getting all users");
+      let { data } = await api.get("/admin/users");
+      setAllUser(data.data);
+    
     }
 
     getAllUsers();
   }, []);
 
   function checkedCount(e) {
+
     if (e.target.checked) {
-      setSelectedUserid([e.target.value, ...selectedUserid]);
+      setSelectedUserid([Number(e.target.value), ...selectedUserid]);
       setUserCount((p) => p + 1);
     } else {
       setSelectedUserid(
-        selectedUserid.filter((user) => user !== e.target.value)
+        selectedUserid.filter((user) => user !== Number(e.target.value))
       );
       setUserCount((p) => p - 1);
     }
@@ -40,28 +45,40 @@ function Notification() {
     setMessage(e.target.value);
   }
 
-  async function sendNotification() {
-    try {
-      for (let id of selectedUserid) {
+  console.log("Selected user id",selectedUserid)
+
+  async function sendNotification(e) {
+    e.preventDefault()
+
+    setLoading(true)
+
+    setTimeout(async() => {
+         try {
+     
         let notification = {
-          userId: id, // single user
-          header: title,
+          "user_id": selectedUserid.map(Number), 
+          title: title,
           message: message,
-          date: new Date().toISOString(),
         };
 
-        await api.post(`/notifications`, notification);
-      }
-
-      console.log("Successfully sent notification to each user individually");
+        await api.post(`/admin/notifications`, notification);
+    
       setUserCount(0);
       setMessage("");
       setTitle("");
       setSelectedUserid([]);
+      toast.success("Send notification successfully")
+      setLoading(false)
     } catch (e) {
-      console.log("Error sending notification to the server", e);
-    }
+      toast.warning("Error in sending notification")
+  }finally{
+    setLoading(false)
   }
+        
+    }, 1500);
+
+   
+}
 
   console.log(selectedUserid);
 
@@ -83,7 +100,7 @@ function Notification() {
       <p className="flex items-center gap-2 text-3xl font-bold text-gray-800 mb-8 ">
         Send Notifications
       </p>
-      <div className="p-6 main-cont rounded-2xl">
+      <form className="p-6 main-cont rounded-2xl" onSubmit={(e)=>sendNotification(e)}>
         <label htmlFor="title" className="block text-lg font-semibold mb-3 ">
           Notification Title
         </label>
@@ -111,12 +128,13 @@ function Notification() {
           value={message}
         ></textarea>
         <button
+        disabled={loading}
           className="flex gap-3 px-4 py-3 bg-black text-white font-semibold rounded-lg shadow-md mt-3"
-          onClick={sendNotification}
+          
         >
-          Send Notification ({userCount})<SendIcon />{" "}
+          {loading?<span className="flex gap-2 items-center">Sending Notification... <Spinner/></span>:<span className="flex gap-2 items-center">Send Notification ({userCount})<SendIcon size={18}/></span>}
         </button>
-      </div>
+      </form>
       <div className=" mb-5  mt-7 main-cont rounded-2xl px-6 py-3">
         <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-800 ">
           Select User <User2 />

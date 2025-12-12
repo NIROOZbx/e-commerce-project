@@ -3,16 +3,14 @@ import { AuthContext } from "../context/AuthenticationContext";
 import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children, requiredRole }) {
-  const { currentUserData } = useContext(AuthContext);
+  const {user, role } = useContext(AuthContext);
 
   // Not logged in
-  if (!currentUserData) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // If route needs a specific role (e.g., admin only)
-  if (requiredRole && currentUserData.role !== requiredRole) {
-    // Redirect users with the wrong role
+  if (requiredRole && role !== requiredRole) {
     return <Navigate to="/" replace />;
   }
 
