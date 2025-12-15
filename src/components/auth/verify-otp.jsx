@@ -84,7 +84,7 @@ function VerifyOTPPage() {
                     otp: finalOTP
                 })
 
-                if (resp.status === 201) {
+                if (resp.status === 202) {
                     SetResponse(true);
                     setLoading(false);
                     navigate("/login");
