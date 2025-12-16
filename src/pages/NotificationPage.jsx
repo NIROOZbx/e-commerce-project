@@ -19,6 +19,7 @@ function NotificatonPage() {
 
 
     async function markAllAsRead() {
+         if (!hasUnread || notification.length === 0) return;
 
         try {
 
