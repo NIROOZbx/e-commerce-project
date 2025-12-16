@@ -26,7 +26,7 @@ function WishListPage(){
                  fetchWishlist();
              };
              
-         }, [user]);
+         }, [wishListed]);
     
 
     return( 
