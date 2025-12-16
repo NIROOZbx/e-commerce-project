@@ -1,7 +1,7 @@
 import { BadgeCheckIcon, BellRingIcon, Mail, MailOpen } from "lucide-react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { api } from "../api/api";
 import { Badge } from "@/components/ui/badge";
 import { AuthContext } from "@/context/AuthenticationContext";
