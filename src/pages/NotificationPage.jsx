@@ -17,6 +17,15 @@ function NotificatonPage() {
 
     const { role } = useContext(AuthContext)
 
+       useEffect(() => {
+            if (role == "user") {
+                getNotifications()
+            }
+        }, []);
+    
+
+
+
 
     async function markAllAsRead() {
          if (!hasUnread || notification.length === 0) return;
