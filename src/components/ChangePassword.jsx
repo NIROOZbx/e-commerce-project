@@ -36,10 +36,10 @@ export default function PasswordPopup({setPopup}) {
             "new_password":password,
             "confirm_new_password": confirmPassword
              });
-        console.log("send response to server");
+      
         setPopup(false)
          toast.success("Password updated successfully")
-         console.log("data",data.message);
+         
          setLoading(false)
          
         

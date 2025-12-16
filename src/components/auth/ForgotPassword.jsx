@@ -34,7 +34,7 @@ function ForgotPassword() {
 
     const accessToken = location?.state?.reset_token;
 
-    console.log('Reset token', accessToken);
+
 
 
     function readPass(e) {
@@ -77,7 +77,7 @@ function ForgotPassword() {
             } catch (error) {
                 toast.error("Something went wrong,Try again ")
 
-                console.log(error);
+              
             } finally {
                 setLoading(false)
             }
@@ -87,7 +87,7 @@ function ForgotPassword() {
 
     }
 
-    console.log(password);
+   
 
 
     return (

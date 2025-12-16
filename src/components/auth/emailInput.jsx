@@ -22,7 +22,7 @@ export default function EmailOtpForm() {
 
 
             } catch (e) {
-                console.log("S", e);
+              
             }finally{
                 setLoading(false)
             }

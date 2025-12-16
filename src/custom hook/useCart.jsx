@@ -32,7 +32,7 @@ export default function useCartActions() {
         }
     };
 
-    console.log("new cart from cart hook",cart);
+
     
 
     return { handleCartClick, isInCart };

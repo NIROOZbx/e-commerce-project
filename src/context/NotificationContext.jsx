@@ -14,7 +14,7 @@ export function NotificationProvider({ children }) {
       const { data } = await api.get(`/api/notifications/`);
       setNotifications(data.notifications);
     } catch (e) {
-      console.error("Error fetching notifications");
+      
     }
   };
 

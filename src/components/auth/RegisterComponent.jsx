@@ -86,7 +86,7 @@ setTimeout(async() => {
 
   let dupUser=errors?.error?.includes("username or email")
 
-  console.log(dupUser);
+
   
   
 

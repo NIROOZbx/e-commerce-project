@@ -32,7 +32,7 @@ function ProductCard() {
 
     const [page, SetPage] = useState(1)
 
-    console.log(getSearchData);
+   
 
 
 
@@ -49,7 +49,7 @@ function ProductCard() {
 
             try {
 
-                console.log(page)
+                
 
                 const { data } = await api.get(`/public/products?page=${page}&limit=12&filter=${filterData}&sort_by=${sortData}&se=${getSearchData}`)
 
@@ -59,7 +59,7 @@ function ProductCard() {
                 Setproducts(data.data)
 
             } catch (err) {
-                console.log(err);
+               
             }
 
         }, 1000)

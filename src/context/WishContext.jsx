@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { AuthContext } from "./AuthenticationContext"
 import { api } from "../api/api";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 
 
@@ -22,12 +22,10 @@ function WishList({ children }) {
             const { data } = await api.get("/api/wishlist/")
             setWishListed(data)
 
-            console.log("in wishlist", data);
+            
 
         } catch (e) {
-            console.log(e);
-
-            console.log("There has been an error in your fetching")
+          
         }
     }
 
@@ -41,7 +39,6 @@ function WishList({ children }) {
 
     async function wishlistedProduct(product) {
 
-        console.log("In adding wishlist",product);
 
         try {
             const { data } = await api.post("/api/wishlist/",{"product_id": product.id });
@@ -58,12 +55,12 @@ function WishList({ children }) {
             toast.error("Something went wrong");
             
         
-        console.log("Error adding wishlist:", err);
+     
         return false;
     }
 }
 async function removeFromWishlist(productId) {
-    console.log(productId)
+   
     const updatedCart = wishListed.filter((item) => item.id !== productId);
     setWishListed(updatedCart);
 

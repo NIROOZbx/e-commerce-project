@@ -53,7 +53,7 @@ function LoginComponent() {
             try {
                 const user = await handleLogin(value.email, value.password)
                  toast.success("Login successful")
-                console.log("Inside try block");
+               
                 if (user.role === "admin") {
                     navigate("/admin");
                 } else {
@@ -63,7 +63,7 @@ function LoginComponent() {
 
 
             } catch (err) {
-                console.log(err);
+               
 
                 if (err?.response?.data?.errors) {
                     setErrors(err?.response?.data?.errors || {});

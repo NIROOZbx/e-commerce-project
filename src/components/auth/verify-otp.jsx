@@ -66,7 +66,7 @@ function VerifyOTPPage() {
 
     async function VerifyOTPOnServer() {
 
-        console.log("Running after verification of otp");
+    
 
 
         const finalOTP = otp.join("");
@@ -93,7 +93,7 @@ function VerifyOTPPage() {
 
                 if (resp.status === 200) {
 
-                    console.log("Response inside ",resp);
+                  
                     
                     SetResponse(true);
                     setLoading(false);

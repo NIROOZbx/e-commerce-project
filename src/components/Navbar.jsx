@@ -63,7 +63,7 @@ function Navbar() {
             let { data } = await api.get(`/api/notifications/`);
             setNotifications(data.notifications);
         } catch (e) {
-            console.log("Error in getting data");
+            
         }
     };
 
