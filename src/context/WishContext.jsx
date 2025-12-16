@@ -43,6 +43,7 @@ function WishList({ children }) {
         try {
             const { data } = await api.post("/api/wishlist/",{"product_id": product.id });
             setWishListed((prev) => [...prev, product])
+            fetchWishlist()
 
              return true; 
 

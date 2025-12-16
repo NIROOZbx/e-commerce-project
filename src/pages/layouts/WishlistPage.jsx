@@ -14,19 +14,14 @@ import useCartActions from "@/custom hook/useCart"
 
 function WishListPage(){
 
-    const{wishListed,removeFromWishlist,fetchWishlist}=useContext(WishContext)
+    const{wishListed,removeFromWishlist}=useContext(WishContext)
     const {cart,setCart,addToCartInDatabase}=useContext(CartContext)
 
-    const{user,role}=useContext(AuthContext)
+    const{user}=useContext(AuthContext)
     const navigate=useNavigate()
      const {isInCart,handleCartClick}=useCartActions()
 
-     useEffect(() => {
-             if (role=="user") {
-                 fetchWishlist();
-             };
-             
-         }, [wishListed]);
+  
     
 
     return( 
