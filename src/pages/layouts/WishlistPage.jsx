@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { WishContext } from "../../context/WishContext"
 import {Trash} from 'lucide-react'
 import Navbar from "../../components/Navbar"
@@ -14,11 +14,19 @@ import useCartActions from "@/custom hook/useCart"
 
 function WishListPage(){
 
-    const{wishListed,removeFromWishlist}=useContext(WishContext)
+    const{wishListed,removeFromWishlist,fetchWishlist}=useContext(WishContext)
     const {cart,setCart,addToCartInDatabase}=useContext(CartContext)
-    const{user}=useContext(AuthContext)
+
+    const{user,role}=useContext(AuthContext)
     const navigate=useNavigate()
      const {isInCart,handleCartClick}=useCartActions()
+
+     useEffect(() => {
+             if (role=="user") {
+                 fetchWishlist();
+             };
+             
+         }, [user]);
     
 
     return( 

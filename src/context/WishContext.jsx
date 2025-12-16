@@ -71,7 +71,7 @@ async function removeFromWishlist(productId) {
 
 return (
     <>
-        <WishContext.Provider value={{ wishListed, setWishListed, removeFromWishlist, wishlistedProduct }}>
+        <WishContext.Provider value={{ wishListed, setWishListed, removeFromWishlist, wishlistedProduct ,fetchWishlist}}>
             {children}
         </WishContext.Provider>
     </>
