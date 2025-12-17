@@ -15,9 +15,6 @@ import useCartActions from "@/custom hook/useCart"
 function WishListPage(){
 
     const{wishListed,removeFromWishlist}=useContext(WishContext)
-    const {cart,setCart,addToCartInDatabase}=useContext(CartContext)
-
-    const{user}=useContext(AuthContext)
     const navigate=useNavigate()
      const {isInCart,handleCartClick}=useCartActions()
 

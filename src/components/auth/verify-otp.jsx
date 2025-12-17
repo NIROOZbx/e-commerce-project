@@ -66,7 +66,7 @@ function VerifyOTPPage() {
 
     async function VerifyOTPOnServer() {
 
-    
+
 
 
         const finalOTP = otp.join("");
@@ -93,8 +93,8 @@ function VerifyOTPPage() {
 
                 if (resp.status === 200) {
 
-                  
-                    
+
+
                     SetResponse(true);
                     setLoading(false);
                     navigate("/forgot-password", {
@@ -120,7 +120,7 @@ function VerifyOTPPage() {
 
     async function handleResendOtp() {
         try {
-            await api.post(val?"auth/forgot-password":"/auth/resend-otp" , {
+            await api.post(val ? "auth/forgot-password" : "/auth/resend-otp", {
                 email: emailFromRouter,
             });
 
@@ -140,10 +140,30 @@ function VerifyOTPPage() {
 
             <div className="bg-white shadow-lg p-8 rounded-2xl w-full max-w-md flex flex-col items-center gap-5">
 
-                <p className="text-xl font-bold">OTP Verification</p>
+                <p className="text-xl font-bold">
+                    {val ? "Verify Your Identity" : "OTP Verification"}
+                </p>
                 <img src={otpImg} className="h-18 w-18" alt="" />
-                <p className="text-center text-gray-700 leading-tight break-words">One Time Password (OTP) has been sent via email to <span className="font-bold">{emailFromRouter} </span></p>
-                <p className="text-gray-600">Enter the 6-digit code below</p>
+                <div className="text-center space-y-2">
+                    <p className="text-gray-700  break-words">
+                        {val ? (
+
+                            <>
+                                If an account exists for <span className="font-bold">{emailFromRouter}</span>, we have sent a verification code.
+                            </>
+                        ) : (
+
+                            <>
+                                One Time Password (OTP) has been sent via email to <span className="font-bold">{emailFromRouter}</span>
+                            </>
+                        )}
+                    </p>
+                    {val && (
+                        <p className="text-xs text-gray-500">
+                            Please check your spam folder if you don't see it.
+                        </p>
+                    )}
+                </div>
                 <div className="flex gap-4">
                     {otp.map((value, index) => (
 
@@ -171,8 +191,8 @@ function VerifyOTPPage() {
 
                 <button className="w-full bg-black text-white py-2 rounded-xl font-semibold hover:bg-gray-900 transition"
                     onClick={VerifyOTPOnServer}>
-                        {loading?<span className="flex gap-2 justify-center items-center text-gray-100">Verifying ... 
-                            <Spinner className={cn("size-5 animate-spin")} /></span>:"Verify OTP"}</button>
+                    {loading ? <span className="flex gap-2 justify-center items-center text-gray-100">Verifying ...
+                        <Spinner className={cn("size-5 animate-spin")} /></span> : "Verify OTP"}</button>
 
 
                 {startTimer ? (

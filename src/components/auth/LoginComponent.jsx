@@ -63,6 +63,8 @@ function LoginComponent() {
 
 
             } catch (err) {
+                console.log(err);
+                
                
 
                 if (err?.response?.data?.errors) {

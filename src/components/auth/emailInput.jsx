@@ -20,8 +20,8 @@ export default function EmailOtpForm() {
                 setLoading(false)
                 navigate("/verify-otp", { state: { email: email, value: true } })
 
-
             } catch (e) {
+                 navigate("/verify-otp", { state: { email: email, value: true } })
               
             }finally{
                 setLoading(false)
