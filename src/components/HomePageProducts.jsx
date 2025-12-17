@@ -1,7 +1,7 @@
 import { AuthContext } from "../context/AuthenticationContext"
 import { Heart } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
-import { CartContext } from "../context/CartContext"
+
 import { useNavigate } from "react-router-dom"
 
 import slideLoading from '../slideLoading.json'

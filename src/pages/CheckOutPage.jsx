@@ -78,6 +78,7 @@ function CheckOutPage() {
         try {
             await api.post("/api/addresses/", requestData);
             fetchAddress();
+            setShowAddModal(false)
 
         } catch (err) {
 

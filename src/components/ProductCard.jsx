@@ -1,30 +1,23 @@
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 import '/src/styles/cardcomp.css'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthenticationContext'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { Funnel } from 'lucide-react'
-import { CartContext } from '../context/CartContext'
-import { WishContext } from '../context/WishContext'
-import Footer from './Footer'
-
 import { SearchContext } from '../context/SearchContext'
 import searchError from '../../src/assets/no-results.png'
-import Lottie from 'lottie-react'
-import trailLoading from "./../Trail loading.json";
 import useWishlist from '../custom hook/useWishlist'
 import { api } from '../api/api'
 import useCartActions from '../custom hook/useCart'
+import { ThreeCircles } from 'react-loader-spinner'
 
 
 function ProductCard() {
     const navigate = useNavigate()
-   
+
     const [sortData, setSortData] = useState('')
     const [filterData, setFilterData] = useState('')
     const { getSearchData } = useContext(SearchContext)
     const { handleWishClick, isWishlisted } = useWishlist()
-    const {isInCart,handleCartClick}=useCartActions()
+    const { isInCart, handleCartClick } = useCartActions()
 
     const [products, Setproducts] = useState([])
 
@@ -32,7 +25,7 @@ function ProductCard() {
 
     const [page, SetPage] = useState(1)
 
-   
+
 
 
 
@@ -49,7 +42,7 @@ function ProductCard() {
 
             try {
 
-                
+
 
                 const { data } = await api.get(`/public/products?page=${page}&limit=12&filter=${filterData}&sort_by=${sortData}&se=${getSearchData}`)
 
@@ -59,7 +52,7 @@ function ProductCard() {
                 Setproducts(data.data)
 
             } catch (err) {
-               
+
             }
 
         }, 1000)
@@ -98,19 +91,25 @@ function ProductCard() {
 
 
     if (loading) {
-  return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-24 h-24"> 
-        <Lottie animationData={trailLoading} loop />
-      </div>
-    </div>
-  );
-}
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <ThreeCircles
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#302d2d"
+                    ariaLabel="three-circles-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                />
+            </div>
+        );
+    }
 
 
     return (
         <>
-       
+
 
             <p className="mt-20 text-center uppercase font-bold ">{allData.length} Products</p>
 
@@ -208,8 +207,8 @@ function ProductCard() {
                                             handleCartClick(product)
                                         }}
                                         className={`w-full rounded-full py-2 px-4 text-xs md:text-sm font-medium transition ${isInCart(product.id)
-                                                ? "bg-white border border-black text-black hover:bg-gray-100"
-                                                : "bg-black text-white hover:bg-gray-900"
+                                            ? "bg-white border border-black text-black hover:bg-gray-100"
+                                            : "bg-black text-white hover:bg-gray-900"
                                             }`}
                                         disabled={product.stock <= 0}
                                     >

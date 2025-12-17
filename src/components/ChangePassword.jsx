@@ -1,6 +1,5 @@
 import {useState } from "react";
 import { LoaderIcon, X } from "lucide-react";
-import { AuthContext } from "../context/AuthenticationContext";
 import { api } from "../api/api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";

@@ -37,7 +37,7 @@ function Navbar() {
     const { wishListed } = useContext(WishContext);
     const [searchBar, setSearchBar] = useState(false);
     const [notification, setNotifications] = useState([]);
-    const [mobileProfileModal, setMobileProfileModal] = useState(false);
+ 
 
 
     const { setSearchData, searchData, setGetSearchData } =

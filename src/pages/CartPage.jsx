@@ -14,8 +14,7 @@ import CheckOutPage from "./CheckOutPage";
 
 function CartPage() {
   const { cart, removeFromCart,UpdateQuantity,orderPrice } = useContext(CartContext);
-  const {user}=useContext(AuthContext)
-  const {getShippingDetails}=useContext(OrderContext)
+
   const navigate=useNavigate()
   const [coupon,setCoupon]=useState(false)
   const [couponData,setCouponData]=useState('')
